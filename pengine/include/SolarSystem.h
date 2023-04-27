@@ -2,8 +2,8 @@
 // Created by Adèle Imparato on 15/03/2023.
 //
 
-#ifndef TP1_CODE_SOLARSYSTEM_H
-#define TP1_CODE_SOLARSYSTEM_H
+#ifndef SOLARSYSTEM_H
+#define SOLARSYSTEM_H
 
 #include <vector>
 #include <iostream>
@@ -24,4 +24,4 @@ public:
 };
 
 
-#endif //TP1_CODE_SOLARSYSTEM_H
+#endif //SOLARSYSTEM_H

@@ -2,8 +2,8 @@
 // Created by Adèle Imparato on 14/02/2023.
 //
 
-#ifndef TP1_CODE_GLTEXTURE_H
-#define TP1_CODE_GLTEXTURE_H
+#ifndef GLTEXTURE_H
+#define GLTEXTURE_H
 
 // Include GLEW
 #include <GL/glew.h>
@@ -32,4 +32,4 @@ public:
 };
 
 
-#endif //TP1_CODE_GLTEXTURE_H
+#endif //GLTEXTURE_H

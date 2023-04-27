@@ -2,8 +2,8 @@
 // Created by Adèle Imparato on 14/02/2023.
 //
 
-#ifndef TP1_CODE_CAMERA_H
-#define TP1_CODE_CAMERA_H
+#ifndef CAMERA_H
+#define CAMERA_H
 
 #define PI 3.14159265
 
@@ -45,4 +45,4 @@ public:
 };
 
 
-#endif //TP1_CODE_CAMERA_H
+#endif //CAMERA_H

@@ -2,8 +2,8 @@
 // Created by Adèle Imparato on 14/02/2023.
 //
 
-#ifndef TP1_CODE_TEXTURE_H
-#define TP1_CODE_TEXTURE_H
+#ifndef TEXTURE_H
+#define TEXTURE_H
 
 #include <iostream>
 
@@ -24,4 +24,4 @@ public:
 };
 
 
-#endif //TP1_CODE_TEXTURE_H
+#endif //TEXTURE_H

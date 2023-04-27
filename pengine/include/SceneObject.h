@@ -2,8 +2,8 @@
 // Created by Adèle Imparato on 09/03/2023.
 //
 
-#ifndef TP1_CODE_SCENEOBJECT_H
-#define TP1_CODE_SCENEOBJECT_H
+#ifndef SCENEOBJECT_H
+#define SCENEOBJECT_H
 
 #include <iostream>
 #include <glm/glm.hpp>
@@ -58,4 +58,4 @@ public:
 };
 
 
-#endif //TP1_CODE_SCENEOBJECT_H
+#endif //SCENEOBJECT_H

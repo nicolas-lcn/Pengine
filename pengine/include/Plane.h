@@ -2,8 +2,8 @@
 // Created by Adèle Imparato on 13/02/2023.
 //
 
-#ifndef TUTORIALS_PLANE_H
-#define TUTORIALS_PLANE_H
+#ifndef PLANE_H
+#define PLANE_H
 
 #include <vector>
 #include <iostream>
@@ -45,4 +45,4 @@ public:
 };
 
 
-#endif //TUTORIALS_PLANE_H
+#endif //PLANE_H

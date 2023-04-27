@@ -2,8 +2,8 @@
 // Created by Adèle Imparato on 16/03/2023.
 //
 
-#ifndef TP1_CODE_SPHERE_H
-#define TP1_CODE_SPHERE_H
+#ifndef SPHERE_H
+#define SPHERE_H
 
 #include "MeshObject.h"
 
@@ -51,4 +51,4 @@ public:
 };
 
 
-#endif //TP1_CODE_SPHERE_H
+#endif //SPHERE_H

@@ -2,8 +2,8 @@
 // Created by Adèle Imparato on 10/03/2023.
 //
 
-#ifndef TP1_CODE_MESHOBJECT_H
-#define TP1_CODE_MESHOBJECT_H
+#ifndef MESHOBJECT_H
+#define MESHOBJECT_H
 
 #include "SceneObject.h"
 
@@ -19,4 +19,4 @@ public:
 };
 
 
-#endif //TP1_CODE_MESHOBJECT_H
+#endif //MESHOBJECT_H
