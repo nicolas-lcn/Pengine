@@ -17,51 +17,24 @@ private:
     SceneGraph* parent;
     int level;
 public:
-    SceneGraph() {}
-    SceneGraph(SceneObject *data) {
-        this->data = data;
-    }
+    SceneGraph();
+    SceneGraph(SceneObject *data);
 
-    void setData(SceneObject *data){
-        this->data = data;
-    }
+    void setData(SceneObject *data);
 
-    void setLevel(int level){
-        this->level = level;
-    }
+    void setLevel(int level);
 
-    int getLevel(){
-        return this->level;
-    }
+    int getLevel();
 
-    SceneGraph* addChild(SceneGraph *child) {
-        child->setParent(*this);
-        child->setLevel(this->getLevel()+1);
-        this->children.push_back(child);
-        return child;
-    }
+    SceneGraph* addChild(SceneGraph *child);
 
-    void addChildren(std::vector<SceneGraph*> children) {
-        for(SceneGraph *child :children){
-            this->children.push_back(child);
-        }
-    }
+    void addChildren(std::vector<SceneGraph*> children);
+    std::vector<SceneGraph*> getChildren();
+    SceneObject* getData();
 
-    std::vector<SceneGraph*> getChildren() {
-        return this->children;
-    }
+    void setParent(SceneGraph parent);
 
-    SceneObject* getData() {
-        return this->data;
-    }
-
-    void setParent(SceneGraph parent) {
-        this->parent = &parent;
-    }
-
-    SceneGraph getParent() {
-        return *this->parent;
-    }
+    SceneGraph getParent();
 };
 
 

@@ -56,6 +56,15 @@ add_definitions(
 # pengine
 add_executable(pengine
         pengine/main.cpp
+        pengine/Camera.cpp
+        pengine/GLTexture.cpp
+        pengine/MeshObject.cpp
+        pengine/Plane.cpp
+        pengine/SceneGraph.cpp
+        pengine/Sphere.cpp
+        pengine/SceneObject.cpp
+        pengine/Texture.cpp
+        pengine/Transform.cpp
 	common/shader.cpp
 	common/shader.hpp
 	common/controls.cpp

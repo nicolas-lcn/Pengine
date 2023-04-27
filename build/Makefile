@@ -632,6 +632,222 @@ common/vboindexer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/common/vboindexer.cpp.s
 .PHONY : common/vboindexer.cpp.s
 
+pengine/Camera.o: pengine/Camera.cpp.o
+.PHONY : pengine/Camera.o
+
+# target to build an object file
+pengine/Camera.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Camera.cpp.o
+.PHONY : pengine/Camera.cpp.o
+
+pengine/Camera.i: pengine/Camera.cpp.i
+.PHONY : pengine/Camera.i
+
+# target to preprocess a source file
+pengine/Camera.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Camera.cpp.i
+.PHONY : pengine/Camera.cpp.i
+
+pengine/Camera.s: pengine/Camera.cpp.s
+.PHONY : pengine/Camera.s
+
+# target to generate assembly for a file
+pengine/Camera.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Camera.cpp.s
+.PHONY : pengine/Camera.cpp.s
+
+pengine/GLTexture.o: pengine/GLTexture.cpp.o
+.PHONY : pengine/GLTexture.o
+
+# target to build an object file
+pengine/GLTexture.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o
+.PHONY : pengine/GLTexture.cpp.o
+
+pengine/GLTexture.i: pengine/GLTexture.cpp.i
+.PHONY : pengine/GLTexture.i
+
+# target to preprocess a source file
+pengine/GLTexture.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/GLTexture.cpp.i
+.PHONY : pengine/GLTexture.cpp.i
+
+pengine/GLTexture.s: pengine/GLTexture.cpp.s
+.PHONY : pengine/GLTexture.s
+
+# target to generate assembly for a file
+pengine/GLTexture.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/GLTexture.cpp.s
+.PHONY : pengine/GLTexture.cpp.s
+
+pengine/MeshObject.o: pengine/MeshObject.cpp.o
+.PHONY : pengine/MeshObject.o
+
+# target to build an object file
+pengine/MeshObject.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o
+.PHONY : pengine/MeshObject.cpp.o
+
+pengine/MeshObject.i: pengine/MeshObject.cpp.i
+.PHONY : pengine/MeshObject.i
+
+# target to preprocess a source file
+pengine/MeshObject.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/MeshObject.cpp.i
+.PHONY : pengine/MeshObject.cpp.i
+
+pengine/MeshObject.s: pengine/MeshObject.cpp.s
+.PHONY : pengine/MeshObject.s
+
+# target to generate assembly for a file
+pengine/MeshObject.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/MeshObject.cpp.s
+.PHONY : pengine/MeshObject.cpp.s
+
+pengine/Plane.o: pengine/Plane.cpp.o
+.PHONY : pengine/Plane.o
+
+# target to build an object file
+pengine/Plane.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Plane.cpp.o
+.PHONY : pengine/Plane.cpp.o
+
+pengine/Plane.i: pengine/Plane.cpp.i
+.PHONY : pengine/Plane.i
+
+# target to preprocess a source file
+pengine/Plane.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Plane.cpp.i
+.PHONY : pengine/Plane.cpp.i
+
+pengine/Plane.s: pengine/Plane.cpp.s
+.PHONY : pengine/Plane.s
+
+# target to generate assembly for a file
+pengine/Plane.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Plane.cpp.s
+.PHONY : pengine/Plane.cpp.s
+
+pengine/SceneGraph.o: pengine/SceneGraph.cpp.o
+.PHONY : pengine/SceneGraph.o
+
+# target to build an object file
+pengine/SceneGraph.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.o
+.PHONY : pengine/SceneGraph.cpp.o
+
+pengine/SceneGraph.i: pengine/SceneGraph.cpp.i
+.PHONY : pengine/SceneGraph.i
+
+# target to preprocess a source file
+pengine/SceneGraph.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.i
+.PHONY : pengine/SceneGraph.cpp.i
+
+pengine/SceneGraph.s: pengine/SceneGraph.cpp.s
+.PHONY : pengine/SceneGraph.s
+
+# target to generate assembly for a file
+pengine/SceneGraph.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.s
+.PHONY : pengine/SceneGraph.cpp.s
+
+pengine/SceneObject.o: pengine/SceneObject.cpp.o
+.PHONY : pengine/SceneObject.o
+
+# target to build an object file
+pengine/SceneObject.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/SceneObject.cpp.o
+.PHONY : pengine/SceneObject.cpp.o
+
+pengine/SceneObject.i: pengine/SceneObject.cpp.i
+.PHONY : pengine/SceneObject.i
+
+# target to preprocess a source file
+pengine/SceneObject.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/SceneObject.cpp.i
+.PHONY : pengine/SceneObject.cpp.i
+
+pengine/SceneObject.s: pengine/SceneObject.cpp.s
+.PHONY : pengine/SceneObject.s
+
+# target to generate assembly for a file
+pengine/SceneObject.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/SceneObject.cpp.s
+.PHONY : pengine/SceneObject.cpp.s
+
+pengine/Sphere.o: pengine/Sphere.cpp.o
+.PHONY : pengine/Sphere.o
+
+# target to build an object file
+pengine/Sphere.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Sphere.cpp.o
+.PHONY : pengine/Sphere.cpp.o
+
+pengine/Sphere.i: pengine/Sphere.cpp.i
+.PHONY : pengine/Sphere.i
+
+# target to preprocess a source file
+pengine/Sphere.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Sphere.cpp.i
+.PHONY : pengine/Sphere.cpp.i
+
+pengine/Sphere.s: pengine/Sphere.cpp.s
+.PHONY : pengine/Sphere.s
+
+# target to generate assembly for a file
+pengine/Sphere.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Sphere.cpp.s
+.PHONY : pengine/Sphere.cpp.s
+
+pengine/Texture.o: pengine/Texture.cpp.o
+.PHONY : pengine/Texture.o
+
+# target to build an object file
+pengine/Texture.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Texture.cpp.o
+.PHONY : pengine/Texture.cpp.o
+
+pengine/Texture.i: pengine/Texture.cpp.i
+.PHONY : pengine/Texture.i
+
+# target to preprocess a source file
+pengine/Texture.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Texture.cpp.i
+.PHONY : pengine/Texture.cpp.i
+
+pengine/Texture.s: pengine/Texture.cpp.s
+.PHONY : pengine/Texture.s
+
+# target to generate assembly for a file
+pengine/Texture.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Texture.cpp.s
+.PHONY : pengine/Texture.cpp.s
+
+pengine/Transform.o: pengine/Transform.cpp.o
+.PHONY : pengine/Transform.o
+
+# target to build an object file
+pengine/Transform.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Transform.cpp.o
+.PHONY : pengine/Transform.cpp.o
+
+pengine/Transform.i: pengine/Transform.cpp.i
+.PHONY : pengine/Transform.i
+
+# target to preprocess a source file
+pengine/Transform.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Transform.cpp.i
+.PHONY : pengine/Transform.cpp.i
+
+pengine/Transform.s: pengine/Transform.cpp.s
+.PHONY : pengine/Transform.s
+
+# target to generate assembly for a file
+pengine/Transform.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Transform.cpp.s
+.PHONY : pengine/Transform.cpp.s
+
 pengine/main.o: pengine/main.cpp.o
 .PHONY : pengine/main.o
 
@@ -710,6 +926,33 @@ help:
 	@echo "... common/vboindexer.o"
 	@echo "... common/vboindexer.i"
 	@echo "... common/vboindexer.s"
+	@echo "... pengine/Camera.o"
+	@echo "... pengine/Camera.i"
+	@echo "... pengine/Camera.s"
+	@echo "... pengine/GLTexture.o"
+	@echo "... pengine/GLTexture.i"
+	@echo "... pengine/GLTexture.s"
+	@echo "... pengine/MeshObject.o"
+	@echo "... pengine/MeshObject.i"
+	@echo "... pengine/MeshObject.s"
+	@echo "... pengine/Plane.o"
+	@echo "... pengine/Plane.i"
+	@echo "... pengine/Plane.s"
+	@echo "... pengine/SceneGraph.o"
+	@echo "... pengine/SceneGraph.i"
+	@echo "... pengine/SceneGraph.s"
+	@echo "... pengine/SceneObject.o"
+	@echo "... pengine/SceneObject.i"
+	@echo "... pengine/SceneObject.s"
+	@echo "... pengine/Sphere.o"
+	@echo "... pengine/Sphere.i"
+	@echo "... pengine/Sphere.s"
+	@echo "... pengine/Texture.o"
+	@echo "... pengine/Texture.i"
+	@echo "... pengine/Texture.s"
+	@echo "... pengine/Transform.o"
+	@echo "... pengine/Transform.i"
+	@echo "... pengine/Transform.s"
 	@echo "... pengine/main.o"
 	@echo "... pengine/main.i"
 	@echo "... pengine/main.s"

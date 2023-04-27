@@ -83,10 +83,136 @@ CMakeFiles/pengine.dir/pengine/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pengine.dir/pengine/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolas/Bureau/Pengine/pengine/main.cpp -o CMakeFiles/pengine.dir/pengine/main.cpp.s
 
+CMakeFiles/pengine.dir/pengine/Camera.cpp.o: CMakeFiles/pengine.dir/flags.make
+CMakeFiles/pengine.dir/pengine/Camera.cpp.o: ../pengine/Camera.cpp
+CMakeFiles/pengine.dir/pengine/Camera.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/pengine.dir/pengine/Camera.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/pengine/Camera.cpp.o -MF CMakeFiles/pengine.dir/pengine/Camera.cpp.o.d -o CMakeFiles/pengine.dir/pengine/Camera.cpp.o -c /home/nicolas/Bureau/Pengine/pengine/Camera.cpp
+
+CMakeFiles/pengine.dir/pengine/Camera.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pengine.dir/pengine/Camera.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolas/Bureau/Pengine/pengine/Camera.cpp > CMakeFiles/pengine.dir/pengine/Camera.cpp.i
+
+CMakeFiles/pengine.dir/pengine/Camera.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pengine.dir/pengine/Camera.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolas/Bureau/Pengine/pengine/Camera.cpp -o CMakeFiles/pengine.dir/pengine/Camera.cpp.s
+
+CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o: CMakeFiles/pengine.dir/flags.make
+CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o: ../pengine/GLTexture.cpp
+CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o -MF CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o.d -o CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o -c /home/nicolas/Bureau/Pengine/pengine/GLTexture.cpp
+
+CMakeFiles/pengine.dir/pengine/GLTexture.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pengine.dir/pengine/GLTexture.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolas/Bureau/Pengine/pengine/GLTexture.cpp > CMakeFiles/pengine.dir/pengine/GLTexture.cpp.i
+
+CMakeFiles/pengine.dir/pengine/GLTexture.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pengine.dir/pengine/GLTexture.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolas/Bureau/Pengine/pengine/GLTexture.cpp -o CMakeFiles/pengine.dir/pengine/GLTexture.cpp.s
+
+CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o: CMakeFiles/pengine.dir/flags.make
+CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o: ../pengine/MeshObject.cpp
+CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o -MF CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o.d -o CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o -c /home/nicolas/Bureau/Pengine/pengine/MeshObject.cpp
+
+CMakeFiles/pengine.dir/pengine/MeshObject.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pengine.dir/pengine/MeshObject.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolas/Bureau/Pengine/pengine/MeshObject.cpp > CMakeFiles/pengine.dir/pengine/MeshObject.cpp.i
+
+CMakeFiles/pengine.dir/pengine/MeshObject.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pengine.dir/pengine/MeshObject.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolas/Bureau/Pengine/pengine/MeshObject.cpp -o CMakeFiles/pengine.dir/pengine/MeshObject.cpp.s
+
+CMakeFiles/pengine.dir/pengine/Plane.cpp.o: CMakeFiles/pengine.dir/flags.make
+CMakeFiles/pengine.dir/pengine/Plane.cpp.o: ../pengine/Plane.cpp
+CMakeFiles/pengine.dir/pengine/Plane.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/pengine.dir/pengine/Plane.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/pengine/Plane.cpp.o -MF CMakeFiles/pengine.dir/pengine/Plane.cpp.o.d -o CMakeFiles/pengine.dir/pengine/Plane.cpp.o -c /home/nicolas/Bureau/Pengine/pengine/Plane.cpp
+
+CMakeFiles/pengine.dir/pengine/Plane.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pengine.dir/pengine/Plane.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolas/Bureau/Pengine/pengine/Plane.cpp > CMakeFiles/pengine.dir/pengine/Plane.cpp.i
+
+CMakeFiles/pengine.dir/pengine/Plane.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pengine.dir/pengine/Plane.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolas/Bureau/Pengine/pengine/Plane.cpp -o CMakeFiles/pengine.dir/pengine/Plane.cpp.s
+
+CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.o: CMakeFiles/pengine.dir/flags.make
+CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.o: ../pengine/SceneGraph.cpp
+CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.o -MF CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.o.d -o CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.o -c /home/nicolas/Bureau/Pengine/pengine/SceneGraph.cpp
+
+CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolas/Bureau/Pengine/pengine/SceneGraph.cpp > CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.i
+
+CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolas/Bureau/Pengine/pengine/SceneGraph.cpp -o CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.s
+
+CMakeFiles/pengine.dir/pengine/Sphere.cpp.o: CMakeFiles/pengine.dir/flags.make
+CMakeFiles/pengine.dir/pengine/Sphere.cpp.o: ../pengine/Sphere.cpp
+CMakeFiles/pengine.dir/pengine/Sphere.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/pengine.dir/pengine/Sphere.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/pengine/Sphere.cpp.o -MF CMakeFiles/pengine.dir/pengine/Sphere.cpp.o.d -o CMakeFiles/pengine.dir/pengine/Sphere.cpp.o -c /home/nicolas/Bureau/Pengine/pengine/Sphere.cpp
+
+CMakeFiles/pengine.dir/pengine/Sphere.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pengine.dir/pengine/Sphere.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolas/Bureau/Pengine/pengine/Sphere.cpp > CMakeFiles/pengine.dir/pengine/Sphere.cpp.i
+
+CMakeFiles/pengine.dir/pengine/Sphere.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pengine.dir/pengine/Sphere.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolas/Bureau/Pengine/pengine/Sphere.cpp -o CMakeFiles/pengine.dir/pengine/Sphere.cpp.s
+
+CMakeFiles/pengine.dir/pengine/SceneObject.cpp.o: CMakeFiles/pengine.dir/flags.make
+CMakeFiles/pengine.dir/pengine/SceneObject.cpp.o: ../pengine/SceneObject.cpp
+CMakeFiles/pengine.dir/pengine/SceneObject.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/pengine.dir/pengine/SceneObject.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/pengine/SceneObject.cpp.o -MF CMakeFiles/pengine.dir/pengine/SceneObject.cpp.o.d -o CMakeFiles/pengine.dir/pengine/SceneObject.cpp.o -c /home/nicolas/Bureau/Pengine/pengine/SceneObject.cpp
+
+CMakeFiles/pengine.dir/pengine/SceneObject.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pengine.dir/pengine/SceneObject.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolas/Bureau/Pengine/pengine/SceneObject.cpp > CMakeFiles/pengine.dir/pengine/SceneObject.cpp.i
+
+CMakeFiles/pengine.dir/pengine/SceneObject.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pengine.dir/pengine/SceneObject.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolas/Bureau/Pengine/pengine/SceneObject.cpp -o CMakeFiles/pengine.dir/pengine/SceneObject.cpp.s
+
+CMakeFiles/pengine.dir/pengine/Texture.cpp.o: CMakeFiles/pengine.dir/flags.make
+CMakeFiles/pengine.dir/pengine/Texture.cpp.o: ../pengine/Texture.cpp
+CMakeFiles/pengine.dir/pengine/Texture.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/pengine.dir/pengine/Texture.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/pengine/Texture.cpp.o -MF CMakeFiles/pengine.dir/pengine/Texture.cpp.o.d -o CMakeFiles/pengine.dir/pengine/Texture.cpp.o -c /home/nicolas/Bureau/Pengine/pengine/Texture.cpp
+
+CMakeFiles/pengine.dir/pengine/Texture.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pengine.dir/pengine/Texture.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolas/Bureau/Pengine/pengine/Texture.cpp > CMakeFiles/pengine.dir/pengine/Texture.cpp.i
+
+CMakeFiles/pengine.dir/pengine/Texture.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pengine.dir/pengine/Texture.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolas/Bureau/Pengine/pengine/Texture.cpp -o CMakeFiles/pengine.dir/pengine/Texture.cpp.s
+
+CMakeFiles/pengine.dir/pengine/Transform.cpp.o: CMakeFiles/pengine.dir/flags.make
+CMakeFiles/pengine.dir/pengine/Transform.cpp.o: ../pengine/Transform.cpp
+CMakeFiles/pengine.dir/pengine/Transform.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/pengine.dir/pengine/Transform.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/pengine/Transform.cpp.o -MF CMakeFiles/pengine.dir/pengine/Transform.cpp.o.d -o CMakeFiles/pengine.dir/pengine/Transform.cpp.o -c /home/nicolas/Bureau/Pengine/pengine/Transform.cpp
+
+CMakeFiles/pengine.dir/pengine/Transform.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pengine.dir/pengine/Transform.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolas/Bureau/Pengine/pengine/Transform.cpp > CMakeFiles/pengine.dir/pengine/Transform.cpp.i
+
+CMakeFiles/pengine.dir/pengine/Transform.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pengine.dir/pengine/Transform.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolas/Bureau/Pengine/pengine/Transform.cpp -o CMakeFiles/pengine.dir/pengine/Transform.cpp.s
+
 CMakeFiles/pengine.dir/common/shader.cpp.o: CMakeFiles/pengine.dir/flags.make
 CMakeFiles/pengine.dir/common/shader.cpp.o: ../common/shader.cpp
 CMakeFiles/pengine.dir/common/shader.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/pengine.dir/common/shader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/pengine.dir/common/shader.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/common/shader.cpp.o -MF CMakeFiles/pengine.dir/common/shader.cpp.o.d -o CMakeFiles/pengine.dir/common/shader.cpp.o -c /home/nicolas/Bureau/Pengine/common/shader.cpp
 
 CMakeFiles/pengine.dir/common/shader.cpp.i: cmake_force
@@ -100,7 +226,7 @@ CMakeFiles/pengine.dir/common/shader.cpp.s: cmake_force
 CMakeFiles/pengine.dir/common/controls.cpp.o: CMakeFiles/pengine.dir/flags.make
 CMakeFiles/pengine.dir/common/controls.cpp.o: ../common/controls.cpp
 CMakeFiles/pengine.dir/common/controls.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/pengine.dir/common/controls.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/pengine.dir/common/controls.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/common/controls.cpp.o -MF CMakeFiles/pengine.dir/common/controls.cpp.o.d -o CMakeFiles/pengine.dir/common/controls.cpp.o -c /home/nicolas/Bureau/Pengine/common/controls.cpp
 
 CMakeFiles/pengine.dir/common/controls.cpp.i: cmake_force
@@ -114,7 +240,7 @@ CMakeFiles/pengine.dir/common/controls.cpp.s: cmake_force
 CMakeFiles/pengine.dir/common/texture.cpp.o: CMakeFiles/pengine.dir/flags.make
 CMakeFiles/pengine.dir/common/texture.cpp.o: ../common/texture.cpp
 CMakeFiles/pengine.dir/common/texture.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/pengine.dir/common/texture.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/pengine.dir/common/texture.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/common/texture.cpp.o -MF CMakeFiles/pengine.dir/common/texture.cpp.o.d -o CMakeFiles/pengine.dir/common/texture.cpp.o -c /home/nicolas/Bureau/Pengine/common/texture.cpp
 
 CMakeFiles/pengine.dir/common/texture.cpp.i: cmake_force
@@ -128,7 +254,7 @@ CMakeFiles/pengine.dir/common/texture.cpp.s: cmake_force
 CMakeFiles/pengine.dir/common/objloader.cpp.o: CMakeFiles/pengine.dir/flags.make
 CMakeFiles/pengine.dir/common/objloader.cpp.o: ../common/objloader.cpp
 CMakeFiles/pengine.dir/common/objloader.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/pengine.dir/common/objloader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/pengine.dir/common/objloader.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/common/objloader.cpp.o -MF CMakeFiles/pengine.dir/common/objloader.cpp.o.d -o CMakeFiles/pengine.dir/common/objloader.cpp.o -c /home/nicolas/Bureau/Pengine/common/objloader.cpp
 
 CMakeFiles/pengine.dir/common/objloader.cpp.i: cmake_force
@@ -142,7 +268,7 @@ CMakeFiles/pengine.dir/common/objloader.cpp.s: cmake_force
 CMakeFiles/pengine.dir/common/vboindexer.cpp.o: CMakeFiles/pengine.dir/flags.make
 CMakeFiles/pengine.dir/common/vboindexer.cpp.o: ../common/vboindexer.cpp
 CMakeFiles/pengine.dir/common/vboindexer.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/pengine.dir/common/vboindexer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/pengine.dir/common/vboindexer.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/common/vboindexer.cpp.o -MF CMakeFiles/pengine.dir/common/vboindexer.cpp.o.d -o CMakeFiles/pengine.dir/common/vboindexer.cpp.o -c /home/nicolas/Bureau/Pengine/common/vboindexer.cpp
 
 CMakeFiles/pengine.dir/common/vboindexer.cpp.i: cmake_force
@@ -156,6 +282,15 @@ CMakeFiles/pengine.dir/common/vboindexer.cpp.s: cmake_force
 # Object files for target pengine
 pengine_OBJECTS = \
 "CMakeFiles/pengine.dir/pengine/main.cpp.o" \
+"CMakeFiles/pengine.dir/pengine/Camera.cpp.o" \
+"CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o" \
+"CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o" \
+"CMakeFiles/pengine.dir/pengine/Plane.cpp.o" \
+"CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.o" \
+"CMakeFiles/pengine.dir/pengine/Sphere.cpp.o" \
+"CMakeFiles/pengine.dir/pengine/SceneObject.cpp.o" \
+"CMakeFiles/pengine.dir/pengine/Texture.cpp.o" \
+"CMakeFiles/pengine.dir/pengine/Transform.cpp.o" \
 "CMakeFiles/pengine.dir/common/shader.cpp.o" \
 "CMakeFiles/pengine.dir/common/controls.cpp.o" \
 "CMakeFiles/pengine.dir/common/texture.cpp.o" \
@@ -166,6 +301,15 @@ pengine_OBJECTS = \
 pengine_EXTERNAL_OBJECTS =
 
 pengine: CMakeFiles/pengine.dir/pengine/main.cpp.o
+pengine: CMakeFiles/pengine.dir/pengine/Camera.cpp.o
+pengine: CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o
+pengine: CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o
+pengine: CMakeFiles/pengine.dir/pengine/Plane.cpp.o
+pengine: CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.o
+pengine: CMakeFiles/pengine.dir/pengine/Sphere.cpp.o
+pengine: CMakeFiles/pengine.dir/pengine/SceneObject.cpp.o
+pengine: CMakeFiles/pengine.dir/pengine/Texture.cpp.o
+pengine: CMakeFiles/pengine.dir/pengine/Transform.cpp.o
 pengine: CMakeFiles/pengine.dir/common/shader.cpp.o
 pengine: CMakeFiles/pengine.dir/common/controls.cpp.o
 pengine: CMakeFiles/pengine.dir/common/texture.cpp.o
@@ -195,7 +339,7 @@ pengine: /usr/lib/x86_64-linux-gnu/libXcursor.so
 pengine: /usr/lib/x86_64-linux-gnu/libGL.so
 pengine: /usr/lib/x86_64-linux-gnu/libGLU.so
 pengine: CMakeFiles/pengine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable pengine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX executable pengine"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/pengine.dir/link.txt --verbose=$(VERBOSE)
 	/usr/bin/cmake -E copy /home/nicolas/Bureau/Pengine/build/./pengine /home/nicolas/Bureau/Pengine/pengine/
 
