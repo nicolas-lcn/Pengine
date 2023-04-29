@@ -728,6 +728,30 @@ pengine/Plane.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Plane.cpp.s
 .PHONY : pengine/Plane.cpp.s
 
+pengine/RigidBody.o: pengine/RigidBody.cpp.o
+.PHONY : pengine/RigidBody.o
+
+# target to build an object file
+pengine/RigidBody.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/RigidBody.cpp.o
+.PHONY : pengine/RigidBody.cpp.o
+
+pengine/RigidBody.i: pengine/RigidBody.cpp.i
+.PHONY : pengine/RigidBody.i
+
+# target to preprocess a source file
+pengine/RigidBody.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/RigidBody.cpp.i
+.PHONY : pengine/RigidBody.cpp.i
+
+pengine/RigidBody.s: pengine/RigidBody.cpp.s
+.PHONY : pengine/RigidBody.s
+
+# target to generate assembly for a file
+pengine/RigidBody.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/RigidBody.cpp.s
+.PHONY : pengine/RigidBody.cpp.s
+
 pengine/SceneGraph.o: pengine/SceneGraph.cpp.o
 .PHONY : pengine/SceneGraph.o
 
@@ -938,6 +962,9 @@ help:
 	@echo "... pengine/Plane.o"
 	@echo "... pengine/Plane.i"
 	@echo "... pengine/Plane.s"
+	@echo "... pengine/RigidBody.o"
+	@echo "... pengine/RigidBody.i"
+	@echo "... pengine/RigidBody.s"
 	@echo "... pengine/SceneGraph.o"
 	@echo "... pengine/SceneGraph.i"
 	@echo "... pengine/SceneGraph.s"

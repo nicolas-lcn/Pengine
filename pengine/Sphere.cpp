@@ -133,13 +133,19 @@ glm::vec3 Sphere::SphericalCoordinatesToEuclidean( float theta , float phi ) {
     return glm::vec3( cos(theta) * cos(phi) , sin(theta) * cos(phi) , sin(phi) );
 }
 
-void Sphere::fly(double delta_time){
+void Sphere::fly(float delta_time){
 
-    acceleration = glm::vec3(0,-GRAVITY,0);
-    velocity += glm::vec3(acceleration[0]*delta_time, acceleration[1]*delta_time, acceleration[2]*delta_time);
+    // acceleration = glm::vec3(0,-GRAVITY,0);
+    // velocity += glm::vec3(acceleration[0]*delta_time, acceleration[1]*delta_time, acceleration[2]*delta_time);
 
-    transformations[0][0] += velocity[0]*delta_time;
-    transformations[0][1] += velocity[1]*delta_time;
-    m_center[0] += velocity[0]*delta_time;
-    m_center[1] += velocity[1]*delta_time;
+    // transformations[0][0] += velocity[0]*delta_time;
+    // transformations[0][1] += velocity[1]*delta_time;
+    // m_center[0] += velocity[0]*delta_time;
+    // m_center[1] += velocity[1]*delta_time;
+	// glm::vec3 flyforce(5.0, 13.0, 0.0);
+ //    this->rb->applyForce(flyforce);
+    this->rb->computeForces(delta_time);
+    transformations[0] += delta_time * this->rb->getSpeed();
+    m_center += delta_time * this->rb->getSpeed();
+    velocity = this->rb->getSpeed();
 }

@@ -75,7 +75,7 @@ int plane_dim = 40;
 Plane *plane = new Plane(plane_len, plane_len, plane_dim, plane_dim);
 
 // sphere data
-Sphere *sphere = new Sphere();
+Sphere* sphere = new Sphere();
 double initial_speed = 2.2;
 
 SceneGraph *root = new SceneGraph();
@@ -205,6 +205,8 @@ int main( void )
 
     sphere->transformations.push_back(glm::vec3(0.0,0.0,0.0));
     sphere->index_transf.push_back(1);
+    sphere->setRigidBody(new RigidBody());
+    sphere->setBoxCollider(new BoxCollider());
 
     scene_objects.push_back(sphere);
     // -----------------------------------------------------------------------------------
@@ -273,12 +275,14 @@ int main( void )
         if(sphere->isFlying){
             sphere->fly(deltaTime);
             if(sphere->m_center[1]-sphere->m_radius < 0.00001){
-                sphere->velocity = -sphere->velocity;
-                sphere->velocity[0] = -sphere->velocity[0];
+                glm::vec3 reboundVec = sphere->getRigidBody()->computeRebound(glm::vec3(0.0, 1.0, 0.0));
+                reboundVec = 0.8f * reboundVec;
+                sphere->getRigidBody()->setSpeed(reboundVec); 
             }
-            if(sphere->velocity[1] < 0.000001 and sphere->m_center[1]-sphere->m_radius < 0.00001){
+            if(sphere->getRigidBody()->getSpeed()[1] < 0.000001 and sphere->m_center[1]-sphere->m_radius < 0.00001){
                 sphere->isFlying = false;
                 sphere->velocity = glm::vec3(0.0,0.0,0.0);
+                sphere->getRigidBody()->setSpeed(sphere->velocity);
                 std::cout << "fly is over" << std::endl;
             }
         }
@@ -433,7 +437,9 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
     }else if ( key == GLFW_KEY_SPACE and action == GLFW_PRESS ){
         sphere->isFlying = true;
         std::cout << "fly starts" << std::endl;
-        sphere->velocity = glm::vec3(1.0,1.0,0.0) * glm::vec3(initial_speed,initial_speed,initial_speed);
+        // sphere->velocity = glm::vec3(1.0,1.0,0.0) * glm::vec3(initial_speed,initial_speed,initial_speed);
+        glm::vec3 flyForce(100.0, 100.0, 0.0);
+        sphere->getRigidBody()->applyForce(flyForce);
     }
 
     if( key == GLFW_KEY_G or key == GLFW_KEY_F or key == GLFW_KEY_V or key == GLFW_KEY_T){

@@ -6,15 +6,22 @@
 #define MESHOBJECT_H
 
 #include "SceneObject.h"
-
+#include "RigidBody.h"
+#include "BoxCollider.h"
 
 class MeshObject : public SceneObject {
 
-private:
-
+protected:
+	RigidBody* rb;
+	BoxCollider* collider;
 
 public:
     void create(const std::string & filename);
+    RigidBody* getRigidBody();
+    BoxCollider* getBoxCollider();
+    void setRigidBody(RigidBody* _rb);
+    void setBoxCollider(BoxCollider *_collider);
+
 
 };
 

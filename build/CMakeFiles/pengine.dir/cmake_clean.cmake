@@ -17,6 +17,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o.d"
   "CMakeFiles/pengine.dir/pengine/Plane.cpp.o"
   "CMakeFiles/pengine.dir/pengine/Plane.cpp.o.d"
+  "CMakeFiles/pengine.dir/pengine/RigidBody.cpp.o"
+  "CMakeFiles/pengine.dir/pengine/RigidBody.cpp.o.d"
   "CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.o"
   "CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.o.d"
   "CMakeFiles/pengine.dir/pengine/SceneObject.cpp.o"
