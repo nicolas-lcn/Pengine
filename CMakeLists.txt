@@ -65,6 +65,7 @@ add_executable(pengine
         pengine/SceneObject.cpp
         pengine/Texture.cpp
         pengine/Transform.cpp
+        pengine/RigidBody.cpp
 	common/shader.cpp
 	common/shader.hpp
 	common/controls.cpp
