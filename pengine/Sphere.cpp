@@ -70,6 +70,8 @@ void Sphere::build_arrays_for_resolutions(){
             }
         }
     }
+    initBoxCollider();
+    
 }
 
 void Sphere::build_arrays() {
@@ -119,6 +121,7 @@ void Sphere::build_arrays() {
             triangles.push_back(t2);
         }
     }
+    initBoxCollider();
 }
 
 void Sphere::switchResolution(int resolution_index){
@@ -148,4 +151,6 @@ void Sphere::fly(float delta_time){
     transformations[0] += delta_time * this->rb->getSpeed();
     m_center += delta_time * this->rb->getSpeed();
     velocity = this->rb->getSpeed();
+    this->collider->setA(this->collider->getA() + delta_time * this->rb->getSpeed());
+    this->collider->setB(this->collider->getB() + delta_time * this->rb->getSpeed());
 }

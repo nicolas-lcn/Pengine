@@ -632,6 +632,30 @@ common/vboindexer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/common/vboindexer.cpp.s
 .PHONY : common/vboindexer.cpp.s
 
+pengine/BoxCollider.o: pengine/BoxCollider.cpp.o
+.PHONY : pengine/BoxCollider.o
+
+# target to build an object file
+pengine/BoxCollider.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/BoxCollider.cpp.o
+.PHONY : pengine/BoxCollider.cpp.o
+
+pengine/BoxCollider.i: pengine/BoxCollider.cpp.i
+.PHONY : pengine/BoxCollider.i
+
+# target to preprocess a source file
+pengine/BoxCollider.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/BoxCollider.cpp.i
+.PHONY : pengine/BoxCollider.cpp.i
+
+pengine/BoxCollider.s: pengine/BoxCollider.cpp.s
+.PHONY : pengine/BoxCollider.s
+
+# target to generate assembly for a file
+pengine/BoxCollider.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/BoxCollider.cpp.s
+.PHONY : pengine/BoxCollider.cpp.s
+
 pengine/Camera.o: pengine/Camera.cpp.o
 .PHONY : pengine/Camera.o
 
@@ -950,6 +974,9 @@ help:
 	@echo "... common/vboindexer.o"
 	@echo "... common/vboindexer.i"
 	@echo "... common/vboindexer.s"
+	@echo "... pengine/BoxCollider.o"
+	@echo "... pengine/BoxCollider.i"
+	@echo "... pengine/BoxCollider.s"
 	@echo "... pengine/Camera.o"
 	@echo "... pengine/Camera.i"
 	@echo "... pengine/Camera.s"

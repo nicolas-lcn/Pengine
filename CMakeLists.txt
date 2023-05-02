@@ -66,6 +66,7 @@ add_executable(pengine
         pengine/Texture.cpp
         pengine/Transform.cpp
         pengine/RigidBody.cpp
+        pengine/BoxCollider.cpp
 	common/shader.cpp
 	common/shader.hpp
 	common/controls.cpp

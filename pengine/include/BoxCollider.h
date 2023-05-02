@@ -18,13 +18,20 @@ private:
 
 public:
 
-	BoxCollider(){};
-	BoxCollider(glm::vec3 bbmin, glm::vec3 bbmax):m_a(bbmin), m_b(bbmax){}
+	BoxCollider(std::vector<glm::vec3> vertices);
+	BoxCollider(glm::vec3 bbmin, glm::vec3 bbmax);
 
-	~BoxCollider(){}
+	~BoxCollider();
 
-	glm::vec3 getA(){return m_a;}
-	glm::vec3 getB(){return m_b;}
+	void applyMatrix(glm::mat4 model);
+
+	glm::vec3 getA();
+	glm::vec3 getB();
+
+	void setA(glm::vec3 bbmin);
+	void setB(glm::vec3 bbmax);
+
+	bool collides(BoxCollider* other);
 
 };
 

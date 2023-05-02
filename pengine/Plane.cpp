@@ -83,6 +83,8 @@ void Plane::generatePlane(){
             triangles.push_back(triangle2);
         }
     }
+    initBoxCollider();
+    
 }
 
 
