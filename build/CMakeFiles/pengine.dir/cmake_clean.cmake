@@ -9,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/pengine.dir/common/texture.cpp.o.d"
   "CMakeFiles/pengine.dir/common/vboindexer.cpp.o"
   "CMakeFiles/pengine.dir/common/vboindexer.cpp.o.d"
+  "CMakeFiles/pengine.dir/pengine/BoxCollider.cpp.o"
+  "CMakeFiles/pengine.dir/pengine/BoxCollider.cpp.o.d"
   "CMakeFiles/pengine.dir/pengine/Camera.cpp.o"
   "CMakeFiles/pengine.dir/pengine/Camera.cpp.o.d"
   "CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o"

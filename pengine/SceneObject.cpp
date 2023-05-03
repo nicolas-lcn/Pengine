@@ -86,3 +86,14 @@ void SceneObject::clearVectors(){
     normals.clear();
     coord_texture.clear();
 }
+
+void SceneObject::setRigidBody(RigidBody* _rb){this->rb = _rb;}
+void SceneObject::setBoxCollider(BoxCollider* _collider){this->collider = _collider;}
+
+RigidBody* SceneObject::getRigidBody(){return this->rb;}
+BoxCollider* SceneObject::getBoxCollider(){return this->collider;}
+
+void SceneObject::initBoxCollider()
+{
+    this->collider = new BoxCollider(this->indexed_vertices);
+}

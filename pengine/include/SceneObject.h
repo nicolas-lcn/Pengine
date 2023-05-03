@@ -15,11 +15,17 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 
+#include "RigidBody.h"
+#include "BoxCollider.h"
+
 
 
 class SceneObject {
 
-private:
+protected:
+    RigidBody* rb;
+    BoxCollider* collider;
+
 
 public:
 
@@ -54,6 +60,12 @@ public:
     void deleteBuffers();
 
     void clearVectors();
+    
+    RigidBody* getRigidBody();
+    BoxCollider* getBoxCollider();
+    void setRigidBody(RigidBody* _rb);
+    void setBoxCollider(BoxCollider *_collider);
+    void initBoxCollider();
 
 };
 
