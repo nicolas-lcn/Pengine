@@ -71,8 +71,9 @@ bool heightmap_activated = true;
 
 // plane data
 float plane_len =  3.0;
+float plane_larg = 9.0;
 int plane_dim = 40;
-Plane *plane = new Plane(plane_len, plane_len+6.0, plane_dim, plane_dim);
+Plane *plane = new Plane(plane_len, plane_larg, plane_dim, plane_dim);
 
 // sphere data
 Sphere* sphere = new Sphere();
@@ -191,7 +192,7 @@ int main( void )
     // SPHERE OBJECT (TP4)
     // -----------------------------------------------------------------------------------
     sphere->m_radius =  0.02f;
-    sphere->m_center = glm::vec3(plane->center[0], 0.0, plane->center[2]);
+    sphere->m_center = glm::vec3(plane->center[0], 0.0, plane->center[2]+plane_larg/2-0.1);
     double height_sphere = 0.0;
     if(heightmap_activated){
         height_sphere = plane->getHeightFromCoords(height_map->data, height_map->height, height_map->width, sphere->m_center);
@@ -451,8 +452,9 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
         if(heightmap_activated){
             height_sphere = plane->getHeightFromCoords(height_map->data, height_map->height, height_map->width, sphere->m_center);
         }
-        sphere->transformations[0][1] += height_sphere + sphere->m_radius;
-        sphere->m_center[1] = height_sphere + sphere->m_radius;
+        double y_offset = 0.0;
+        sphere->transformations[0][1] += height_sphere + sphere->m_radius + y_offset;
+        sphere->m_center[1] = height_sphere + sphere->m_radius + y_offset;
         // ----------------------------------------------------------------
 
         // ----------------------------------------------------------------

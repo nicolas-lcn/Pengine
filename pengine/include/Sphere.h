@@ -20,7 +20,7 @@ public:
     glm::vec3 acceleration;
 
     // default resolution
-    unsigned int resolution = 30;
+    unsigned int resolution = 20;
 
     // resolutions depending on distance from camera
     const unsigned int back_resolution = 10;
