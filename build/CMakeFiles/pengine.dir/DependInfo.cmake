@@ -15,6 +15,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/nicolas/Bureau/Pengine/common/vboindexer.cpp" "CMakeFiles/pengine.dir/common/vboindexer.cpp.o" "gcc" "CMakeFiles/pengine.dir/common/vboindexer.cpp.o.d"
   "/home/nicolas/Bureau/Pengine/pengine/BoxCollider.cpp" "CMakeFiles/pengine.dir/pengine/BoxCollider.cpp.o" "gcc" "CMakeFiles/pengine.dir/pengine/BoxCollider.cpp.o.d"
   "/home/nicolas/Bureau/Pengine/pengine/Camera.cpp" "CMakeFiles/pengine.dir/pengine/Camera.cpp.o" "gcc" "CMakeFiles/pengine.dir/pengine/Camera.cpp.o.d"
+  "/home/nicolas/Bureau/Pengine/pengine/CameraObject.cpp" "CMakeFiles/pengine.dir/pengine/CameraObject.cpp.o" "gcc" "CMakeFiles/pengine.dir/pengine/CameraObject.cpp.o.d"
   "/home/nicolas/Bureau/Pengine/pengine/GLTexture.cpp" "CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o" "gcc" "CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o.d"
   "/home/nicolas/Bureau/Pengine/pengine/MeshObject.cpp" "CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o" "gcc" "CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o.d"
   "/home/nicolas/Bureau/Pengine/pengine/Plane.cpp" "CMakeFiles/pengine.dir/pengine/Plane.cpp.o" "gcc" "CMakeFiles/pengine.dir/pengine/Plane.cpp.o.d"

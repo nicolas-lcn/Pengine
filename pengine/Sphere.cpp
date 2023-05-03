@@ -4,9 +4,9 @@
 
 #include "include/Sphere.h"
 
-Sphere::Sphere() : MeshObject() {}
+Sphere::Sphere() : MeshObject(){}
 
-Sphere::Sphere(glm::vec3 c, float r) : MeshObject(), m_center(c), m_radius(r) {}
+Sphere::Sphere(glm::vec3 c, float r) : MeshObject(), m_center(c), m_radius(r){}
 
 void Sphere::setResolution(unsigned int new_resolution){
     resolution = new_resolution;

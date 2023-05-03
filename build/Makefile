@@ -680,6 +680,30 @@ pengine/Camera.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Camera.cpp.s
 .PHONY : pengine/Camera.cpp.s
 
+pengine/CameraObject.o: pengine/CameraObject.cpp.o
+.PHONY : pengine/CameraObject.o
+
+# target to build an object file
+pengine/CameraObject.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/CameraObject.cpp.o
+.PHONY : pengine/CameraObject.cpp.o
+
+pengine/CameraObject.i: pengine/CameraObject.cpp.i
+.PHONY : pengine/CameraObject.i
+
+# target to preprocess a source file
+pengine/CameraObject.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/CameraObject.cpp.i
+.PHONY : pengine/CameraObject.cpp.i
+
+pengine/CameraObject.s: pengine/CameraObject.cpp.s
+.PHONY : pengine/CameraObject.s
+
+# target to generate assembly for a file
+pengine/CameraObject.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/CameraObject.cpp.s
+.PHONY : pengine/CameraObject.cpp.s
+
 pengine/GLTexture.o: pengine/GLTexture.cpp.o
 .PHONY : pengine/GLTexture.o
 
@@ -980,6 +1004,9 @@ help:
 	@echo "... pengine/Camera.o"
 	@echo "... pengine/Camera.i"
 	@echo "... pengine/Camera.s"
+	@echo "... pengine/CameraObject.o"
+	@echo "... pengine/CameraObject.i"
+	@echo "... pengine/CameraObject.s"
 	@echo "... pengine/GLTexture.o"
 	@echo "... pengine/GLTexture.i"
 	@echo "... pengine/GLTexture.s"
