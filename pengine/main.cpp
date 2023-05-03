@@ -311,7 +311,7 @@ int main( void )
         }*/
 
         // scene graph
-        transformer.updateGraph(*root, programID, camera, grass_texture, rock_texture, snowrocks_texture, sun_texture);
+        transformer.updateGraph(*root, programID, camera, grass_texture, rock_texture, snowrocks_texture, snow_texture);
         getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
         // Swap buffers
         glfwSwapBuffers(window);
