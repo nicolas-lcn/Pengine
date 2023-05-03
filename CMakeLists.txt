@@ -67,6 +67,7 @@ add_executable(pengine
         pengine/Transform.cpp
         pengine/RigidBody.cpp
         pengine/BoxCollider.cpp
+        pengine/CameraObject.cpp
 	common/shader.cpp
 	common/shader.hpp
 	common/controls.cpp

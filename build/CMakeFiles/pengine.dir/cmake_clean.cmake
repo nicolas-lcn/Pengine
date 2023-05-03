@@ -13,6 +13,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/pengine.dir/pengine/BoxCollider.cpp.o.d"
   "CMakeFiles/pengine.dir/pengine/Camera.cpp.o"
   "CMakeFiles/pengine.dir/pengine/Camera.cpp.o.d"
+  "CMakeFiles/pengine.dir/pengine/CameraObject.cpp.o"
+  "CMakeFiles/pengine.dir/pengine/CameraObject.cpp.o.d"
   "CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o"
   "CMakeFiles/pengine.dir/pengine/GLTexture.cpp.o.d"
   "CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o"

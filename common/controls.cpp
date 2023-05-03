@@ -9,6 +9,7 @@ using namespace glm;
 
 #include "controls.hpp"
 
+
 glm::mat4 ViewMatrix;
 glm::mat4 ProjectionMatrix;
 
@@ -29,6 +30,8 @@ float verticalAngle = 0.0f ;
 // Initial Field of View
 float initialFoV = 45.0f;
 
+CameraObject* cameraObject;
+
 float speed = 1.0f; // 3 units / second
 float mouseSpeed = 0.00005f;
 
@@ -43,6 +46,18 @@ void setVerticalAngle(float new_angle){
 glm::vec3 getCamPosition(){
     return position;
 }
+
+void initCameraObject(glm::vec3 t_pos, glm::vec3 t_forward, glm::vec3 t_up, float _spring, float _hdist, float _vdist)
+{
+	cameraObject = new CameraObject(t_pos, t_forward, t_up, _spring, _hdist, _vdist);
+}
+
+void updateCamera(float deltaTime)
+{
+	cameraObject->update(deltaTime);
+}
+
+CameraObject* getCamera(){return cameraObject;}
 
 
 void computeMatricesFromInputs() {
@@ -108,11 +123,12 @@ void computeMatricesFromInputs() {
 	// Projection matrix : 45� Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
 	ProjectionMatrix = glm::perspective(glm::radians(FoV), 4.0f / 3.0f, 0.1f, 100.0f);
 	// Camera matrix
-	ViewMatrix       = glm::lookAt(
-								position,           // Camera is here
-								position+direction, // and looks here : at the same position, plus "direction"
-								up                  // Head is up (set to 0,-1,0 to look upside-down)
-						   );
+	// ViewMatrix       = glm::lookAt(
+	// 							position,           // Camera is here
+	// 							position+direction, // and looks here : at the same position, plus "direction"
+	// 							up                  // Head is up (set to 0,-1,0 to look upside-down)
+	// 					   );
+	ViewMatrix = cameraObject->getViewMatrix();
 
 	// For the next frame, the "last time" will be "now"
 	lastTime = currentTime;

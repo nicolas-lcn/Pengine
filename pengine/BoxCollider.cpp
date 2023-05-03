@@ -46,7 +46,6 @@ void BoxCollider::setB(glm::vec3 bbmax){ m_b = bbmax;}
 
 bool BoxCollider::collides(BoxCollider* other)
 {
-	printf("%f %f %f / %f %f %f\n %f %f %f / %f %f %f\n", m_a.x, m_a.y, m_a.z, other->getB().x, other->getB().y, other->getB().z, m_b.x, m_b.y, m_b.z, other->getA().x, other->getA().y, other->getA().z);
 	return  (m_a.x <= other->getB().x && m_b.x >= other->getA().x) &&
 			(m_a.y <= other->getB().y && m_b.y >= other->getA().y) &&
 			(m_a.z <= other->getB().z && m_b.z >= other->getA().z);

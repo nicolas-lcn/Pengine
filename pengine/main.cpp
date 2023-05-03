@@ -241,6 +241,9 @@ int main( void )
     snowrocks_texture->defineParameters();
     // ------------------------------------------------------------------------------------
 
+    // --- Spring Camera 
+    initCameraObject(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 10.0f, 4.0f, 4.0f);
+
     // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
     GLuint LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
@@ -264,6 +267,8 @@ int main( void )
 
         // Use our shader
         glUseProgram(programID);
+        updateCamera(deltaTime);
+
 
         // CAMERA
         camera->MVP(cameraRotates, speedUp, slowDown);
@@ -306,7 +311,7 @@ int main( void )
 
         // solar system
         transformer.updateGraph(*root, programID, camera, grass_texture, rock_texture, snowrocks_texture, sun_texture);
-
+        getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
         // Swap buffers
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -406,6 +411,9 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
         if(sphere->m_center[2] - offset > plane->top_right[2] and sphere->m_center[2] - offset < plane->bottom_right[2]) {
             sphere->transformations[0][2] -= offset;
             sphere->m_center[2] -= offset;
+            getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+
+            
         }
 
 
@@ -416,6 +424,8 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
         if(sphere->m_center[2] + offset > plane->top_right[2] and sphere->m_center[2] + offset < plane->bottom_right[2]){
             sphere->transformations[0][2] += offset;
             sphere->m_center[2] += offset;
+            getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+            
         }
 
     }else if ( key == GLFW_KEY_F ){
@@ -425,6 +435,8 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
         if(sphere->m_center[0] - offset > plane->top_right[2] and sphere->m_center[0] - offset < plane->bottom_right[2]){
             sphere->transformations[0][0] -= offset;
             sphere->m_center[0] -= offset;
+            //sphere->forward[0] -= offset;
+            // sphere->up[0] -= offset;
         }
 
     }else if ( key == GLFW_KEY_G ){
@@ -434,6 +446,8 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
         if(sphere->m_center[0] + offset > plane->top_right[2] and sphere->m_center[0] + offset < plane->bottom_right[2]) {
             sphere->transformations[0][0] += offset;
             sphere->m_center[0] += offset;
+            getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+            
         }
     }else if ( key == GLFW_KEY_SPACE and action == GLFW_PRESS ){
         sphere->isFlying = true;
