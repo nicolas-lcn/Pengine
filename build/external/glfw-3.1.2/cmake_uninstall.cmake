@@ -1,9 +1,9 @@
 
-if (NOT EXISTS "/home/nicolas/Bureau/Pengine/build/external/glfw-3.1.2/install_manifest.txt")
-  message(FATAL_ERROR "Cannot find install manifest: \"/home/nicolas/Bureau/Pengine/build/external/glfw-3.1.2/install_manifest.txt\"")
+if (NOT EXISTS "/home/parallels/Desktop/Parallels Shared Folders/Home/Documents/Montpellier/UM/Semestre2/Moteur_de_Jeu/Pengine/build/external/glfw-3.1.2/install_manifest.txt")
+  message(FATAL_ERROR "Cannot find install manifest: \"/home/parallels/Desktop/Parallels Shared Folders/Home/Documents/Montpellier/UM/Semestre2/Moteur_de_Jeu/Pengine/build/external/glfw-3.1.2/install_manifest.txt\"")
 endif()
 
-file(READ "/home/nicolas/Bureau/Pengine/build/external/glfw-3.1.2/install_manifest.txt" files)
+file(READ "/home/parallels/Desktop/Parallels Shared Folders/Home/Documents/Montpellier/UM/Semestre2/Moteur_de_Jeu/Pengine/build/external/glfw-3.1.2/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 
 foreach (file ${files})

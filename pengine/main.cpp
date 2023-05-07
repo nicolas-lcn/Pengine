@@ -404,22 +404,17 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
 
     }
 
-    // DISPLACE SPHERE USING T,F,V,G
-    else if ( key == GLFW_KEY_T ){
-        std::cout << "You have pressed the key T : sphere translation back" << std::endl;
+    // DISPLACE SPHERE USING arrow keys
+    else if ( key == GLFW_KEY_UP ){
 
         // if object doesn't go farther than terrain area
         if(sphere->m_center[2] - offset > plane->top_right[2] and sphere->m_center[2] - offset < plane->bottom_right[2]) {
             sphere->transformations[0][2] -= offset;
             sphere->m_center[2] -= offset;
             getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-
-            
         }
 
-
-    }else if ( key == GLFW_KEY_V ){
-        std::cout << "You have pressed the key V : sphere translation front" << std::endl;
+    }else if ( key == GLFW_KEY_DOWN ){
 
         // if object doesn't go farther than terrain area
         if(sphere->m_center[2] + offset > plane->top_right[2] and sphere->m_center[2] + offset < plane->bottom_right[2]){
@@ -429,8 +424,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             
         }
 
-    }else if ( key == GLFW_KEY_F ){
-        std::cout << "You have pressed the key F : sphere translation left" << std::endl;
+    }else if ( key == GLFW_KEY_LEFT ){
 
         // if object doesn't go farther than terrain area
         if(sphere->m_center[0] - offset > plane->top_right[2] and sphere->m_center[0] - offset < plane->bottom_right[2]){
@@ -440,8 +434,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             // sphere->up[0] -= offset;
         }
 
-    }else if ( key == GLFW_KEY_G ){
-        std::cout << "You have pressed the key G : sphere translation right" << std::endl;
+    }else if ( key == GLFW_KEY_RIGHT ){
 
         // if object doesn't go farther than terrain area
         if(sphere->m_center[0] + offset > plane->top_right[2] and sphere->m_center[0] + offset < plane->bottom_right[2]) {
@@ -458,7 +451,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
         sphere->getRigidBody()->applyForce(flyForce);
     }
 
-    if( key == GLFW_KEY_G or key == GLFW_KEY_F or key == GLFW_KEY_V or key == GLFW_KEY_T){
+    if( key == GLFW_KEY_RIGHT or key == GLFW_KEY_LEFT or key == GLFW_KEY_UP or key == GLFW_KEY_DOWN){
         // ----------------------------------------------------------------
         // follow height of terrain according to heightmap
         sphere->transformations[0][1] -= sphere->m_center[1];
