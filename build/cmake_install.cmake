@@ -1,4 +1,4 @@
-# Install script for directory: /home/parallels/Desktop/Parallels Shared Folders/Home/Documents/Montpellier/UM/Semestre2/Moteur_de_Jeu/Pengine
+# Install script for directory: /home/nicolas/Bureau/Pengine
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,7 +44,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/parallels/Desktop/Parallels Shared Folders/Home/Documents/Montpellier/UM/Semestre2/Moteur_de_Jeu/Pengine/build/external/cmake_install.cmake")
+  include("/home/nicolas/Bureau/Pengine/build/external/cmake_install.cmake")
 
 endif()
 
@@ -56,5 +56,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/parallels/Desktop/Parallels Shared Folders/Home/Documents/Montpellier/UM/Semestre2/Moteur_de_Jeu/Pengine/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/nicolas/Bureau/Pengine/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

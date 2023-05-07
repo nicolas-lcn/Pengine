@@ -1,4 +1,4 @@
-# Install script for directory: /home/parallels/Desktop/Parallels Shared Folders/Home/Documents/Montpellier/UM/Semestre2/Moteur_de_Jeu/Pengine/external/glfw-3.1.2/tests
+# Install script for directory: /home/nicolas/Bureau/Pengine/external/glfw-3.1.2/tests
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

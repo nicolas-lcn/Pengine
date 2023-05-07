@@ -1,4 +1,4 @@
-# Install script for directory: /home/parallels/Desktop/Parallels Shared Folders/Home/Documents/Montpellier/UM/Semestre2/Moteur_de_Jeu/Pengine/external
+# Install script for directory: /home/nicolas/Bureau/Pengine/external
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,7 +44,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/parallels/Desktop/Parallels Shared Folders/Home/Documents/Montpellier/UM/Semestre2/Moteur_de_Jeu/Pengine/build/external/glfw-3.1.2/cmake_install.cmake")
+  include("/home/nicolas/Bureau/Pengine/build/external/glfw-3.1.2/cmake_install.cmake")
 
 endif()
 
