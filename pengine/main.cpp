@@ -308,6 +308,7 @@ int main( void )
             height_sphere = plane->getHeightFromCoords(height_map->data, height_map->height, height_map->width, sphere->m_center);
         }
         double y_offset = 0.0;
+        printf("%f\n", height_sphere);
         sphere->transformations[0][1] += height_sphere + sphere->m_radius + y_offset;
         sphere->m_center[1] = height_sphere + sphere->m_radius + y_offset;
         // if(sphere->getBoxCollider()->collides(plane, normal, depth)){
