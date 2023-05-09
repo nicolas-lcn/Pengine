@@ -70,10 +70,10 @@ float zoom = 1.;
 bool heightmap_activated = true;
 
 // plane data
-float plane_len =  3.0;
-float plane_larg = 9.0;
+float plane_len =  100.0;
+float plane_larg = 3.0;
 int plane_dim = 40;
-Plane *plane = new Plane(plane_len, plane_larg, plane_dim, plane_dim);
+Plane *plane = new Plane(plane_larg, plane_len, plane_dim, plane_dim);
 
 // sphere data
 Sphere* sphere = new Sphere();
@@ -161,16 +161,7 @@ int main( void )
     programID = LoadShaders( "./shaders/vertex_shader.glsl", "./shaders/fragment_shader.glsl" );
 
     // ------------------------------------------------------------------------------------
-    // SOLAR SYSTEM (TP3)
-    // ------------------------------------------------------------------------------------
-    /*SceneGraph *root = new SceneGraph();
-    SolarSystem *solarSystem = new SolarSystem();
-    solarSystem->createSolarSystem(root);
-    cameraRotates = true;*/
-    // -----------------------------------------------------------------------------------
-
-    // ------------------------------------------------------------------------------------
-    // GENERATE TERRAIN (TP1 & 2)
+    // GENERATE TERRAIN
     // ------------------------------------------------------------------------------------
     // generate plane -> fill arrays of indices, triangles and indexed_vertices
     plane->generatePlane();
@@ -180,7 +171,7 @@ int main( void )
 
     // use height map
     if(heightmap_activated){
-        height_map->readPGMTexture((char*)"textures/heightmap_jeu1024.pgm");
+        height_map->readPGMTexture((char*)"textures/heightmap_simple1024.pgm");
         plane->addHeightMap(height_map->data, height_map->height, height_map->width);
     }
 
@@ -189,7 +180,7 @@ int main( void )
     // ------------------------------------------------------------------------------------
 
     // -----------------------------------------------------------------------------------
-    // SPHERE OBJECT (TP4)
+    // SPHERE OBJECT
     // -----------------------------------------------------------------------------------
     sphere->m_radius =  0.02f;
     sphere->m_center = glm::vec3(plane->center[0], 0.0, plane->center[2]+plane_larg/2-0.1);
@@ -215,9 +206,22 @@ int main( void )
     // ------------------------------------------------------------------------------------
     // SCENE GRAPH
     // ------------------------------------------------------------------------------------
-    //SceneGraph *root = new SceneGraph();
     root->setData(plane);
     root->setLevel(0);
+
+    Plane *plane2 = new Plane(plane_larg, plane_len, plane_dim, plane_dim);
+    plane2->center = glm::vec3(0.0,0.0,-plane_len);
+    plane2->generatePlane();
+    plane2->setIsTerrain(1);
+    plane2->generateBuffers();
+    // use height map
+    if(heightmap_activated){
+        height_map->readPGMTexture((char*)"textures/heightmap_jeu1024.pgm");
+        plane2->addHeightMap(height_map->data, height_map->height, height_map->width);
+    }
+    scene_objects.push_back(plane2);
+    //SceneGraph *plane_child = root->addChild(new SceneGraph(plane2));
+
     SceneGraph *node_child = root->addChild(new SceneGraph(sphere));
     // ------------------------------------------------------------------------------------
 
@@ -297,15 +301,13 @@ int main( void )
         // Draw the triangles !
         /*for(int i = 0; i < scene_objects.size(); i++){
 
-            if(scene_objects[i]->isTerrain==0){ // terrain
+            if(scene_objects[i]->isTerrain==1){ // terrain
                 // send textures to shader
                 grass_texture->sendTextureToShader(programID, "texture_grass", 0);
                 rock_texture->sendTextureToShader(programID, "texture_rock", 1);
                 snowrocks_texture->sendTextureToShader(programID, "texture_snowrocks", 2);
-            }else{
-                sun_texture->sendTextureToShader(programID, "texture_sun", 3);
+                snow_texture->sendTextureToShader(programID, "texture_snow", 3);
             }
-
             scene_objects[i]->loadBuffers();
             scene_objects[i]->draw(programID);
         }*/
