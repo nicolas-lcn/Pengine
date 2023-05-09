@@ -456,7 +456,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
 
     if( key == GLFW_KEY_RIGHT or key == GLFW_KEY_LEFT or key == GLFW_KEY_UP or key == GLFW_KEY_DOWN){
         // ----------------------------------------------------------------
-        follow height of terrain according to heightmap
+        //follow height of terrain according to heightmap
         sphere->transformations[0][1] -= sphere->m_center[1];
         double height_sphere = 0.0;
         if(heightmap_activated){
