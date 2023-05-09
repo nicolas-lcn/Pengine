@@ -321,6 +321,20 @@ CMakeFiles/pengine.dir/common/vboindexer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pengine.dir/common/vboindexer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolas/Bureau/Pengine/common/vboindexer.cpp -o CMakeFiles/pengine.dir/common/vboindexer.cpp.s
 
+CMakeFiles/pengine.dir/common/geometry_utils.cpp.o: CMakeFiles/pengine.dir/flags.make
+CMakeFiles/pengine.dir/common/geometry_utils.cpp.o: ../common/geometry_utils.cpp
+CMakeFiles/pengine.dir/common/geometry_utils.cpp.o: CMakeFiles/pengine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/pengine.dir/common/geometry_utils.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/pengine.dir/common/geometry_utils.cpp.o -MF CMakeFiles/pengine.dir/common/geometry_utils.cpp.o.d -o CMakeFiles/pengine.dir/common/geometry_utils.cpp.o -c /home/nicolas/Bureau/Pengine/common/geometry_utils.cpp
+
+CMakeFiles/pengine.dir/common/geometry_utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/pengine.dir/common/geometry_utils.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolas/Bureau/Pengine/common/geometry_utils.cpp > CMakeFiles/pengine.dir/common/geometry_utils.cpp.i
+
+CMakeFiles/pengine.dir/common/geometry_utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/pengine.dir/common/geometry_utils.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolas/Bureau/Pengine/common/geometry_utils.cpp -o CMakeFiles/pengine.dir/common/geometry_utils.cpp.s
+
 # Object files for target pengine
 pengine_OBJECTS = \
 "CMakeFiles/pengine.dir/pengine/main.cpp.o" \
@@ -340,7 +354,8 @@ pengine_OBJECTS = \
 "CMakeFiles/pengine.dir/common/controls.cpp.o" \
 "CMakeFiles/pengine.dir/common/texture.cpp.o" \
 "CMakeFiles/pengine.dir/common/objloader.cpp.o" \
-"CMakeFiles/pengine.dir/common/vboindexer.cpp.o"
+"CMakeFiles/pengine.dir/common/vboindexer.cpp.o" \
+"CMakeFiles/pengine.dir/common/geometry_utils.cpp.o"
 
 # External object files for target pengine
 pengine_EXTERNAL_OBJECTS =
@@ -363,6 +378,7 @@ pengine: CMakeFiles/pengine.dir/common/controls.cpp.o
 pengine: CMakeFiles/pengine.dir/common/texture.cpp.o
 pengine: CMakeFiles/pengine.dir/common/objloader.cpp.o
 pengine: CMakeFiles/pengine.dir/common/vboindexer.cpp.o
+pengine: CMakeFiles/pengine.dir/common/geometry_utils.cpp.o
 pengine: CMakeFiles/pengine.dir/build.make
 pengine: /usr/lib/x86_64-linux-gnu/libGL.so
 pengine: /usr/lib/x86_64-linux-gnu/libGLU.so
@@ -387,7 +403,7 @@ pengine: /usr/lib/x86_64-linux-gnu/libXcursor.so
 pengine: /usr/lib/x86_64-linux-gnu/libGL.so
 pengine: /usr/lib/x86_64-linux-gnu/libGLU.so
 pengine: CMakeFiles/pengine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Linking CXX executable pengine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nicolas/Bureau/Pengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Linking CXX executable pengine"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/pengine.dir/link.txt --verbose=$(VERBOSE)
 	/usr/bin/cmake -E copy /home/nicolas/Bureau/Pengine/build/./pengine /home/nicolas/Bureau/Pengine/pengine/
 

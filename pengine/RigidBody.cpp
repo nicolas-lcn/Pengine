@@ -10,9 +10,8 @@ void RigidBody::computeForces(float deltaTime)
 	{
 		F += others[i];
 	}
-	glm::vec3 sumForces = glm::vec3(0.0, -9.81, 0.0) + F;
 	float invMass = mass > 0.0f ? (1.0/mass) : 0.0f;
-	glm::vec3 a = invMass * sumForces;
+	glm::vec3 a = invMass * F;
 	setAcceleration(a);
 	glm::vec3 a_t = deltaTime * a;
 	glm::vec3 v_t = speed + a_t;

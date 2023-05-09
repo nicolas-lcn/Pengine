@@ -78,6 +78,8 @@ add_executable(pengine
 	common/objloader.hpp
 	common/vboindexer.cpp
 	common/vboindexer.hpp
+	common/geometry_utils.cpp
+	common/geometry_utils.h
 	
         pengine/shaders/vertex_shader.glsl
         pengine/shaders/fragment_shader.glsl

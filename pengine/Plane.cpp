@@ -83,14 +83,13 @@ void Plane::generatePlane(){
             triangles.push_back(triangle2);
         }
     }
-    initBoxCollider();
     
 }
 
 
 void Plane::addHeightMap(unsigned char *HM_data, int height_HM, int width_HM){
-    double max = 1.0; // maximum height
-    double min = 0.0; // minimum height
+    float max = 1.0; // maximum height
+    float min = 0.0; // minimum height
     // TODO adapt to any max and min value -> shader
 
     int height_plane = h + 1;
@@ -118,13 +117,15 @@ void Plane::addHeightMap(unsigned char *HM_data, int height_HM, int width_HM){
         int dat = (int) HM_data[row_HM*width_HM + col_HM];
         //std::cout << "data HeightMap :" << dat << std::endl;
 
-        double ratio = (double)dat/(double)range_ndg_HM;
+        float ratio = (float)dat/(float)range_ndg_HM;
         //std::cout << "ratio :" << ratio << std::endl;
-        double difference = max*ratio;
+        float difference = max*ratio;
         //std::cout << "difference :" << difference << std::endl;
 
         indexed_vertices[i][1] = max - difference;
     }
+    updateNormals();
+    //accelerate();
 }
 
 double Plane::getHeightFromCoords(unsigned char *HM_data, int height_HM, int width_HM, glm::vec3 coords){
@@ -150,3 +151,49 @@ double Plane::getHeightFromCoords(unsigned char *HM_data, int height_HM, int wid
 
     return max - difference;
 }
+
+glm::vec3 Plane::getNormalFromCoords(glm::vec3 coords)
+{
+    // Calculate the row and column indices based on the given coordinates
+    double deltaX = coords[0] - bottom_left[0];
+    double deltaZ = coords[2] - bottom_left[2];
+    int col = floor(deltaX / (width / (w - 1)));
+    int row = floor(deltaZ / (height / (h - 1)));
+
+    // Retrieve the normal at the corresponding position in the normals vector
+    int index = row * w + col;
+    glm::vec3 normal = normals[index];
+
+    return normal;
+}
+
+void Plane::updateNormals() {
+    // Reset normals
+    for (int i = 0; i < normals.size(); i++) {
+        normals[i] = glm::vec3(0.0, 0.0, 0.0);
+    }
+
+    // Compute face normals
+    for (int i = 0; i < triangles.size(); i++) {
+        const std::vector<unsigned short>& triangle = triangles[i];
+        unsigned short index1 = triangle[0];
+        unsigned short index2 = triangle[1];
+        unsigned short index3 = triangle[2];
+
+        glm::vec3 v1 = indexed_vertices[index1];
+        glm::vec3 v2 = indexed_vertices[index2];
+        glm::vec3 v3 = indexed_vertices[index3];
+
+        glm::vec3 faceNormal = glm::normalize(glm::cross(v2 - v1, v3 - v1));
+
+        normals[index1] += faceNormal;
+        normals[index2] += faceNormal;
+        normals[index3] += faceNormal;
+    }
+
+    // Normalize vertex normals
+    for (int i = 0; i < normals.size(); i++) {
+        normals[i] = glm::normalize(normals[i]);
+    }
+}
+

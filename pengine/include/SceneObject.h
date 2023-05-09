@@ -18,6 +18,15 @@
 #include "RigidBody.h"
 #include "BoxCollider.h"
 
+typedef struct BVHNode
+{
+    BoxCollider bounds;
+    BVHNode* children;
+    int numTriangles;
+    std::vector<int> triangles;
+    BVHNode() : children(0), numTriangles(0){}
+
+}BVHNode;
 
 
 class SceneObject {
@@ -25,6 +34,10 @@ class SceneObject {
 protected:
     RigidBody* rb;
     BoxCollider* collider;
+    
+public:
+
+    BVHNode* accelerator;
 
 
 public:
@@ -66,6 +79,13 @@ public:
     void setRigidBody(RigidBody* _rb);
     void setBoxCollider(BoxCollider *_collider);
     void initBoxCollider();
+    void resetBoxCollider();
+
+    void accelerate();
+    void splitBVHNode(BVHNode* node, int depth);
+    void freeBVHNode(BVHNode* node);
+
+    void virtual update(float deltaTime);
 
 };
 

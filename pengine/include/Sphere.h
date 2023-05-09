@@ -14,11 +14,6 @@ public:
     glm::vec3 m_center;
     float m_radius;
 
-    bool isFlying = false;
-    float weight = 10;
-    glm::vec3 velocity;
-    glm::vec3 acceleration;
-
     // default resolution
     unsigned int resolution = 20;
 
@@ -47,7 +42,7 @@ public:
 
     glm::vec3 SphericalCoordinatesToEuclidean( float theta , float phi );
 
-    void fly(float delta_time);
+    void update(float deltaTime) override;
 };
 
 

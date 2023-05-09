@@ -41,7 +41,9 @@ public:
 
     void addHeightMap(unsigned char *HM_data, int height_HM, int width_HM);
     double getHeightFromCoords(unsigned char *HM_data, int height_HM, int width_HM, glm::vec3 coords);
-
+    glm::vec3 getNormalFromCoords(glm::vec3 coords);
+    float getSlopeAngleFromCoords(unsigned char *HM_data, int height_HM, int width_HM, glm::vec3 coords);
+    void updateNormals();
 };
 
 

@@ -39,6 +39,8 @@ using namespace glm;
 
 
 void key (GLFWwindow *window, int key, int scancode, int action, int mods );
+void processInput(GLFWwindow* window);
+void adjustVelocity(glm::vec3 intersection);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -79,6 +81,10 @@ Plane *plane = new Plane(plane_len, plane_larg, plane_dim, plane_dim);
 Sphere* sphere = new Sphere();
 double initial_speed = 2.2;
 
+bool isJumping, isSliding;
+glm::vec3 jumpforce = glm::vec3(0.0, 50.0, 0.0);
+glm::vec3 slideforce;
+
 SceneGraph *root = new SceneGraph();
 
 // height map and textures
@@ -113,6 +119,8 @@ int main( void )
 
     // key
     glfwSetKeyCallback(window, key);
+   
+    //---
     int screen_width, screen_height;
     glfwGetFramebufferSize(window, &screen_width, &screen_height);
 
@@ -192,12 +200,12 @@ int main( void )
     // SPHERE OBJECT (TP4)
     // -----------------------------------------------------------------------------------
     sphere->m_radius =  0.02f;
-    sphere->m_center = glm::vec3(plane->center[0], 0.0, plane->center[2]+plane_larg/2-0.1);
+    sphere->m_center = glm::vec3(plane->center[0], 5.0, plane->center[2]+plane_larg/2-0.1 - 1.0);
     double height_sphere = 0.0;
     if(heightmap_activated){
         height_sphere = plane->getHeightFromCoords(height_map->data, height_map->height, height_map->width, sphere->m_center);
     }
-    sphere->m_center[1] = height_sphere + sphere->m_radius;
+    //sphere->m_center[1] = height_sphere + sphere->m_radius;
     //sphere->m_center = center_sphere;
     sphere->build_arrays();
     sphere->build_arrays_for_resolutions();
@@ -243,7 +251,7 @@ int main( void )
     // ------------------------------------------------------------------------------------
 
     // --- Spring Camera 
-    initCameraObject(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 10.0f, 4.0f, 4.0f);
+    initCameraObject(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 10.0f, 1.0f, 0.75f);
 
     // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
@@ -270,6 +278,9 @@ int main( void )
         glUseProgram(programID);
         updateCamera(deltaTime);
 
+        // Input
+        processInput(window);
+
 
         // CAMERA
         camera->MVP(cameraRotates, speedUp, slowDown);
@@ -277,22 +288,56 @@ int main( void )
         slowDown = false;
         camera->sendMVPtoShader(programID);
 
-        // flying sphere
-        if(sphere->isFlying){
-            sphere->fly(deltaTime);
-            if(sphere->getBoxCollider()->collides(plane->getBoxCollider())){
-                glm::vec3 reboundVec = sphere->getRigidBody()->computeRebound(glm::vec3(0.0, 1.0, 0.0));
-                reboundVec = 0.8f * reboundVec;
-                sphere->getRigidBody()->setSpeed(reboundVec); 
-            }
-            if(sphere->getRigidBody()->getSpeed()[1] < 0.000001 and /*sphere->m_center[1]-sphere->m_radius < 0.00001*/ 
-            sphere->getBoxCollider()->collides(plane->getBoxCollider())){
-                sphere->isFlying = false;
-                sphere->velocity = glm::vec3(0.0,0.0,0.0);
-                sphere->getRigidBody()->setSpeed(sphere->velocity);
-                std::cout << "fly is over" << std::endl;
-            }
+        glm::vec3 normal;
+        float depth;
+
+
+        if(isJumping)
+        {
+            sphere->getRigidBody()->applyForce(jumpforce);
+            isJumping = false;
         }
+        if(isSliding)
+        {
+            sphere->getRigidBody()->applyForce(slideforce);
+            isSliding = false;
+        }
+        sphere->transformations[0][1] -= sphere->m_center[1];
+        double height_sphere = 0.0;
+        if(heightmap_activated){
+            height_sphere = plane->getHeightFromCoords(height_map->data, height_map->height, height_map->width, sphere->m_center);
+        }
+        double y_offset = 0.0;
+        sphere->transformations[0][1] += height_sphere + sphere->m_radius + y_offset;
+        sphere->m_center[1] = height_sphere + sphere->m_radius + y_offset;
+        // if(sphere->getBoxCollider()->collides(plane, normal, depth)){
+        //     //adjustVelocity(normal);
+        //     glm::vec3 separation = depth * normal;
+        //     // printf("%f\n", depth);
+        //     printf("%f, %f, %f\n", normal.x, normal.y, normal.z);
+        //     // separation *= 0.1f;
+        //     //sphere->m_center += separation;
+
+            
+        //     glm::vec3 novelocity = glm::vec3(0.0,0.0,0.0);
+        //     sphere->getRigidBody()->setSpeed(novelocity);
+        //     sphere->getRigidBody()->applyForce(glm::vec3(0.0, 9.81, 0.0));
+
+            // glm::vec3 reboundVec = sphere->getRigidBody()->computeRebound(glm::vec3(0.0, 1.0, 0.0));
+            // reboundVec = 0.8f * reboundVec;
+            // sphere->getRigidBody()->setSpeed(reboundVec);
+            // if(sphere->getRigidBody()->getSpeed()[1] < 0.000001){
+            //     glm::vec3 novelocity = glm::vec3(0.0,0.0,0.0);
+            //     sphere->getRigidBody()->setSpeed(novelocity);
+            //     sphere->getRigidBody()->applyForce(glm::vec3(0.0, 9.81, 0.0));
+            // }
+             
+                
+        //}
+
+        sphere->getRigidBody()->applyForce(glm::vec3(0.0, -9.81, 0.0));
+        
+        
 
         // Draw the triangles !
         /*for(int i = 0; i < scene_objects.size(); i++){
@@ -313,6 +358,7 @@ int main( void )
         // scene graph
         transformer.updateGraph(*root, programID, camera, grass_texture, rock_texture, snowrocks_texture, snow_texture);
         getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+        sphere->update(deltaTime);
         // Swap buffers
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -344,10 +390,54 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
+void processInput(GLFWwindow *window)
+{
+    float offset = 0.1;
+
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+
+    if(glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+    {
+        // if object doesn't go farther than terrain area
+        if(sphere->m_center[2] - offset > plane->top_right[2] and sphere->m_center[2] - offset < plane->bottom_right[2]) {
+            slideforce = glm::vec3(0.0, 0.0, -5);
+            isSliding = true; 
+        }
+    }
+    if(glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
+    {
+        if(sphere->m_center[2] + offset > plane->top_right[2] and sphere->m_center[2] + offset < plane->bottom_right[2]){
+            slideforce = glm::vec3(0.0, 0.0, 5);
+            isSliding = true;
+            
+        }
+
+    }
+    if(glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+    { 
+        // if object doesn't go farther than terrain area
+        if(sphere->m_center[0] - offset > plane->top_right[2] and sphere->m_center[0] - offset < plane->bottom_right[2]){
+            slideforce = glm::vec3(-5, 0.0, 0.0);
+            isSliding  = true;
+        }
+    }
+    if(glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS) 
+    {
+        // if object doesn't go farther than terrain area
+        if(sphere->m_center[0] + offset > plane->top_right[2] and sphere->m_center[0] + offset < plane->bottom_right[2]) {
+            slideforce = glm::vec3(5, 0.0, 0.0);
+            isSliding = true;
+            
+        }
+
+    }
+}
+
 
 void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
 
-    double offset = 0.01;
+    float offset = 0.1;
 
     if( key == GLFW_KEY_EQUAL and action == GLFW_PRESS ){ // minus on macbook keyboard
         std::cout << "You have pressed the key - : resolution decreases" << std::endl;
@@ -401,76 +491,24 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
 
         /// slows down camera
         slowDown = true;
-
-    }
-
-    // DISPLACE SPHERE USING T,F,V,G
-    else if ( key == GLFW_KEY_T ){
-        std::cout << "You have pressed the key T : sphere translation back" << std::endl;
-
-        // if object doesn't go farther than terrain area
-        if(sphere->m_center[2] - offset > plane->top_right[2] and sphere->m_center[2] - offset < plane->bottom_right[2]) {
-            sphere->transformations[0][2] -= offset;
-            sphere->m_center[2] -= offset;
-            getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-
-            
-        }
-
-
-    }else if ( key == GLFW_KEY_V ){
-        std::cout << "You have pressed the key V : sphere translation front" << std::endl;
-
-        // if object doesn't go farther than terrain area
-        if(sphere->m_center[2] + offset > plane->top_right[2] and sphere->m_center[2] + offset < plane->bottom_right[2]){
-            sphere->transformations[0][2] += offset;
-            sphere->m_center[2] += offset;
-            getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            
-        }
-
-    }else if ( key == GLFW_KEY_F ){
-        std::cout << "You have pressed the key F : sphere translation left" << std::endl;
-
-        // if object doesn't go farther than terrain area
-        if(sphere->m_center[0] - offset > plane->top_right[2] and sphere->m_center[0] - offset < plane->bottom_right[2]){
-            sphere->transformations[0][0] -= offset;
-            sphere->m_center[0] -= offset;
-            //sphere->forward[0] -= offset;
-            // sphere->up[0] -= offset;
-        }
-
-    }else if ( key == GLFW_KEY_G ){
-        std::cout << "You have pressed the key G : sphere translation right" << std::endl;
-
-        // if object doesn't go farther than terrain area
-        if(sphere->m_center[0] + offset > plane->top_right[2] and sphere->m_center[0] + offset < plane->bottom_right[2]) {
-            sphere->transformations[0][0] += offset;
-            sphere->m_center[0] += offset;
-            getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            
-        }
+        
     }else if ( key == GLFW_KEY_SPACE and action == GLFW_PRESS ){
-        sphere->isFlying = true;
-        std::cout << "fly starts" << std::endl;
-        // sphere->velocity = glm::vec3(1.0,1.0,0.0) * glm::vec3(initial_speed,initial_speed,initial_speed);
-        glm::vec3 flyForce(0.0, 500.0, 0.0);
-        sphere->getRigidBody()->applyForce(flyForce);
+        isJumping = true;        
     }
 
     if( key == GLFW_KEY_G or key == GLFW_KEY_F or key == GLFW_KEY_V or key == GLFW_KEY_T){
         // ----------------------------------------------------------------
         // follow height of terrain according to heightmap
-        sphere->transformations[0][1] -= sphere->m_center[1];
-        double height_sphere = 0.0;
-        if(heightmap_activated){
-            height_sphere = plane->getHeightFromCoords(height_map->data, height_map->height, height_map->width, sphere->m_center);
-        }
-        double y_offset = 0.0;
-        sphere->transformations[0][1] += height_sphere + sphere->m_radius + y_offset;
-        sphere->m_center[1] = height_sphere + sphere->m_radius + y_offset;
+        // sphere->transformations[0][1] -= sphere->m_center[1];
+        // double height_sphere = 0.0;
+        // if(heightmap_activated){
+        //     height_sphere = plane->getHeightFromCoords(height_map->data, height_map->height, height_map->width, sphere->m_center);
+        // }
+        // double y_offset = 0.0;
+        // sphere->transformations[0][1] += height_sphere + sphere->m_radius + y_offset;
+        // sphere->m_center[1] = height_sphere + sphere->m_radius + y_offset;
         // ----------------------------------------------------------------
-
+/*
         // ----------------------------------------------------------------
         // check if object is too far from camera -> decrease resolution
         glm::vec3 camPos = getCamPosition();
@@ -496,6 +534,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             sphere->switchResolution(reso);
         }
         // ----------------------------------------------------------------
+        */
     }
 
     if( (key == GLFW_KEY_SLASH or key == GLFW_KEY_EQUAL) and action == GLFW_PRESS){
@@ -508,3 +547,21 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
     }
 
 }
+
+//Adjusts object velocity according to plane heightmap and slope
+void adjustVelocity(glm::vec3 normal)
+{
+    float slopeFactor = glm::dot(normal, glm::vec3(0.0, 1.0, 0.0));
+    glm::vec3 parallelVelocity = glm::dot(sphere->getRigidBody()->getSpeed(), normal) * normal;
+    glm::vec3 perpendicularVelocity = sphere->getRigidBody()->getSpeed() - parallelVelocity;
+    parallelVelocity *= slopeFactor;
+
+    glm::vec3 slopeAdjustedVelocity = parallelVelocity + perpendicularVelocity;
+
+    float resistanceFactor = 1.0f;
+    glm::vec3 adjusted = slopeAdjustedVelocity - (resistanceFactor * perpendicularVelocity * normal);
+    sphere->getRigidBody()->setSpeed(adjusted);
+}
+
+ 
+

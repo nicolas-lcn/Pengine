@@ -536,6 +536,30 @@ common/controls.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/common/controls.cpp.s
 .PHONY : common/controls.cpp.s
 
+common/geometry_utils.o: common/geometry_utils.cpp.o
+.PHONY : common/geometry_utils.o
+
+# target to build an object file
+common/geometry_utils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/common/geometry_utils.cpp.o
+.PHONY : common/geometry_utils.cpp.o
+
+common/geometry_utils.i: common/geometry_utils.cpp.i
+.PHONY : common/geometry_utils.i
+
+# target to preprocess a source file
+common/geometry_utils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/common/geometry_utils.cpp.i
+.PHONY : common/geometry_utils.cpp.i
+
+common/geometry_utils.s: common/geometry_utils.cpp.s
+.PHONY : common/geometry_utils.s
+
+# target to generate assembly for a file
+common/geometry_utils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/common/geometry_utils.cpp.s
+.PHONY : common/geometry_utils.cpp.s
+
 common/objloader.o: common/objloader.cpp.o
 .PHONY : common/objloader.o
 
@@ -986,6 +1010,9 @@ help:
 	@echo "... common/controls.o"
 	@echo "... common/controls.i"
 	@echo "... common/controls.s"
+	@echo "... common/geometry_utils.o"
+	@echo "... common/geometry_utils.i"
+	@echo "... common/geometry_utils.s"
 	@echo "... common/objloader.o"
 	@echo "... common/objloader.i"
 	@echo "... common/objloader.s"
