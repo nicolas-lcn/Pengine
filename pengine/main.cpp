@@ -456,14 +456,14 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
     if( key == GLFW_KEY_RIGHT or key == GLFW_KEY_LEFT or key == GLFW_KEY_UP or key == GLFW_KEY_DOWN){
         // ----------------------------------------------------------------
         // follow height of terrain according to heightmap
-        sphere->transformations[0][1] -= sphere->m_center[1];
-        double height_sphere = 0.0;
-        if(heightmap_activated){
-            height_sphere = plane->getHeightFromCoords(height_map->data, height_map->height, height_map->width, sphere->m_center);
-        }
-        double y_offset = 0.0;
-        sphere->transformations[0][1] += height_sphere + sphere->m_radius + y_offset;
-        sphere->m_center[1] = height_sphere + sphere->m_radius + y_offset;
+        // sphere->transformations[0][1] -= sphere->m_center[1];
+        // double height_sphere = 0.0;
+        // if(heightmap_activated){
+        //     height_sphere = plane->getHeightFromCoords(height_map->data, height_map->height, height_map->width, sphere->m_center);
+        // }
+        // double y_offset = 0.0;
+        // sphere->transformations[0][1] += height_sphere + sphere->m_radius + y_offset;
+        // sphere->m_center[1] = height_sphere + sphere->m_radius + y_offset;
         // ----------------------------------------------------------------
 
         // ----------------------------------------------------------------
