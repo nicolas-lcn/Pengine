@@ -82,6 +82,8 @@ double initial_speed = 2.2;
 bool isSliding = false;
 glm::vec3 slideForce;
 
+MeshObject* obstacle = new MeshObject();
+
 SceneGraph *root = new SceneGraph();
 
 // height map and textures
@@ -204,8 +206,11 @@ int main( void )
     //sphere->setBoxCollider(new BoxCollider());
 
     scene_objects.push_back(sphere);
-    // -----------------------------------------------------------------------------------
 
+    // -----------------------------------------------------------------------------------
+    obstacle->generateBuffers();
+    obstacle->create("./data_off/cube.off");
+    scene_objects.push_back(obstacle);
     // ------------------------------------------------------------------------------------
     // SCENE GRAPH
     // ------------------------------------------------------------------------------------
@@ -226,6 +231,8 @@ int main( void )
     //SceneGraph *plane_child = root->addChild(new SceneGraph(plane2));
 
     SceneGraph *node_child = root->addChild(new SceneGraph(sphere));
+    root->addChild(new SceneGraph(obstacle));
+
     // ------------------------------------------------------------------------------------
 
 

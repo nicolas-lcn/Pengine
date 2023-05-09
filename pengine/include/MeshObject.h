@@ -11,6 +11,8 @@
 class MeshObject : public SceneObject {
 
 public:
+	MeshObject(){};
+	~MeshObject(){};
     void create(const std::string & filename);
 };
 
