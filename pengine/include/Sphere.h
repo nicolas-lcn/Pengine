@@ -19,8 +19,8 @@ public:
 
     // resolutions depending on distance from camera
     const unsigned int back_resolution = 10;
-    const unsigned int middle_resolution = 20;
-    const unsigned int front_resolution = 40;
+    const unsigned int middle_resolution = 15;
+    const unsigned int front_resolution = 20;
 
     std::vector<std::vector<unsigned short> > indices_Res= std::vector<std::vector<unsigned short> >(3);
     std::vector<std::vector<std::vector<unsigned short> > > triangles_Res =  std::vector<std::vector<std::vector<unsigned short> > >(3);
