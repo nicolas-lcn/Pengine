@@ -6,7 +6,6 @@
 #include "common/controls.hpp"
 
 void Camera::MVP(bool cameraRotates, bool speedUp, bool slowDown){
-	computeMatricesFromInputs();
 
 	View_Matrix = getViewMatrix();
 	Model_Matrix = glm::mat4(); // identity matrix (model will be at the origin) then change

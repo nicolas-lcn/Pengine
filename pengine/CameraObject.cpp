@@ -45,4 +45,5 @@ void CameraObject::updateTarget(glm::vec3 t_pos, glm::vec3 t_forward, glm::vec3 
 	this->m_t_pos = t_pos;
 	this->m_t_forward = t_forward;
 	this->m_t_up = t_up;
+	computeViewMatrix();
 }
