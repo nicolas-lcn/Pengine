@@ -152,13 +152,14 @@ int main( void )
     plane->generatePlane();
     plane->setIsTerrain(1);
     plane->generateBuffers();
-    //plane->addRelief();
 
     // use height map
     if(heightmap_activated){
         height_map->readPGMTexture((char*)"textures/heightmap_simple1024.pgm");
         plane->addHeightMap(height_map->data, height_map->height, height_map->width);
     }
+
+    plane->addRelief();
 
     plane->setColor(glm::vec4(0.2, 0.8, 0.05, 0.0));
     plane->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));

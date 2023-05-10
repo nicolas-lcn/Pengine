@@ -28,7 +28,7 @@ void Plane::addRelief(){
     for(int i = 0; i < indexed_vertices.size(); i++){
 
         double f = (double)rand() / RAND_MAX;
-        double rand_d = -0.2 + f * (0.2 - (-0.2));
+        double rand_d = -0.02 + f * (0.02 - (-0.02));
 
         indexed_vertices[i][1] += rand_d;
     }
