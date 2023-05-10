@@ -82,8 +82,16 @@ glm::vec3 BoxCollider::getB(){return m_b;}
 glm::vec3 BoxCollider::getCenter(){return m_center;}
 glm::vec3 BoxCollider::getSize(){return m_size;}
 
-void BoxCollider::setA(glm::vec3 bbmin){ m_a = bbmin;}
-void BoxCollider::setB(glm::vec3 bbmax){ m_b = bbmax;}
+void BoxCollider::setA(glm::vec3 bbmin){ 
+	m_a = bbmin;
+	m_center = (m_a + m_b) * 0.5f;
+	m_size = (m_b - m_a) * 0.5f;
+}
+void BoxCollider::setB(glm::vec3 bbmax){ 
+	m_b = bbmax;
+	m_center = (m_a + m_b) * 0.5f;
+	m_size = (m_b - m_a) * 0.5f;
+}
 
 bool BoxCollider::collides(BoxCollider* other, glm::vec3 &intersection)
 {
@@ -174,7 +182,7 @@ bool BoxCollider::collides(std::vector<glm::vec3> triangle, glm::vec3 &normal, f
 	glm::vec3 u2(0.0f, 0.0f, 1.0f); // Positive z-axis
 
 	std::vector<glm::vec3> test {
-		u1, u0, u2,
+		u0, u1, u2,
 		glm::cross(f0, f1),
 		glm::cross(u0, f0), glm::cross(u0, f1), glm::cross(u0, f2),
 		glm::cross(u1, f0), glm::cross(u1, f1), glm::cross(u1, f2),
@@ -204,6 +212,7 @@ bool BoxCollider::collides(std::vector<glm::vec3> triangle, glm::vec3 &normal, f
 		(triangle[2].x + triangle[2].y + triangle[2].z)/3.0f
 		);
 	if(glm::dot(this->m_center, centerTriangle) < 0) normal = -normal;
+	printf("normal : %f, %f, %f\n", normal.x, normal.y, normal.z);
 	return true;
 
 }

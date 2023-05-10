@@ -37,7 +37,7 @@ void SceneObject::draw(GLuint programID) const {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
 
     if(isTerrain == 0){
-        glPolygonMode (GL_FRONT_AND_BACK, GL_LINE);
+        glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
     }else{
         glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
     }

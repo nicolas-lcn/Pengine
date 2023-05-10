@@ -127,7 +127,7 @@ void Plane::addHeightMap(unsigned char *HM_data, int height_HM, int width_HM){
         indexed_vertices[i][1] = max - difference;
     }
     updateNormals();
-    //accelerate();
+    accelerate();
 }
 
 double Plane::getHeightFromCoords(unsigned char *HM_data, int height_HM, int width_HM, glm::vec3 coords){
@@ -175,17 +175,21 @@ float Plane::getHeightFromCoords(glm::vec3 coords)
 
 glm::vec3 Plane::getNormalFromCoords(glm::vec3 coords)
 {
-    // Calculate the row and column indices based on the given coordinates
-    double deltaX = coords[0] - bottom_left[0];
-    double deltaZ = coords[2] - bottom_left[2];
-    int col = floor(deltaX / (width / (w - 1)));
-    int row = floor(deltaZ / (height / (h - 1)));
-
-    // Retrieve the normal at the corresponding position in the normals vector
-    int index = row * w + col;
-    glm::vec3 normal = normals[index];
-
-    return normal;
+    //glm::vec4 pos4 = glm::inverse(transform.getWorldMatrix()) * glm::vec4(coords,1);
+    float minDistance = FLT_MAX;
+    //glm::vec3 pos = glm::vec3(pos4.x, pos4.y, pos4.z);
+    int closest = -1;
+    for (int i = 0; i < indexed_vertices.size(); ++i)
+    {
+        glm::vec3 planePos = indexed_vertices[i];
+        float distance = glm::length(coords - planePos);
+        if( distance < minDistance)
+        {
+            minDistance = distance;
+            closest = i;
+        }
+    }
+    return normals[closest];
 }
 
 void Plane::updateNormals() {
