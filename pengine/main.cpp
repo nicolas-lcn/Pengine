@@ -183,19 +183,19 @@ int main( void )
 
     }
     sphere->setRigidBody(new RigidBody());
-    printf("sphere init pos = %f, %f, %f\n", sphere->getPosition().x, sphere->getPosition().y, sphere->getPosition().z);
     
 
     // -----------------------------------------------------------------------------------
     obstacle->generateBuffers();
     obstacle->create("./data_off/cube.off");
     obstacle->transform.setLocalPosition(glm::vec3(0.0, 0.6,-2.0));
-    obstacle->transform.setScale(glm::vec3(0.1, 0.1, 0.1));
     if(heightmap_activated){
         float height = plane->getHeightFromCoords(obstacle->transform.getLocalPosition());
         obstacle->transform.setLocalPosition(glm::vec3(0.0, height + 0.05,-2.0));
 
     }
+    obstacle->transform.setLocalScale(glm::vec3(0.1, 0.1, 0.1));
+
 
 
     // Plane *plane2 = new Plane(plane_larg, plane_len, plane_dim, plane_dim);
@@ -269,24 +269,23 @@ int main( void )
         }
         double y_offset = 0.0;
         float displacementY = height_sphere + sphere->m_radius - sphere->transform.getLocalPosition().y ;
-
-        float damping = 0.1f;
-        glm::vec3 targetVelocity(0.0, displacementY/deltaTime, 0.0);
-        glm::vec3 adjustedVelocity = sphere->getRigidBody()->getVelocity() + (targetVelocity - sphere->getRigidBody()->getVelocity()) * damping;
-        sphere->getRigidBody()->applyForce((adjustedVelocity - sphere->getRigidBody()->getVelocity())/deltaTime);
+        sphere->transform.setLocalPosition(sphere->transform.getLocalPosition() + glm::vec3(0.0, displacementY, 0.0));
+        // float damping = 0.005f;
+        // glm::vec3 targetVelocity(0.0, displacementY/deltaTime, 0.0);
+        // glm::vec3 adjustedVelocity = sphere->getRigidBody()->getVelocity() + (targetVelocity - sphere->getRigidBody()->getVelocity()) * damping;
+        // sphere->getRigidBody()->applyForce((adjustedVelocity - sphere->getRigidBody()->getVelocity())/deltaTime);
         // if (std::abs(displacementY) > 0.1) {
         //     sphere->getRigidBody()->applyForce(glm::vec3(0.0, displacementY / deltaTime, 0.0));
         // }
         glm::vec3 intersection;
-        if(sphere->getBoxCollider()->collides(obstacle->getBoxCollider(), intersection))
+        BoxCollider obstacleCollider = obstacle->getGlobalCollider();
+        BoxCollider *obstacle_ptr = &obstacleCollider;
+        if(sphere->getGlobalCollider().collides(obstacle_ptr,intersection))
         {
-            printf("bonus at %f, %f, %f | sphere at %f, %f, %f\n", 
-                obstacle->getBoxCollider()->getCenter().x,
-                obstacle->getBoxCollider()->getCenter().y,
-                obstacle->getBoxCollider()->getCenter().z,
-                sphere->getBoxCollider()->getCenter().x,
-                sphere->getBoxCollider()->getCenter().y,
-                sphere->getBoxCollider()->getCenter().z);
+            sphere->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
+        }
+        else{
+            sphere->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
         }
 
         
@@ -516,8 +515,10 @@ void adjustVelocity(glm::vec3 normal)
 
 void render(Entity* node)
 {
-    shaderController->sendMatrices(programID, node->transform.getWorldMatrix(), getProjectionMatrix(), getViewMatrix());
-    shaderController->sendTextures(programID, snow_texture);
+
+    shaderController->sendMatrices(programID, node->transform.getModelMatrix(), getProjectionMatrix(), getViewMatrix());
+    shaderController->sendTextures(programID, grass_texture, rock_texture, snowrocks_texture, snow_texture);
+
     node->loadBuffers();
     node->draw(programID);
     for (int i = 0; i < node->children.size(); ++i)

@@ -1,71 +1,107 @@
 #include "include/Entity.h"
 
+
 glm::mat4 Transform::getLocalModelMatrix()
 {
-    const glm::mat4 transformX = glm::rotate(glm::mat4(1.0f),
-                glm::radians(m_eulerRot.x),
-                glm::vec3(1.0f, 0.0f, 0.0f));
-    const glm::mat4 transformY = glm::rotate(glm::mat4(1.0f),
-                glm::radians(m_eulerRot.y),
-                glm::vec3(0.0f, 1.0f, 0.0f));
-    const glm::mat4 transformZ = glm::rotate(glm::mat4(1.0f),
-                glm::radians(m_eulerRot.z),
-                glm::vec3(0.0f, 0.0f, 1.0f));
+    const glm::mat4 transformX = glm::rotate(glm::mat4(1.0f), glm::radians(m_eulerRot.x), glm::vec3(1.0f, 0.0f, 0.0f));
+    const glm::mat4 transformY = glm::rotate(glm::mat4(1.0f), glm::radians(m_eulerRot.y), glm::vec3(0.0f, 1.0f, 0.0f));
+    const glm::mat4 transformZ = glm::rotate(glm::mat4(1.0f), glm::radians(m_eulerRot.z), glm::vec3(0.0f, 0.0f, 1.0f));
 
+    // Y * X * Z
     const glm::mat4 rotationMatrix = transformY * transformX * transformZ;
 
-    return glm::translate(glm::mat4(1.0f), m_pos) *
-                rotationMatrix *
-                glm::scale(glm::mat4(1.0f), m_scale);
+    // translation * rotation * scale (also know as TRS matrix)
+    return glm::translate(glm::mat4(1.0f), m_pos) * rotationMatrix * glm::scale(glm::mat4(1.0f), m_scale);
 }
 
 
 void Transform::computeModelMatrix()
 {
-    m_worldMatrix = getLocalModelMatrix();
-    m_hasMoved = false;
+    m_modelMatrix = getLocalModelMatrix();
+    m_isDirty = false;
 }
 
 void Transform::computeModelMatrix(const glm::mat4& parentGlobalModelMatrix)
 {
-    m_worldMatrix = parentGlobalModelMatrix * getLocalModelMatrix();
-    m_hasMoved = false;
+    m_modelMatrix = parentGlobalModelMatrix * getLocalModelMatrix();
+    m_isDirty = false;
 }
 
 void Transform::setLocalPosition(const glm::vec3& newPosition)
 {
     m_pos = newPosition;
-    m_hasMoved = true;
+    m_isDirty = true;
 }
 
-const glm::vec3& Transform::getLocalPosition()
+void Transform::setLocalRotation(const glm::vec3& newRotation)
+{
+    m_eulerRot = newRotation;
+    m_isDirty = true;
+}
+
+void Transform::setLocalScale(const glm::vec3& newScale)
+{
+    m_scale = newScale;
+    m_isDirty = true;
+}
+
+glm::vec3 Transform::getGlobalPosition() const
+{
+    glm::vec3 pos(m_modelMatrix[3]);
+    return pos;
+}
+
+glm::vec3 Transform::getLocalPosition() const
 {
     return m_pos;
 }
 
-const glm::mat4& Transform::getWorldMatrix()
+glm::vec3 Transform::getLocalRotation() const
 {
-    return m_worldMatrix;
+    return m_eulerRot;
 }
 
-bool Transform::hasMoved()
+glm::vec3 Transform::getLocalScale() const
 {
-    return m_hasMoved;
+    return m_scale;
 }
 
-void Transform::setScale(glm::vec3 xyz)
+glm::mat4 Transform::getModelMatrix() const
 {
-    m_scale = xyz;
-    m_hasMoved = true;
+    return m_modelMatrix;
 }
 
-void Transform::setEulerRot(glm::vec3 xyz)
+glm::vec3 Transform::getRight() const
 {
-    m_eulerRot = xyz;
-    m_hasMoved = true;
+    return glm::vec3(m_modelMatrix[0]);
 }
 
-glm::vec3 Transform::getEulerRot(){return m_eulerRot;}
+
+glm::vec3 Transform::getUp() const
+{
+    return glm::vec3(m_modelMatrix[1]);
+}
+
+glm::vec3 Transform::getBackward() const
+{
+    return glm::vec3(m_modelMatrix[2]);
+}
+
+glm::vec3 Transform::getForward() const
+{
+    return glm::vec3(-m_modelMatrix[2]);
+}
+
+glm::vec3 Transform::getGlobalScale() const
+{
+    return { glm::length(getRight()), glm::length(getUp()), glm::length(getBackward()) };
+}
+
+bool Transform::isDirty() const
+{
+    return m_isDirty;
+}
+
 
 Entity::Entity(){}
 Entity::~Entity(){}
@@ -80,7 +116,7 @@ void Entity::addChild(Entity* child)
 //Update transform if it was changed
 void Entity::updateSelfAndChild()
 {
-    if (transform.hasMoved())
+    if (transform.isDirty())
     {
         forceUpdateSelfAndChild();
         return;
@@ -96,7 +132,7 @@ void Entity::updateSelfAndChild()
 void Entity::forceUpdateSelfAndChild()
 {
     if (parent)
-        transform.computeModelMatrix(parent->transform.getWorldMatrix());
+        transform.computeModelMatrix(parent->transform.getModelMatrix());
     else
         transform.computeModelMatrix();
 
@@ -108,22 +144,26 @@ void Entity::forceUpdateSelfAndChild()
 
 glm::vec3 Entity::getPosition()
 {
-    glm::mat4 worldMatrix = transform.getWorldMatrix();
-    glm::vec4 worldPos = glm::vec4(transform.getLocalPosition(), 1) * worldMatrix;
-    return glm::vec3(worldPos.x, worldPos.y, worldPos.z);
+    return transform.getGlobalPosition();
 }
 
 void Entity::setRigidBody(RigidBody* _rb){this->rb = _rb;}
 void Entity::setBoxCollider(BoxCollider* _collider){this->collider = _collider;}
 
 RigidBody* Entity::getRigidBody(){return this->rb;}
+
 BoxCollider* Entity::getBoxCollider(){
-	glm::mat4 worldMatrix = transform.getWorldMatrix();
-	glm::vec4 world_bbmin = glm::vec4(this->collider->getA(),1.0f) * worldMatrix;
-	glm::vec4 world_bbmax = glm::vec4(this->collider->getB(),1.0f) * worldMatrix;
-	return new BoxCollider( glm::vec3(world_bbmin.x, world_bbmin.y, world_bbmin.z),
-							glm::vec3(world_bbmax.x, world_bbmax.y, world_bbmax.z));
+	return this->collider;
 }
+
+BoxCollider Entity::getGlobalCollider()
+{
+    glm::vec3 globalA(transform.getModelMatrix() * glm::vec4(this->collider->getA(),1.0f));
+    glm::vec3 globalB(transform.getModelMatrix() * glm::vec4(this->collider->getB(),1.0f));
+    return BoxCollider(globalA, globalB);
+
+}
+
 
 void Entity::initBoxCollider()
 {

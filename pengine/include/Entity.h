@@ -14,16 +14,16 @@
 class Transform
 {
 protected:
-    //Local 
+    //Local space information
     glm::vec3 m_pos = { 0.0f, 0.0f, 0.0f };
     glm::vec3 m_eulerRot = { 0.0f, 0.0f, 0.0f }; //In degrees
     glm::vec3 m_scale = { 1.0f, 1.0f, 1.0f };
 
     //Global space information concatenate in matrix
-    glm::mat4 m_worldMatrix = glm::mat4(1.0f);
+    glm::mat4 m_modelMatrix = glm::mat4(1.0f);
 
-    // This flag is used to know if the transform has been modified
-    bool m_hasMoved = true;
+    //Dirty flag
+    bool m_isDirty = true;
 
 protected:
     glm::mat4 getLocalModelMatrix();
@@ -35,18 +35,33 @@ public:
 
     void setLocalPosition(const glm::vec3& newPosition);
 
-    const glm::vec3& getLocalPosition();
+    void setLocalRotation(const glm::vec3& newRotation);
 
-    const glm::mat4& getWorldMatrix();
+    void setLocalScale(const glm::vec3& newScale);
 
-    bool hasMoved();
-    void setScale(glm::vec3 xyz);
+    glm::vec3 getGlobalPosition() const;
 
-    void setEulerRot(glm::vec3 xyz);
+    glm::vec3 getLocalPosition() const;
 
-    glm::vec3 getEulerRot();
+    glm::vec3 getLocalRotation() const;
+
+    glm::vec3 getLocalScale() const;
+
+    glm::mat4 getModelMatrix() const;
+
+    glm::vec3 getRight() const;
+
+
+    glm::vec3 getUp() const;
+
+    glm::vec3 getBackward() const;
+
+    glm::vec3 getForward() const;
+
+    glm::vec3 getGlobalScale() const;
+
+    bool isDirty() const;
 };
-
 
 class Entity : public SceneObject
 {
@@ -77,6 +92,7 @@ public:
 
     RigidBody* getRigidBody();
     /* Returns a new BoxCollider in world space*/
+    BoxCollider getGlobalCollider();
     BoxCollider* getBoxCollider();
     void setRigidBody(RigidBody* _rb);
     void setBoxCollider(BoxCollider *_collider);
