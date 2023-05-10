@@ -22,17 +22,17 @@ public:
 
 	glm::vec3 getForcesDirection();
 
-	void setSpeed(glm::vec3 &_speed);
+	void setVelocity(glm::vec3 &_velocity);
 	void setAcceleration(glm::vec3 &_accel);
 
-	glm::vec3 getSpeed();
+	glm::vec3 getVelocity();
 	glm::vec3 getAccel();
 	glm::vec3 computeRebound(glm::vec3 normal);
 
 private:
-	glm::vec3 speed;
+	glm::vec3 velocity;
 	glm::vec3 accel;
-	std::vector<glm::vec3> others;
+	std::vector<glm::vec3> forces;
 
 	float mass;
 };

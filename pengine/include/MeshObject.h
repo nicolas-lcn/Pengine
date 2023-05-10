@@ -5,10 +5,10 @@
 #ifndef MESHOBJECT_H
 #define MESHOBJECT_H
 
-#include "SceneObject.h"
+#include "Entity.h"
 
 
-class MeshObject : public SceneObject {
+class MeshObject : public Entity {
 
 public:
 	MeshObject(){};

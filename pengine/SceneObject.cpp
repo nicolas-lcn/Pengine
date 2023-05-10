@@ -87,29 +87,6 @@ void SceneObject::clearVectors(){
     coord_texture.clear();
 }
 
-void SceneObject::setRigidBody(RigidBody* _rb){this->rb = _rb;}
-void SceneObject::setBoxCollider(BoxCollider* _collider){this->collider = _collider;}
-
-RigidBody* SceneObject::getRigidBody(){return this->rb;}
-BoxCollider* SceneObject::getBoxCollider(){return this->collider;}
-
-void SceneObject::initBoxCollider()
-{
-    this->collider = new BoxCollider(this->indexed_vertices);
-}
-
-void SceneObject::resetBoxCollider()
-{
-    this->collider->reset(this->indexed_vertices);
-}
-
-void SceneObject::update(float deltaTime)
-{
-    rb->computeForces(deltaTime);
-    transformations[0] += deltaTime * this->rb->getSpeed();
-    this->collider->setA(this->collider->getA() + deltaTime * this->rb->getSpeed());
-    this->collider->setB(this->collider->getB() + deltaTime * this->rb->getSpeed());
-}
 
 void SceneObject::accelerate()
 {

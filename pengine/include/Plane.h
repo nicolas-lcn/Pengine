@@ -11,9 +11,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "SceneObject.h"
+#include "Entity.h"
 
-class Plane : public SceneObject {
+class Plane : public Entity {
 
 private:
 

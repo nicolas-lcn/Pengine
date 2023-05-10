@@ -135,8 +135,3 @@ void Sphere::switchResolution(int resolution_index){
 glm::vec3 Sphere::SphericalCoordinatesToEuclidean( float theta , float phi ) {
     return glm::vec3( cos(theta) * cos(phi) , sin(theta) * cos(phi) , sin(phi) );
 }
-
-void Sphere::update(float deltaTime){
-    SceneObject::update(deltaTime);
-    m_center += deltaTime * this->rb->getSpeed();  
-}

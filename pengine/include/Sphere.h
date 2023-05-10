@@ -42,7 +42,6 @@ public:
 
     glm::vec3 SphericalCoordinatesToEuclidean( float theta , float phi );
 
-    void update(float deltaTime) override;
 };
 
 

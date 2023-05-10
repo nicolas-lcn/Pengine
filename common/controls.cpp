@@ -13,10 +13,10 @@ using namespace glm;
 glm::mat4 ViewMatrix;
 glm::mat4 ProjectionMatrix;
 
-glm::mat4 getViewMatrix(){
+const glm::mat4& getViewMatrix(){
 	return ViewMatrix;
 }
-glm::mat4 getProjectionMatrix(){
+const glm::mat4& getProjectionMatrix(){
 	return ProjectionMatrix;
 }
 

@@ -680,30 +680,6 @@ pengine/BoxCollider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/BoxCollider.cpp.s
 .PHONY : pengine/BoxCollider.cpp.s
 
-pengine/Camera.o: pengine/Camera.cpp.o
-.PHONY : pengine/Camera.o
-
-# target to build an object file
-pengine/Camera.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Camera.cpp.o
-.PHONY : pengine/Camera.cpp.o
-
-pengine/Camera.i: pengine/Camera.cpp.i
-.PHONY : pengine/Camera.i
-
-# target to preprocess a source file
-pengine/Camera.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Camera.cpp.i
-.PHONY : pengine/Camera.cpp.i
-
-pengine/Camera.s: pengine/Camera.cpp.s
-.PHONY : pengine/Camera.s
-
-# target to generate assembly for a file
-pengine/Camera.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Camera.cpp.s
-.PHONY : pengine/Camera.cpp.s
-
 pengine/CameraObject.o: pengine/CameraObject.cpp.o
 .PHONY : pengine/CameraObject.o
 
@@ -727,6 +703,30 @@ pengine/CameraObject.s: pengine/CameraObject.cpp.s
 pengine/CameraObject.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/CameraObject.cpp.s
 .PHONY : pengine/CameraObject.cpp.s
+
+pengine/Entity.o: pengine/Entity.cpp.o
+.PHONY : pengine/Entity.o
+
+# target to build an object file
+pengine/Entity.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Entity.cpp.o
+.PHONY : pengine/Entity.cpp.o
+
+pengine/Entity.i: pengine/Entity.cpp.i
+.PHONY : pengine/Entity.i
+
+# target to preprocess a source file
+pengine/Entity.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Entity.cpp.i
+.PHONY : pengine/Entity.cpp.i
+
+pengine/Entity.s: pengine/Entity.cpp.s
+.PHONY : pengine/Entity.s
+
+# target to generate assembly for a file
+pengine/Entity.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Entity.cpp.s
+.PHONY : pengine/Entity.cpp.s
 
 pengine/GLTexture.o: pengine/GLTexture.cpp.o
 .PHONY : pengine/GLTexture.o
@@ -824,30 +824,6 @@ pengine/RigidBody.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/RigidBody.cpp.s
 .PHONY : pengine/RigidBody.cpp.s
 
-pengine/SceneGraph.o: pengine/SceneGraph.cpp.o
-.PHONY : pengine/SceneGraph.o
-
-# target to build an object file
-pengine/SceneGraph.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.o
-.PHONY : pengine/SceneGraph.cpp.o
-
-pengine/SceneGraph.i: pengine/SceneGraph.cpp.i
-.PHONY : pengine/SceneGraph.i
-
-# target to preprocess a source file
-pengine/SceneGraph.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.i
-.PHONY : pengine/SceneGraph.cpp.i
-
-pengine/SceneGraph.s: pengine/SceneGraph.cpp.s
-.PHONY : pengine/SceneGraph.s
-
-# target to generate assembly for a file
-pengine/SceneGraph.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/SceneGraph.cpp.s
-.PHONY : pengine/SceneGraph.cpp.s
-
 pengine/SceneObject.o: pengine/SceneObject.cpp.o
 .PHONY : pengine/SceneObject.o
 
@@ -871,6 +847,30 @@ pengine/SceneObject.s: pengine/SceneObject.cpp.s
 pengine/SceneObject.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/SceneObject.cpp.s
 .PHONY : pengine/SceneObject.cpp.s
+
+pengine/ShaderController.o: pengine/ShaderController.cpp.o
+.PHONY : pengine/ShaderController.o
+
+# target to build an object file
+pengine/ShaderController.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/ShaderController.cpp.o
+.PHONY : pengine/ShaderController.cpp.o
+
+pengine/ShaderController.i: pengine/ShaderController.cpp.i
+.PHONY : pengine/ShaderController.i
+
+# target to preprocess a source file
+pengine/ShaderController.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/ShaderController.cpp.i
+.PHONY : pengine/ShaderController.cpp.i
+
+pengine/ShaderController.s: pengine/ShaderController.cpp.s
+.PHONY : pengine/ShaderController.s
+
+# target to generate assembly for a file
+pengine/ShaderController.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/ShaderController.cpp.s
+.PHONY : pengine/ShaderController.cpp.s
 
 pengine/Sphere.o: pengine/Sphere.cpp.o
 .PHONY : pengine/Sphere.o
@@ -919,30 +919,6 @@ pengine/Texture.s: pengine/Texture.cpp.s
 pengine/Texture.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Texture.cpp.s
 .PHONY : pengine/Texture.cpp.s
-
-pengine/Transform.o: pengine/Transform.cpp.o
-.PHONY : pengine/Transform.o
-
-# target to build an object file
-pengine/Transform.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Transform.cpp.o
-.PHONY : pengine/Transform.cpp.o
-
-pengine/Transform.i: pengine/Transform.cpp.i
-.PHONY : pengine/Transform.i
-
-# target to preprocess a source file
-pengine/Transform.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Transform.cpp.i
-.PHONY : pengine/Transform.cpp.i
-
-pengine/Transform.s: pengine/Transform.cpp.s
-.PHONY : pengine/Transform.s
-
-# target to generate assembly for a file
-pengine/Transform.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/pengine/Transform.cpp.s
-.PHONY : pengine/Transform.cpp.s
 
 pengine/main.o: pengine/main.cpp.o
 .PHONY : pengine/main.o
@@ -1028,12 +1004,12 @@ help:
 	@echo "... pengine/BoxCollider.o"
 	@echo "... pengine/BoxCollider.i"
 	@echo "... pengine/BoxCollider.s"
-	@echo "... pengine/Camera.o"
-	@echo "... pengine/Camera.i"
-	@echo "... pengine/Camera.s"
 	@echo "... pengine/CameraObject.o"
 	@echo "... pengine/CameraObject.i"
 	@echo "... pengine/CameraObject.s"
+	@echo "... pengine/Entity.o"
+	@echo "... pengine/Entity.i"
+	@echo "... pengine/Entity.s"
 	@echo "... pengine/GLTexture.o"
 	@echo "... pengine/GLTexture.i"
 	@echo "... pengine/GLTexture.s"
@@ -1046,21 +1022,18 @@ help:
 	@echo "... pengine/RigidBody.o"
 	@echo "... pengine/RigidBody.i"
 	@echo "... pengine/RigidBody.s"
-	@echo "... pengine/SceneGraph.o"
-	@echo "... pengine/SceneGraph.i"
-	@echo "... pengine/SceneGraph.s"
 	@echo "... pengine/SceneObject.o"
 	@echo "... pengine/SceneObject.i"
 	@echo "... pengine/SceneObject.s"
+	@echo "... pengine/ShaderController.o"
+	@echo "... pengine/ShaderController.i"
+	@echo "... pengine/ShaderController.s"
 	@echo "... pengine/Sphere.o"
 	@echo "... pengine/Sphere.i"
 	@echo "... pengine/Sphere.s"
 	@echo "... pengine/Texture.o"
 	@echo "... pengine/Texture.i"
 	@echo "... pengine/Texture.s"
-	@echo "... pengine/Transform.o"
-	@echo "... pengine/Transform.i"
-	@echo "... pengine/Transform.s"
 	@echo "... pengine/main.o"
 	@echo "... pengine/main.i"
 	@echo "... pengine/main.s"

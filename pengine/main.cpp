@@ -29,44 +29,28 @@ using namespace glm;
 #include "include/Plane.h"
 #include "include/GLTexture.h"
 #include "include/Texture.h"
-#include "include/Camera.h"
 #include "include/SceneObject.h"
 #include "include/MeshObject.h"
-#include "include/SceneGraph.h"
-#include "include/Transform.h"
-#include "include/SolarSystem.h"
 #include "include/Sphere.h"
+#include "include/ShaderController.h"
 
 
 void key (GLFWwindow *window, int key, int scancode, int action, int mods );
 void adjustVelocity(glm::vec3 normal);
+void render(Entity *node);
+void deleteBuffersNode(Entity *node);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
-
-// camera
-Camera *camera = new Camera();
-glm::vec3 camera_position   = glm::vec3(0.0f, 0.0f,  3.0f);
-glm::vec3 camera_target = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 camera_up    = glm::vec3(0.0f, 1.0f,  0.0f);
-float angle_in_degrees = 1.;
 bool cameraRotates = false;
 float cameraSpeed;
 bool speedUp = false;
 bool slowDown = false;
-
 // timing
 float deltaTime = 0.0f; // time between current frame and last frame
 float lastFrame = 0.0f;
 
-// scene objects
-std::vector<SceneObject*> scene_objects;
-Transform transformer; // to transform scene objects one by one
-
-//rotation
-float angle = 0.;
-float zoom = 1.;
 
 bool heightmap_activated = true;
 
@@ -84,8 +68,6 @@ glm::vec3 slideForce;
 
 MeshObject* obstacle = new MeshObject();
 
-SceneGraph *root = new SceneGraph();
-
 // height map and textures
 Texture *height_map = new Texture();
 GLTexture *grass_texture = new GLTexture();
@@ -94,6 +76,7 @@ GLTexture *snowrocks_texture = new GLTexture();
 GLTexture *snow_texture = new GLTexture();
 
 GLuint programID;
+ShaderController* shaderController = new ShaderController();
 /*******************************************************************************/
 
 
@@ -181,57 +164,46 @@ int main( void )
     }
 
     plane->setColor(glm::vec4(0.2, 0.8, 0.05, 0.0));
-    scene_objects.push_back(plane);
+    plane->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));
+    
     // ------------------------------------------------------------------------------------
 
     // -----------------------------------------------------------------------------------
     // SPHERE OBJECT
     // -----------------------------------------------------------------------------------
-    sphere->m_radius =  0.02f;
-    sphere->m_center = glm::vec3(plane->center[0], 0.0, plane->center[2]+plane_larg/2-0.1);
-    double height_sphere = 0.0;
-    if(heightmap_activated){
-        height_sphere = plane->getHeightFromCoords(height_map->data, height_map->height, height_map->width, sphere->m_center);
-    }
-    sphere->m_center[1] = height_sphere + sphere->m_radius;
+    sphere->m_radius =  0.1f;
+    //sphere->m_center = glm::vec3(plane->center[0], 1.0, plane->center[2]+plane_larg/2-0.1);
     //sphere->m_center = center_sphere;
     sphere->build_arrays();
     sphere->build_arrays_for_resolutions();
     sphere->setColor(glm::vec4(0.0,0.0,0.0,0.0));
     sphere->generateBuffers();
+    sphere->transform.setLocalPosition(glm::vec3(0.0, 1.0, -0.1));
 
-    sphere->transformations.push_back(glm::vec3(0.0,0.0,0.0));
-    sphere->index_transf.push_back(1);
     sphere->setRigidBody(new RigidBody());
-    //sphere->setBoxCollider(new BoxCollider());
-
-    scene_objects.push_back(sphere);
+    
 
     // -----------------------------------------------------------------------------------
-    obstacle->generateBuffers();
-    obstacle->create("./data_off/cube.off");
-    scene_objects.push_back(obstacle);
+    // obstacle->generateBuffers();
+    // obstacle->create("./data_off/cube.off");
+
+    // Plane *plane2 = new Plane(plane_larg, plane_len, plane_dim, plane_dim);
+    // plane2->center = glm::vec3(0.0,0.0,-plane_len);
+    // plane2->generatePlane();
+    // plane2->setIsTerrain(1);
+    // plane2->generateBuffers();
+    // // use height map
+    // if(heightmap_activated){
+    //     height_map->readPGMTexture((char*)"textures/heightmap_jeu1024.pgm");
+    //     plane2->addHeightMap(height_map->data, height_map->height, height_map->width);
+    // }
     // ------------------------------------------------------------------------------------
     // SCENE GRAPH
     // ------------------------------------------------------------------------------------
-    root->setData(plane);
-    root->setLevel(0);
-
-    Plane *plane2 = new Plane(plane_larg, plane_len, plane_dim, plane_dim);
-    plane2->center = glm::vec3(0.0,0.0,-plane_len);
-    plane2->generatePlane();
-    plane2->setIsTerrain(1);
-    plane2->generateBuffers();
-    // use height map
-    if(heightmap_activated){
-        height_map->readPGMTexture((char*)"textures/heightmap_jeu1024.pgm");
-        plane2->addHeightMap(height_map->data, height_map->height, height_map->width);
-    }
-    scene_objects.push_back(plane2);
-    //SceneGraph *plane_child = root->addChild(new SceneGraph(plane2));
-
-    SceneGraph *node_child = root->addChild(new SceneGraph(sphere));
-    root->addChild(new SceneGraph(obstacle));
+    
+    plane->addChild(sphere);
+    plane->forceUpdateSelfAndChild();
+    
 
     // ------------------------------------------------------------------------------------
 
@@ -257,7 +229,7 @@ int main( void )
     // ------------------------------------------------------------------------------------
 
     // --- Spring Camera 
-    initCameraObject(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 10.0f, 1.0f, 0.75f);
+    initCameraObject(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 10.0f, 1.0f, 0.75f);
 
     // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
@@ -284,69 +256,30 @@ int main( void )
         glUseProgram(programID);
         computeMatricesFromInputs();
 
-
-
-        // CAMERA
-        camera->MVP(cameraRotates, speedUp, slowDown);
-        speedUp = false;
-        slowDown = false;
-        camera->sendMVPtoShader(programID);
         if(isSliding)
         {
             sphere->getRigidBody()->applyForce(slideForce);
             isSliding = false;
         }
-        // sphere->transformations[0][1] -= sphere->m_center[1];
-        double height_sphere = 0.0;
-        if(heightmap_activated){
-            height_sphere = plane->getHeightFromCoords(height_map->data, height_map->height, height_map->width, sphere->m_center);
-        }
-        double y_offset = 0.0;
-        // sphere->transformations[0][1] += height_sphere + sphere->m_radius + y_offset;
-        // sphere->m_center[1] = height_sphere + sphere->m_radius + y_offset;
-        double desiredHeight = height_sphere + sphere->m_radius + y_offset;
-        double displacementY = desiredHeight - sphere->m_center[1];
-        if (std::abs(displacementY) > 0.1) {
-            sphere->getRigidBody()->applyForce(glm::vec3(0.0, displacementY / deltaTime, 0.0));
-        }
-                // flying sphere
-        // if(sphere->isFlying){
-        //     sphere->fly(deltaTime);
-        //     if(sphere->getBoxCollider()->collides(plane->getBoxCollider())){
-        //         glm::vec3 reboundVec = sphere->getRigidBody()->computeRebound(glm::vec3(0.0, 1.0, 0.0));
-        //         reboundVec = 0.8f * reboundVec;
-        //         sphere->getRigidBody()->setSpeed(reboundVec); 
-        //     }
-        //     if(sphere->getRigidBody()->getSpeed()[1] < 0.000001 and /*sphere->m_center[1]-sphere->m_radius < 0.00001*/ 
-        //     sphere->getBoxCollider()->collides(plane->getBoxCollider())){
-        //         sphere->isFlying = false;
-        //         sphere->velocity = glm::vec3(0.0,0.0,0.0);
-        //         sphere->getRigidBody()->setSpeed(sphere->velocity);
-        //         std::cout << "fly is over" << std::endl;
-        //     }
+        // double height_sphere = 0.0;
+        // if(heightmap_activated){
+        //     height_sphere = plane->getHeightFromCoords(height_map->data, height_map->height, height_map->width, sphere->m_center);
         // }
-
-        // Draw the triangles !
-        /*for(int i = 0; i < scene_objects.size(); i++){
-
-            if(scene_objects[i]->isTerrain==1){ // terrain
-                // send textures to shader
-                grass_texture->sendTextureToShader(programID, "texture_grass", 0);
-                rock_texture->sendTextureToShader(programID, "texture_rock", 1);
-                snowrocks_texture->sendTextureToShader(programID, "texture_snowrocks", 2);
-                snow_texture->sendTextureToShader(programID, "texture_snow", 3);
-            }
-            scene_objects[i]->loadBuffers();
-            scene_objects[i]->draw(programID);
-        }*/
-
-        // scene graph
-        transformer.updateGraph(*root, programID, camera, grass_texture, rock_texture, snowrocks_texture, snow_texture);
+        // double y_offset = 0.0;
+        // double desiredHeight = height_sphere + sphere->m_radius + y_offset;
+        // double displacementY = desiredHeight - sphere->m_center[1];
+        // if (std::abs(displacementY) > 0.1) {
+        //     sphere->getRigidBody()->applyForce(glm::vec3(0.0, displacementY / deltaTime, 0.0));
+        // }
+        
+        // Update Scene 
         sphere->update(deltaTime);
-        getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+        getCamera()->updateTarget(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
         updateCamera(deltaTime);
-        // adjustVelocity(plane->getNormalFromCoords(sphere->m_center));
+        plane->updateSelfAndChild();
 
+        // Draw Scene Graph
+        render(plane);
         // Swap buffers
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -356,9 +289,12 @@ int main( void )
            glfwWindowShouldClose(window) == 0 );
 
     // Cleanup VBO and shader
-    for(SceneObject *obj: scene_objects){
-        obj->deleteBuffers();
-    }
+    // Entity* entity = plane;
+    // while(entity != nullptr)
+    // {
+    //     entity->deleteBuffers();
+    // }
+    deleteBuffersNode(plane);
     glDeleteProgram(programID);
     glDeleteVertexArrays(1, &VertexArrayID);
 
@@ -549,13 +485,34 @@ void adjustVelocity(glm::vec3 normal)
 {
     printf("%f, %f, %f\n", normal.x, normal.y, normal.z);
     float slopeFactor = glm::dot(normal, glm::vec3(0.0, 1.0, 0.0));
-    glm::vec3 parallelVelocity = glm::dot(sphere->getRigidBody()->getSpeed(), normal) * normal;
-    glm::vec3 perpendicularVelocity = sphere->getRigidBody()->getSpeed() - parallelVelocity;
+    glm::vec3 parallelVelocity = glm::dot(sphere->getRigidBody()->getVelocity(), normal) * normal;
+    glm::vec3 perpendicularVelocity = sphere->getRigidBody()->getVelocity() - parallelVelocity;
     parallelVelocity *= slopeFactor;
 
     glm::vec3 slopeAdjustedVelocity = parallelVelocity + perpendicularVelocity;
 
     float resistanceFactor = 1.0f;
     glm::vec3 adjusted = slopeAdjustedVelocity - (resistanceFactor * perpendicularVelocity * normal);
-    sphere->getRigidBody()->setSpeed(adjusted);
+    sphere->getRigidBody()->setVelocity(adjusted);
+}
+
+void render(Entity* node)
+{
+    shaderController->sendMatrices(programID, node->transform.getWorldMatrix(), getProjectionMatrix(), getViewMatrix());
+    shaderController->sendTextures(programID, grass_texture, rock_texture, snowrocks_texture, snow_texture);
+    node->loadBuffers();
+    node->draw(programID);
+    for (int i = 0; i < node->children.size(); ++i)
+    {
+        render(node->children[i]);
+    }
+}
+
+void deleteBuffersNode(Entity *node)
+{
+    node->deleteBuffers();
+    for (int i = 0; i < node->children.size(); ++i)
+    {
+        deleteBuffersNode(node->children[i]);
+    }
 }

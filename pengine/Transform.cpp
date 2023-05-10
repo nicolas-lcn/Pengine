@@ -23,6 +23,7 @@ void Transform::updateGraph(SceneGraph root, GLuint programID, Camera *camera,
         }
     }
 
+
     // update MVP matrix
     camera->sendMVPtoShader(programID);
 

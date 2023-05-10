@@ -15,7 +15,6 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 
-#include "RigidBody.h"
 #include "BoxCollider.h"
 
 typedef struct BVHNode
@@ -30,10 +29,6 @@ typedef struct BVHNode
 
 
 class SceneObject {
-
-protected:
-    RigidBody* rb;
-    BoxCollider* collider;
     
 public:
 
@@ -54,10 +49,6 @@ public:
 
     glm::vec4 color = glm::vec4(0.0,0.0,0.0,0.0); // default value
 
-    // transformations
-    std::vector<glm::vec3> transformations;
-    std::vector<int> index_transf; // 0 for scaling, 1 for translation, 2 for rotation
-
     SceneObject();
 
     void setIsTerrain(int isTerrain);
@@ -73,20 +64,10 @@ public:
     void deleteBuffers();
 
     void clearVectors();
-    
-    RigidBody* getRigidBody();
-    BoxCollider* getBoxCollider();
-    void setRigidBody(RigidBody* _rb);
-    void setBoxCollider(BoxCollider *_collider);
-    void initBoxCollider();
-    void resetBoxCollider();
 
     void accelerate();
     void splitBVHNode(BVHNode* node, int depth);
     void freeBVHNode(BVHNode* node);
-
-    void virtual update(float deltaTime);
-
 };
 
 
