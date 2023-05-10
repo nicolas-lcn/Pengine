@@ -4,6 +4,8 @@
 
 #include "include/Plane.h"
 
+#include <cfloat>
+
 Plane::Plane() {}
 Plane::Plane( double wi , double he , int nw, int nh) {
     width = wi;
@@ -132,12 +134,12 @@ double Plane::getHeightFromCoords(unsigned char *HM_data, int height_HM, int wid
 
     // TODO doesn't work for bottom_right and top_right corners!
 
-    double dist_from_zero_x = center[0] - (width/2.0);
+    double dist_from_zero_x = transform.getLocalPosition()[0] - (width/2.0);
     double ratio_x = (coords[0] - dist_from_zero_x)/width;
 
     int row_HM = floor(ratio_x*width_HM);
 
-    double dist_from_zero_z = center[2] - (height/2.0);
+    double dist_from_zero_z = transform.getLocalPosition()[2] - (height/2.0);
     double ratio_z = (coords[2] - dist_from_zero_z)/height;
 
     int col_HM = floor(ratio_z*height_HM);
@@ -150,6 +152,25 @@ double Plane::getHeightFromCoords(unsigned char *HM_data, int height_HM, int wid
     double difference = max*ratio;
 
     return max - difference;
+}
+
+float Plane::getHeightFromCoords(glm::vec3 coords)
+{
+    //glm::vec4 pos4 = glm::inverse(transform.getWorldMatrix()) * glm::vec4(coords,1);
+    float minDistance = FLT_MAX;
+    //glm::vec3 pos = glm::vec3(pos4.x, pos4.y, pos4.z);
+    int closest = -1;
+    for (int i = 0; i < indexed_vertices.size(); ++i)
+    {
+        glm::vec3 planePos = indexed_vertices[i];
+        float distance = glm::length(coords - planePos);
+        if( distance < minDistance)
+        {
+            minDistance = distance;
+            closest = i;
+        }
+    }
+    return indexed_vertices[closest].y;
 }
 
 glm::vec3 Plane::getNormalFromCoords(glm::vec3 coords)

@@ -55,7 +55,7 @@ float lastFrame = 0.0f;
 bool heightmap_activated = true;
 
 // plane data
-float plane_len =  100.0;
+float plane_len =  10.0;
 float plane_larg = 3.0;
 int plane_dim = 40;
 Plane *plane = new Plane(plane_larg, plane_len, plane_dim, plane_dim);
@@ -172,20 +172,33 @@ int main( void )
     // SPHERE OBJECT
     // -----------------------------------------------------------------------------------
     sphere->m_radius =  0.1f;
-    //sphere->m_center = glm::vec3(plane->center[0], 1.0, plane->center[2]+plane_larg/2-0.1);
+    //sphere->m_center = glm::vec3(glm::vec3(0.0, 0.0, -0.1));
     //sphere->m_center = center_sphere;
     sphere->build_arrays();
     sphere->build_arrays_for_resolutions();
     sphere->setColor(glm::vec4(0.0,0.0,0.0,0.0));
     sphere->generateBuffers();
-    sphere->transform.setLocalPosition(glm::vec3(0.0, 1.0, -0.1));
+    sphere->transform.setLocalPosition(glm::vec3(0.0, 0.0, -0.1));
+    if(heightmap_activated){
+        float height = plane->getHeightFromCoords(sphere->transform.getLocalPosition());
+        sphere->transform.setLocalPosition(glm::vec3(0.0, height,-0.1));
 
+    }
     sphere->setRigidBody(new RigidBody());
+    printf("sphhere init pos = %f, %f, %f\n", sphere->getPosition().x, sphere->getPosition().y, sphere->getPosition().z);
     
 
     // -----------------------------------------------------------------------------------
-    // obstacle->generateBuffers();
-    // obstacle->create("./data_off/cube.off");
+    obstacle->generateBuffers();
+    obstacle->create("./data_off/cube.off");
+    obstacle->transform.setLocalPosition(glm::vec3(0.0, 0.6,-2.0));
+    obstacle->transform.setScale(glm::vec3(0.1, 0.1, 0.1));
+    if(heightmap_activated){
+        float height = plane->getHeightFromCoords(obstacle->transform.getLocalPosition());
+        obstacle->transform.setLocalPosition(glm::vec3(0.0, height + 0.05,-2.0));
+
+    }
+
 
     // Plane *plane2 = new Plane(plane_larg, plane_len, plane_dim, plane_dim);
     // plane2->center = glm::vec3(0.0,0.0,-plane_len);
@@ -202,6 +215,7 @@ int main( void )
     // ------------------------------------------------------------------------------------
     
     plane->addChild(sphere);
+    plane->addChild(obstacle);
     plane->forceUpdateSelfAndChild();
     
 
@@ -229,7 +243,7 @@ int main( void )
     // ------------------------------------------------------------------------------------
 
     // --- Spring Camera 
-    initCameraObject(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 10.0f, 1.0f, 0.75f);
+    initCameraObject(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 10.0f, 2.0f, 1.25f);
 
     // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
@@ -261,16 +275,33 @@ int main( void )
             sphere->getRigidBody()->applyForce(slideForce);
             isSliding = false;
         }
-        // double height_sphere = 0.0;
-        // if(heightmap_activated){
-        //     height_sphere = plane->getHeightFromCoords(height_map->data, height_map->height, height_map->width, sphere->m_center);
-        // }
-        // double y_offset = 0.0;
-        // double desiredHeight = height_sphere + sphere->m_radius + y_offset;
-        // double displacementY = desiredHeight - sphere->m_center[1];
+        double height_sphere = 0.0;
+        if(heightmap_activated){
+            
+            height_sphere = plane->getHeightFromCoords(sphere->transform.getLocalPosition());
+        }
+        double y_offset = 0.0;
+        float displacementY = height_sphere + sphere->m_radius - sphere->transform.getLocalPosition().y ;
+
+        float damping = 0.1f;
+        glm::vec3 targetVelocity(0.0, displacementY/deltaTime, 0.0);
+        glm::vec3 adjustedVelocity = sphere->getRigidBody()->getVelocity() + (targetVelocity - sphere->getRigidBody()->getVelocity()) * damping;
+        sphere->getRigidBody()->applyForce((adjustedVelocity - sphere->getRigidBody()->getVelocity())/deltaTime);
         // if (std::abs(displacementY) > 0.1) {
         //     sphere->getRigidBody()->applyForce(glm::vec3(0.0, displacementY / deltaTime, 0.0));
         // }
+        glm::vec3 intersection;
+        if(sphere->getBoxCollider()->collides(obstacle->getBoxCollider(), intersection))
+        {
+            printf("bonus at %f, %f, %f | sphere at %f, %f, %f\n", 
+                obstacle->getBoxCollider()->getCenter().x,
+                obstacle->getBoxCollider()->getCenter().y,
+                obstacle->getBoxCollider()->getCenter().z,
+                sphere->getBoxCollider()->getCenter().x,
+                sphere->getBoxCollider()->getCenter().y,
+                sphere->getBoxCollider()->getCenter().z);
+        }
+
         
         // Update Scene 
         sphere->update(deltaTime);

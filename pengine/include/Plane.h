@@ -44,6 +44,8 @@ public:
     glm::vec3 getNormalFromCoords(glm::vec3 coords);
     float getSlopeAngleFromCoords(unsigned char *HM_data, int height_HM, int width_HM, glm::vec3 coords);
     void updateNormals();
+    /* Returns y height according to local coords of child */
+    float getHeightFromCoords(glm::vec3 coords);
 };
 
 

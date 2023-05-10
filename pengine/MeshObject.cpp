@@ -8,6 +8,7 @@
 void MeshObject::create(const std::string & filename)
 {
 	loadOFF(filename, indexed_vertices, indices, triangles );
+	initBoxCollider();
 }
 
 
