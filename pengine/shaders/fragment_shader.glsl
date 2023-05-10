@@ -5,18 +5,11 @@
 //(out) vec4 FragColor;
 
 // texture
-uniform sampler2D texture_grass;
-uniform sampler2D texture_rock;
-uniform sampler2D texture_snowrocks;
 uniform sampler2D texture_snow;
 in vec2 coord_txt;
 
 // heightmap
 in float height;
-
-float coef_grass;
-float coef_rock;
-float coef_snowrocks;
 
 uniform int isTerrain;
 

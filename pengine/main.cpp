@@ -70,9 +70,6 @@ MeshObject* obstacle = new MeshObject();
 
 // height map and textures
 Texture *height_map = new Texture();
-GLTexture *grass_texture = new GLTexture();
-GLTexture *rock_texture = new GLTexture();
-GLTexture *snowrocks_texture = new GLTexture();
 GLTexture *snow_texture = new GLTexture();
 
 GLuint programID;
@@ -229,17 +226,6 @@ int main( void )
     snow_texture->loadTexture((char*)"textures/snow.png");
     snow_texture->defineParameters();
 
-    grass_texture->generateTexture();
-    grass_texture->loadTexture((char*)"textures/grass.png");
-    grass_texture->defineParameters();
-
-    rock_texture->generateTexture();
-    rock_texture->loadTexture((char*)"textures/rock.png");
-    rock_texture->defineParameters();
-
-    snowrocks_texture->generateTexture();
-    snowrocks_texture->loadTexture((char*)"textures/snowrocks.png");
-    snowrocks_texture->defineParameters();
     // ------------------------------------------------------------------------------------
 
     // --- Spring Camera 
@@ -528,8 +514,10 @@ void adjustVelocity(glm::vec3 normal)
 
 void render(Entity* node)
 {
+
     shaderController->sendMatrices(programID, node->transform.getModelMatrix(), getProjectionMatrix(), getViewMatrix());
     shaderController->sendTextures(programID, grass_texture, rock_texture, snowrocks_texture, snow_texture);
+
     node->loadBuffers();
     node->draw(programID);
     for (int i = 0; i < node->children.size(); ++i)

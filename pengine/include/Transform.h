@@ -22,8 +22,7 @@ class Transform {
 public:
 
     // general method to update scene graph
-    void updateGraph(SceneGraph root, GLuint programID, Camera *camera,
-                     GLTexture *grass_texture, GLTexture *rock_texture, GLTexture *snowrocks_texture, GLTexture *sun_texture);
+    void updateGraph(SceneGraph root, GLuint programID, Camera *camera, GLTexture *snow_texture);
 
 };
 
