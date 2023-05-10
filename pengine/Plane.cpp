@@ -127,7 +127,7 @@ void Plane::addHeightMap(unsigned char *HM_data, int height_HM, int width_HM){
         indexed_vertices[i][1] = max - difference;
     }
     updateNormals();
-    accelerate();
+    //accelerate();
 }
 
 double Plane::getHeightFromCoords(unsigned char *HM_data, int height_HM, int width_HM, glm::vec3 coords){
@@ -189,7 +189,7 @@ glm::vec3 Plane::getNormalFromCoords(glm::vec3 coords)
             closest = i;
         }
     }
-    return normals[closest];
+    return glm::normalize(glm::vec3(transform.getModelMatrix() * glm::vec4(normals[closest],1.0f)));
 }
 
 void Plane::updateNormals() {

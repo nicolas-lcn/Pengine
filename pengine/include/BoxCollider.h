@@ -31,9 +31,9 @@ public:
 	void setA(glm::vec3 bbmin);
 	void setB(glm::vec3 bbmax);
 
-	bool collides(BoxCollider* other, glm::vec3 &intersection) override;
+	bool collides(BoxCollider* other, glm::vec3 &intersection, glm::vec3 &normal, float & depth) override;
 	bool collides(Plane* plane, glm::vec3 &normal, float & depth) override;
-	bool collides(std::vector<glm::vec3> triangle, glm::vec3 &normal, float & depth) override;
+	bool collides(std::vector<glm::vec3> &triangle) override;
 
 
 	void reset(std::vector<glm::vec3> vertices);

@@ -79,6 +79,8 @@ add_executable(pengine
 	common/vboindexer.hpp
 	common/geometry_utils.cpp
 	common/geometry_utils.h
+	common/quaternion_utils.cpp
+	common/quaternion_utils.hpp
 	
         pengine/shaders/vertex_shader.glsl
         pengine/shaders/fragment_shader.glsl

@@ -9,13 +9,16 @@
 
 class BoxCollider;
 
+
 typedef struct Interval{
 	float min, max;
 }Interval;
 
 Interval getInterval(BoxCollider* collider, const glm::vec3 &axis);
-Interval getInterval(std::vector<glm::vec3> triangle, const glm::vec3 &axis);
+Interval getInterval(std::vector<glm::vec3> &triangle, const glm::vec3 &axis);
 
-bool overlapOnAxis(BoxCollider* collider, std::vector<glm::vec3> triangle, glm::vec3 axis, float & depth, glm::vec3 &normal);
+bool overlapOnAxis(BoxCollider* collider, std::vector<glm::vec3> &triangle, glm::vec3 axis);
+glm::vec3 mean(std::vector<glm::vec3> &vertices);
+
 
 #endif

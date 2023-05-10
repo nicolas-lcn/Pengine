@@ -1,5 +1,7 @@
 #include "geometry_utils.h"
 #include "../pengine/include/BoxCollider.h"
+#include "../pengine/include/Sphere.h"
+#include <cmath>
 
 Interval getInterval(BoxCollider* collider, const glm::vec3 &axis)
 {
@@ -20,35 +22,43 @@ Interval getInterval(BoxCollider* collider, const glm::vec3 &axis)
 	for (int i = 1; i < 8; ++i)
 	{
 		float projection = glm::dot(axis, vertices[i]);
-		result.min = (projection < result.min) ? projection : result.min;
-		result.max = (projection > result.max) ? projection : result.max;
+		result.min = fminf(result.min, projection);
+		result.max = fmaxf(result.max, projection);
 
 	}
 	return result;
 }
-Interval getInterval(std::vector<glm::vec3> triangle, const glm::vec3 &axis)
+Interval getInterval(std::vector<glm::vec3> &triangle, const glm::vec3 &axis)
 {
 	Interval result;
 	result.min = result.max = glm::dot(axis, triangle[0]);
 	for (int i = 1; i < 3; ++i)
 	{
 		float projection = glm::dot(axis, triangle[i]);
-		result.min = (projection <= result.min) ? projection : result.min;
-		result.max = (projection >= result.max) ? projection : result.max;
+		result.min = fminf(result.min, projection);
+		result.max = fmaxf(result.max, projection);
 	}
 	return result;
 
 }
 
-bool overlapOnAxis(BoxCollider* collider, std::vector<glm::vec3> triangle, glm::vec3 axis, float & depth, glm::vec3 &normal)
+bool overlapOnAxis(BoxCollider* collider, std::vector<glm::vec3> &triangle, glm::vec3 axis)
 {
 	Interval a = getInterval(collider, axis);
 	Interval b = getInterval(triangle, axis);
-	if((b.min<=a.max) && (a.min<=b.max))
+	return ((b.min<=a.max) && (a.min<=b.max));
+}
+
+glm::vec3 mean(std::vector<glm::vec3> &vertices)
+{
+	float sumX, sumY, sumZ;
+	sumX = sumY = sumZ = 0.0f;
+	for (int i = 0; i < vertices.size(); ++i)
 	{
-		depth = std::min(b.max - a.min, a.max - b.min);
-		normal = axis;
-		return true;
+		glm::vec3 v = vertices[i];
+		sumX += v.x;
+		sumY += v.y;
+		sumZ += v.z;
 	}
-	else return false;
+	return glm::vec3(sumX/(float)vertices.size(), sumY/(float)vertices.size(), sumZ/(float)vertices.size());
 }

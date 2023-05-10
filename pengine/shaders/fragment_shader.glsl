@@ -24,7 +24,7 @@ void main(){
 
         }else if(isTerrain == 1){
 
-                //gl_FragColor = texture(texture_snow, coord_txt);
-                gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+                gl_FragColor = texture(texture_snow, coord_txt);
+                //gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
         }
 }

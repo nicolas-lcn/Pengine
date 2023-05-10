@@ -584,6 +584,30 @@ common/objloader.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/common/objloader.cpp.s
 .PHONY : common/objloader.cpp.s
 
+common/quaternion_utils.o: common/quaternion_utils.cpp.o
+.PHONY : common/quaternion_utils.o
+
+# target to build an object file
+common/quaternion_utils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/common/quaternion_utils.cpp.o
+.PHONY : common/quaternion_utils.cpp.o
+
+common/quaternion_utils.i: common/quaternion_utils.cpp.i
+.PHONY : common/quaternion_utils.i
+
+# target to preprocess a source file
+common/quaternion_utils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/common/quaternion_utils.cpp.i
+.PHONY : common/quaternion_utils.cpp.i
+
+common/quaternion_utils.s: common/quaternion_utils.cpp.s
+.PHONY : common/quaternion_utils.s
+
+# target to generate assembly for a file
+common/quaternion_utils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pengine.dir/build.make CMakeFiles/pengine.dir/common/quaternion_utils.cpp.s
+.PHONY : common/quaternion_utils.cpp.s
+
 common/shader.o: common/shader.cpp.o
 .PHONY : common/shader.o
 
@@ -992,6 +1016,9 @@ help:
 	@echo "... common/objloader.o"
 	@echo "... common/objloader.i"
 	@echo "... common/objloader.s"
+	@echo "... common/quaternion_utils.o"
+	@echo "... common/quaternion_utils.i"
+	@echo "... common/quaternion_utils.s"
 	@echo "... common/shader.o"
 	@echo "... common/shader.i"
 	@echo "... common/shader.s"

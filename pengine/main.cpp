@@ -22,6 +22,7 @@ using namespace glm;
 #include <common/objloader.hpp>
 #include <common/vboindexer.hpp>
 #include "common/controls.hpp"
+#include <common/quaternion_utils.hpp>
 
 // in order to use stb_image.h and import a png texture image
 #define STB_IMAGE_IMPLEMENTATION
@@ -36,7 +37,7 @@ using namespace glm;
 
 
 void key (GLFWwindow *window, int key, int scancode, int action, int mods );
-void adjustVelocity(glm::vec3 normal);
+glm::vec3 adjustVelocity(glm::vec3 &normal , glm::vec3 &velocity);
 void render(Entity *node);
 void deleteBuffersNode(Entity *node);
 
@@ -175,12 +176,12 @@ int main( void )
     sphere->build_arrays_for_resolutions();
     sphere->setColor(glm::vec4(0.0,0.0,0.0,0.0));
     sphere->generateBuffers();
-    sphere->transform.setLocalPosition(glm::vec3(0.0, 0.0, -0.1));
-    if(heightmap_activated){
-        float height = plane->getHeightFromCoords(sphere->transform.getLocalPosition());
-        sphere->transform.setLocalPosition(glm::vec3(0.0, height,-0.1));
+    sphere->transform.setLocalPosition(glm::vec3(0.0, 2.0, -0.1));
+    // if(heightmap_activated){
+    //     float height = plane->getHeightFromCoords(sphere->transform.getLocalPosition());
+    //     sphere->transform.setLocalPosition(glm::vec3(0.0, height,-0.1));
 
-    }
+    // }
     sphere->setRigidBody(new RigidBody());
     
 
@@ -229,7 +230,7 @@ int main( void )
     // ------------------------------------------------------------------------------------
 
     // --- Spring Camera 
-    initCameraObject(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 10.0f, 2.0f, 1.25f);
+    initCameraObject(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 70.0f, 2.0f, 1.25f);
 
     // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
@@ -261,31 +262,62 @@ int main( void )
             sphere->getRigidBody()->applyForce(slideForce);
             isSliding = false;
         }
-        double height_sphere = 0.0;
-        if(heightmap_activated){
-            
-            height_sphere = plane->getHeightFromCoords(sphere->transform.getLocalPosition());
-        }
-        double y_offset = 0.0;
-        float displacementY = height_sphere + sphere->m_radius - sphere->transform.getLocalPosition().y ;
-        sphere->transform.setLocalPosition(sphere->transform.getLocalPosition() + glm::vec3(0.0, displacementY, 0.0));
-        // float damping = 0.005f;
-        // glm::vec3 targetVelocity(0.0, displacementY/deltaTime, 0.0);
-        // glm::vec3 adjustedVelocity = sphere->getRigidBody()->getVelocity() + (targetVelocity - sphere->getRigidBody()->getVelocity()) * damping;
-        // sphere->getRigidBody()->applyForce((adjustedVelocity - sphere->getRigidBody()->getVelocity())/deltaTime);
-        // if (std::abs(displacementY) > 0.1) {
-        //     sphere->getRigidBody()->applyForce(glm::vec3(0.0, displacementY / deltaTime, 0.0));
-        // }
+        
         glm::vec3 intersection;
+        glm::vec3 normal;
+        float depth;
         BoxCollider obstacleCollider = obstacle->getGlobalCollider();
         BoxCollider *obstacle_ptr = &obstacleCollider;
-        if(sphere->getGlobalCollider().collides(obstacle_ptr,intersection))
+        if(sphere->getGlobalCollider().collides(obstacle_ptr,intersection, normal, depth))
         {
             sphere->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
+            glm::vec3 out = depth * normal;
+            sphere->transform.setLocalPosition(sphere->transform.getLocalPosition() + out);
+            glm::vec3 reboundVec = sphere->getRigidBody()->computeRebound(normal);
+            reboundVec *= 0.4;
+            //glm::vec3 velocity = sphere->getRigidBody()->getVelocity() + reboundVec;
+            sphere->getRigidBody()->setVelocity(reboundVec); 
         }
         else{
             sphere->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
         }
+
+        glm::vec3 planeNormal;
+        float planeDepth;
+        if(sphere->getGlobalCollider().collides(plane, planeNormal, planeDepth))
+        {
+            
+            // glm::vec3 displacement = glm::vec3(glm::inverse(sphere->transform.getModelMatrix()) * glm::vec4(planeNormal, 1.0));
+            // sphere->transform.setLocalPosition(sphere->transform.getLocalPosition() - displacement);
+            float height = plane->getHeightFromCoords(sphere->transform.getLocalPosition());
+            float sphereBottom = sphere->transform.getLocalPosition().y - sphere->m_radius;
+            planeDepth = sphereBottom - height;
+            if(glm::abs(planeDepth)>0.0f)
+            {
+                glm::mat3 terrainRot = glm::mat3(plane->transform.getModelMatrix());
+                glm::vec3 localNormal = glm::transpose(terrainRot) * planeNormal;
+                glm::vec3 adjustedNormal = glm::vec3(0.0, localNormal.y, (localNormal.z < 0.0f)? -localNormal.z : localNormal.z);
+                glm::vec3 mtv = adjustedNormal * planeDepth;
+                mtv = glm::vec3(0.0, (mtv.y < 0.0f) ? -mtv.y : mtv.y, 0.0);
+                mtv*=0.9f;
+                sphere->transform.setLocalPosition(sphere->transform.getLocalPosition() + mtv);
+                glm::vec3 velocity = sphere->getRigidBody()->getVelocity();
+                glm::vec3 adjusted = adjustVelocity(adjustedNormal, velocity);
+                sphere->getRigidBody()->setVelocity(adjusted);
+
+            }
+            sphere->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
+            sphere->getRigidBody()->applyForce(glm::vec3(0.0, 9.81, 0.0));
+
+
+        }
+        else
+        {
+            sphere->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
+
+        }
+        
+        sphere->getRigidBody()->applyForce(glm::vec3(0.0, -9.81, 0.0));
 
         
         // Update Scene 
@@ -398,7 +430,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             // sphere->transformations[0][2] -= offset;
             // sphere->m_center[2] -= offset;
             //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = glm::vec3(0.0, 0.0, -5.0);
+            slideForce = glm::vec3(0.0, 0.0, -50.0);
             isSliding = true;
         }
 
@@ -409,7 +441,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             // sphere->transformations[0][2] += offset;
             // sphere->m_center[2] += offset;
             //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = glm::vec3(0.0, 0.0, 5.0);
+            slideForce = glm::vec3(0.0, 0.0, 50.0);
             isSliding = true;
         }
 
@@ -423,7 +455,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
 
             //sphere->forward[0] -= offset;
             // sphere->up[0] -= offset;
-            slideForce = glm::vec3(-5.0, 0.0, 0.0);
+            slideForce = glm::vec3(-50.0, 0.0, 0.0);
             isSliding = true;
         }
 
@@ -434,7 +466,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             // sphere->transformations[0][0] += offset;
             // sphere->m_center[0] += offset;
             //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = glm::vec3(5.0, 0.0, 0.0);
+            slideForce = glm::vec3(50.0, 0.0, 0.0);
             isSliding = true;
         }
     }else if ( key == GLFW_KEY_SPACE and action == GLFW_PRESS ){
@@ -497,26 +529,20 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
 }
 
 //Adjusts object velocity according to plane heightmap and slope
-void adjustVelocity(glm::vec3 normal)
+glm::vec3 adjustVelocity(glm::vec3 &normal, glm::vec3 &velocity)
 {
-    printf("%f, %f, %f\n", normal.x, normal.y, normal.z);
-    float slopeFactor = glm::dot(normal, glm::vec3(0.0, 1.0, 0.0));
-    glm::vec3 parallelVelocity = glm::dot(sphere->getRigidBody()->getVelocity(), normal) * normal;
-    glm::vec3 perpendicularVelocity = sphere->getRigidBody()->getVelocity() - parallelVelocity;
-    parallelVelocity *= slopeFactor;
-
-    glm::vec3 slopeAdjustedVelocity = parallelVelocity + perpendicularVelocity;
-
-    float resistanceFactor = 1.0f;
-    glm::vec3 adjusted = slopeAdjustedVelocity - (resistanceFactor * perpendicularVelocity * normal);
-    sphere->getRigidBody()->setVelocity(adjusted);
+    //printf("%f, %f, %f\n", normal.x, normal.y, normal.z);
+    glm::quat slopeRotation = RotationBetweenVectors(glm::vec3(0.0, 1.0, 0.0), normal);
+    glm::vec3 adjusted = slopeRotation * velocity;
+    if(adjusted.y <0.0f) return adjusted;
+    else return velocity;
 }
 
 void render(Entity* node)
 {
 
     shaderController->sendMatrices(programID, node->transform.getModelMatrix(), getProjectionMatrix(), getViewMatrix());
-    shaderController->sendTextures(programID, grass_texture, rock_texture, snowrocks_texture, snow_texture);
+    shaderController->sendTextures(programID, snow_texture);
 
     node->loadBuffers();
     node->draw(programID);

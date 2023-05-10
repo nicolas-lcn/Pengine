@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/pengine.dir/common/geometry_utils.cpp.o.d"
   "CMakeFiles/pengine.dir/common/objloader.cpp.o"
   "CMakeFiles/pengine.dir/common/objloader.cpp.o.d"
+  "CMakeFiles/pengine.dir/common/quaternion_utils.cpp.o"
+  "CMakeFiles/pengine.dir/common/quaternion_utils.cpp.o.d"
   "CMakeFiles/pengine.dir/common/shader.cpp.o"
   "CMakeFiles/pengine.dir/common/shader.cpp.o.d"
   "CMakeFiles/pengine.dir/common/texture.cpp.o"

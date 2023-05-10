@@ -93,7 +93,7 @@ void BoxCollider::setB(glm::vec3 bbmax){
 	m_size = (m_b - m_a) * 0.5f;
 }
 
-bool BoxCollider::collides(BoxCollider* other, glm::vec3 &intersection)
+bool BoxCollider::collides(BoxCollider* other, glm::vec3 &intersection, glm::vec3 &normal, float & depth)
 {
 	if ((m_a.x <= other->getB().x && m_b.x >= other->getA().x) &&
 			(m_a.y <= other->getB().y && m_b.y >= other->getA().y) &&
@@ -110,6 +110,29 @@ bool BoxCollider::collides(BoxCollider* other, glm::vec3 &intersection)
 			std::min(m_b.z, other->getB().z)
 			);
 		intersection = (intersectionMin + intersectionMax) * 0.5f;
+
+		glm::vec3 penetration = intersectionMax - intersectionMin;
+		float minPenetration = FLT_MAX;
+		int minAxis = -1;
+		if(penetration.x < minPenetration)
+		{
+			minPenetration = penetration.x;
+			minAxis = 0; //X
+		}
+		if(penetration.y < minPenetration)
+		{
+			minPenetration = penetration.y;
+			minAxis = 1; //Y
+		}
+		if(penetration.z < minPenetration)
+		{
+			minPenetration = penetration.z;
+			minAxis = 2; //Z
+		}
+		normal = glm::vec3(0.0f);
+		normal[minAxis] = (m_a[minAxis] < other->getA()[minAxis])? -1.0f : 1.0f;
+		depth = minPenetration;
+
 		return true;
 	}
 	else return false;
@@ -126,7 +149,12 @@ bool BoxCollider::collides(Plane* plane, glm::vec3 &normal, float  & depth)
                     plane->indexed_vertices[plane->triangles[i][1]],
                     plane->indexed_vertices[plane->triangles[i][2]]
                 };
-            if(this->collides(t, normal, depth)) {
+            for (int i = 0; i < 3; ++i)
+            {
+            	t[i] = glm::vec3(plane->transform.getModelMatrix() * glm::vec4(t[i], 1.0f));
+            }
+            if(this->collides(t)) {
+            	normal = glm::normalize(glm::cross(t[1] - t[0], t[2] - t[0]));
             	return true;
             	
             }
@@ -152,7 +180,7 @@ bool BoxCollider::collides(Plane* plane, glm::vec3 &normal, float  & depth)
                     plane->indexed_vertices[plane->triangles[iterator->triangles[i]][1]],
                     plane->indexed_vertices[plane->triangles[iterator->triangles[i]][2]]
                 	};
-					if(this->collides(t, normal, depth)) return true;
+					if(this->collides(t)) return true;
 				}
 			}
 			if(iterator->children != 0)
@@ -160,7 +188,9 @@ bool BoxCollider::collides(Plane* plane, glm::vec3 &normal, float  & depth)
 				for (int i = 8-1; i >= 0; --i)
 				{
 					glm::vec3 intersection; //unused;
-					if(this->collides(&(iterator->children[i].bounds), intersection))
+					glm::vec3 normal; //unused
+					float depth; //unused
+					if(this->collides(&(iterator->children[i].bounds), intersection, normal, depth))
 						toProcess.push_front(&iterator->children[i]);
 				}
 			}
@@ -169,7 +199,7 @@ bool BoxCollider::collides(Plane* plane, glm::vec3 &normal, float  & depth)
 	return false;
 }
 
-bool BoxCollider::collides(std::vector<glm::vec3> triangle, glm::vec3 &normal, float & depth)
+bool BoxCollider::collides(std::vector<glm::vec3> &triangle)
 {
 	//triangle edges
 	glm::vec3 f0 = triangle[1] - triangle[0];
@@ -188,31 +218,13 @@ bool BoxCollider::collides(std::vector<glm::vec3> triangle, glm::vec3 &normal, f
 		glm::cross(u1, f0), glm::cross(u1, f1), glm::cross(u1, f2),
 		glm::cross(u2, f0), glm::cross(u2, f1), glm::cross(u2, f2)
 	};
-	depth = FLT_MAX;
-	normal = glm::vec3(0.0f);
-	for (int i = 0; i < test.size(); ++i)
+	for (int i = 0; i < 13; ++i)
 	{
-		float axisDepth;
-		glm::vec3 currentNormal;
-		if(!overlapOnAxis(this, triangle, test[i], axisDepth, currentNormal)) return false;
-		else
+		if(!overlapOnAxis(this, triangle, test[i]))
 		{
-			if((axisDepth < depth) && axisDepth > 0)
-			{
-				depth = axisDepth;
-				normal = currentNormal;
-			}
+			return false;
 		}
 	}
-
-	depth /= glm::length(normal);
-	normal = glm::normalize(normal);
-	glm::vec3 centerTriangle = glm::vec3((triangle[0].x + triangle[0].y + triangle[0].z)/3.0f,
-		(triangle[1].x + triangle[1].y + triangle[1].z)/3.0f,
-		(triangle[2].x + triangle[2].y + triangle[2].z)/3.0f
-		);
-	if(glm::dot(this->m_center, centerTriangle) < 0) normal = -normal;
-	printf("normal : %f, %f, %f\n", normal.x, normal.y, normal.z);
 	return true;
 
 }
