@@ -36,11 +36,7 @@ void SceneObject::draw(GLuint programID) const {
     // Index buffer
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
 
-    if(isTerrain == 0){
-        glPolygonMode (GL_FRONT_AND_BACK, GL_LINE);
-    }else{
-        glPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
-    }
+    glPolygonMode (GL_FRONT_AND_BACK, GL_LINE);
 
     glEnableClientState(GL_VERTEX_ARRAY) ;
     glEnableClientState (GL_NORMAL_ARRAY);
