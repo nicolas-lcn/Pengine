@@ -192,8 +192,9 @@ int main( void )
 
     // }
     sphere->setRigidBody(new RigidBody());
-    
 
+    // ------------------------------------------------------------------------------------
+    // ADD OBSTACLE
     // -----------------------------------------------------------------------------------
     obstacle->generateBuffers();
     obstacle->create("./data_off/cube.off");
@@ -205,27 +206,18 @@ int main( void )
     }
     obstacle->transform.setLocalScale(glm::vec3(0.1, 0.1, 0.1));
 
+    /*std::vector<glm::vec3> out_vertices;
+    std::vector<glm::vec2> out_uvs;
+    std::vector<glm::vec3> out_normals;
+    loadOBJ("penguin-simpl-triangle.obj", out_vertices, out_uvs, out_normals);*/
 
-
-    // Plane *plane2 = new Plane(plane_larg, plane_len, plane_dim, plane_dim);
-    // plane2->center = glm::vec3(0.0,0.0,-plane_len);
-    // plane2->generatePlane();
-    // plane2->setIsTerrain(1);
-    // plane2->generateBuffers();
-    // // use height map
-    // if(heightmap_activated){
-    //     height_map->readPGMTexture((char*)"textures/heightmap_jeu1024.pgm");
-    //     plane2->addHeightMap(height_map->data, height_map->height, height_map->width);
-    // }
     // ------------------------------------------------------------------------------------
     // SCENE GRAPH
     // ------------------------------------------------------------------------------------
-    
     plane->addChild(sphere);
     plane->addChild(obstacle);
     plane->addChild(slope);
     plane->forceUpdateSelfAndChild();
-    
 
     // ------------------------------------------------------------------------------------
 
