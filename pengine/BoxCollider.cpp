@@ -1,6 +1,7 @@
 #include "../common/geometry_utils.h" 
 #include "include/BoxCollider.h"
 #include "include/Plane.h"
+#include "include/MeshObject.h"
 #include <vector>
 #include <cstdio>
 #include <algorithm>
@@ -227,4 +228,28 @@ bool BoxCollider::collides(std::vector<glm::vec3> &triangle)
 	}
 	return true;
 
+}
+
+bool BoxCollider::collides(MeshObject* mesh, glm::vec3&normal, float & depth)
+{
+	for (int i = 0; i < mesh->indices.size(); i+=3)
+	{
+		std::vector<glm::vec3> t = {
+                mesh->indexed_vertices[mesh->indices[i]],
+                mesh->indexed_vertices[mesh->indices[i+1]],
+                mesh->indexed_vertices[mesh->indices[i+2]]
+            };
+        for (int i = 0; i < 3; ++i)
+        {
+        	t[i] = glm::vec3(mesh->transform.getModelMatrix() * glm::vec4(t[i], 1.0f));
+        }
+        if(this->collides(t)) {
+        	normal = glm::normalize(glm::cross(t[1] - t[0], t[2] - t[0]));
+        	return true;
+        	
+        }
+
+
+	}
+	return false;
 }

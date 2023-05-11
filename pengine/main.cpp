@@ -68,6 +68,7 @@ bool isSliding = false;
 glm::vec3 slideForce;
 
 MeshObject* obstacle = new MeshObject();
+MeshObject* slope = new MeshObject();
 
 // height map and textures
 Texture *height_map = new Texture();
@@ -164,6 +165,13 @@ int main( void )
 
     plane->setColor(glm::vec4(0.2, 0.8, 0.05, 0.0));
     plane->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));
+
+    // slope->generateBuffers();
+    // slope->create("./data_off/slope.obj");
+    // slope->transform.setLocalPosition(glm::vec3(0.0, 3.0, 0.0));
+    // //slope->transform.setLocalRotation(glm::vec3(45.0, 90.0, 90.0));
+    // //slope->transform.setLocalScale(glm::vec3(0.5, 0.5, 0.5));
+    // slope->setColor(glm::vec4(0.0, 1.0, 0.0, 1.0));
     
     // ------------------------------------------------------------------------------------
 
@@ -177,7 +185,7 @@ int main( void )
     sphere->build_arrays_for_resolutions();
     sphere->setColor(glm::vec4(0.0,0.0,0.0,0.0));
     sphere->generateBuffers();
-    sphere->transform.setLocalPosition(glm::vec3(0.0, 2.0, -0.1));
+    sphere->transform.setLocalPosition(glm::vec3(0.0, 2.865697, -1.0));
     // if(heightmap_activated){
     //     float height = plane->getHeightFromCoords(sphere->transform.getLocalPosition());
     //     sphere->transform.setLocalPosition(glm::vec3(0.0, height,-0.1));
@@ -215,6 +223,7 @@ int main( void )
     
     plane->addChild(sphere);
     plane->addChild(obstacle);
+    plane->addChild(slope);
     plane->forceUpdateSelfAndChild();
     
 
@@ -231,7 +240,7 @@ int main( void )
     // ------------------------------------------------------------------------------------
 
     // --- Spring Camera 
-    initCameraObject(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 70.0f, 2.0f, 1.25f);
+    initCameraObject(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 70.0f, 4.0f, 4.0f);
 
     // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
@@ -283,42 +292,52 @@ int main( void )
             sphere->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
         }
 
-        glm::vec3 planeNormal;
-        float planeDepth;
-        if(sphere->getGlobalCollider().collides(plane, planeNormal, planeDepth))
-        {
-            
-            // glm::vec3 displacement = glm::vec3(glm::inverse(sphere->transform.getModelMatrix()) * glm::vec4(planeNormal, 1.0));
-            // sphere->transform.setLocalPosition(sphere->transform.getLocalPosition() - displacement);
-            float height = plane->getHeightFromCoords(sphere->transform.getLocalPosition());
-            float sphereBottom = sphere->transform.getLocalPosition().y - sphere->m_radius;
-            planeDepth = sphereBottom - height;
-            if(glm::abs(planeDepth)>0.0f)
-            {
-                glm::mat3 terrainRot = glm::mat3(plane->transform.getModelMatrix());
-                glm::vec3 localNormal = glm::transpose(terrainRot) * planeNormal;
-                glm::vec3 adjustedNormal = glm::vec3(0.0, localNormal.y, (localNormal.z < 0.0f)? -localNormal.z : localNormal.z);
-                glm::vec3 mtv = adjustedNormal * planeDepth;
-                mtv = glm::vec3(0.0, (mtv.y < 0.0f) ? -mtv.y : mtv.y, 0.0);
-                mtv*=0.9f;
-                sphere->transform.setLocalPosition(sphere->transform.getLocalPosition() + mtv);
-                glm::vec3 velocity = sphere->getRigidBody()->getVelocity();
-                glm::vec3 adjusted = adjustVelocity(adjustedNormal, velocity);
-                sphere->getRigidBody()->setVelocity(adjusted);
+        // glm::vec3 planeNormal;
+        // float planeDepth;
+        // if(sphere->getGlobalCollider().collides(slope, planeNormal, planeDepth))
+        // {
+        //     printf("%f, %f, %f\n", planeNormal.x, planeNormal.y, planeNormal.z);
+        //     //printf("%f\n", planeDepth);
+        //     //glm::vec3 displacement = planeDepth * planeNormal;
+        //     //displacement *= planeDepth;
+        //     //printf("%f, %f, %f\n", displacement.x, displacement.y, displacement.z);
+        //     glm::vec3 velocity = sphere->getRigidBody()->getVelocity();
+        //     glm::vec3 adjusted = adjustVelocity(planeNormal, velocity);
+        //     sphere->getRigidBody()->setVelocity(adjusted);
 
-            }
-            sphere->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
-            sphere->getRigidBody()->applyForce(glm::vec3(0.0, 9.81, 0.0));
+        //     glm::vec3 reboundVec = sphere->getRigidBody()->computeRebound(planeNormal);
+        //     reboundVec *= 0.8;
+        //     sphere->getRigidBody()->setVelocity(reboundVec);
+        //     //sphere->transform.setLocalPosition(sphere->transform.getLocalPosition() + planeNormal);
+        //     // float height = plane->getHeightFromCoords(sphere->transform.getLocalPosition());
+        //     // float sphereBottom = sphere->transform.getLocalPosition().y - sphere->m_radius;
+        //     // planeDepth = sphereBottom - height;
+        //     // if(glm::abs(planeDepth)>0.0f)
+        //     // {
+        //     //     glm::mat3 terrainRot = glm::mat3(plane->transform.getModelMatrix());
+        //     //     glm::vec3 localNormal = glm::transpose(terrainRot) * planeNormal;
+        //     //     glm::vec3 adjustedNormal = glm::vec3(0.0, localNormal.y, (localNormal.z < 0.0f)? -localNormal.z : localNormal.z);
+        //     //     glm::vec3 mtv = adjustedNormal * planeDepth;
+        //     //     mtv = glm::vec3(0.0, (mtv.y < 0.0f) ? -mtv.y : mtv.y, 0.0);
+        //     //     mtv*=0.9f;
+        //     //     sphere->transform.setLocalPosition(sphere->transform.getLocalPosition() + mtv);
+        //     //     glm::vec3 velocity = sphere->getRigidBody()->getVelocity();
+        //     //     glm::vec3 adjusted = adjustVelocity(adjustedNormal, velocity);
+        //     //     sphere->getRigidBody()->setVelocity(adjusted);
+
+        //     // }
+        //     sphere->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
+        //     sphere->getRigidBody()->applyForce(glm::vec3(0.0, 9.81, 0.0));
 
 
-        }
-        else
-        {
-            sphere->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
+        // }
+        // else
+        // {
+        //     sphere->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
 
-        }
+        // }
         
-        sphere->getRigidBody()->applyForce(glm::vec3(0.0, -9.81, 0.0));
+        //sphere->getRigidBody()->applyForce(glm::vec3(0.0, -9.81, 0.0));
 
         
         // Update Scene 
@@ -329,6 +348,7 @@ int main( void )
 
         // Draw Scene Graph
         render(plane);
+        //render(slope);
         // Swap buffers
         glfwSwapBuffers(window);
         glfwPollEvents();

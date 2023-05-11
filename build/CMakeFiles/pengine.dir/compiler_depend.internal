@@ -1993,6 +1993,7 @@ CMakeFiles/pengine.dir/pengine/BoxCollider.cpp.o
  /home/nicolas/Bureau/Pengine/external/glfw-3.1.2/include/GLFW/glfw3.h
  /home/nicolas/Bureau/Pengine/pengine/include/BoxCollider.h
  /home/nicolas/Bureau/Pengine/pengine/include/RigidBody.h
+ /home/nicolas/Bureau/Pengine/pengine/include/MeshObject.h
  /usr/include/c++/11/algorithm
  /usr/include/c++/11/bits/stl_algo.h
  /usr/include/c++/11/bits/algorithmfwd.h
@@ -3129,6 +3130,7 @@ CMakeFiles/pengine.dir/pengine/MeshObject.cpp.o
  /home/nicolas/Bureau/Pengine/pengine/include/Collider.h
  /home/nicolas/Bureau/Pengine/pengine/include/RigidBody.h
  /home/nicolas/Bureau/Pengine/common/objloader.hpp
+ /home/nicolas/Bureau/Pengine/common/vboindexer.hpp
 
 CMakeFiles/pengine.dir/pengine/Plane.cpp.o
  /home/nicolas/Bureau/Pengine/pengine/Plane.cpp
