@@ -5244,14 +5244,16 @@ CMakeFiles/pengine.dir/pengine/main.cpp.o
  /home/nicolas/Bureau/Pengine/external/glm-0.9.7.1/glm/gtc/constants.hpp
  /home/nicolas/Bureau/Pengine/external/glm-0.9.7.1/glm/gtc/constants.inl
  /home/nicolas/Bureau/Pengine/external/glm-0.9.7.1/glm/gtc/matrix_transform.inl
+ /home/nicolas/Bureau/Pengine/external/glm-0.9.7.1/glm/gtx/compatibility.hpp
+ /home/nicolas/Bureau/Pengine/external/glm-0.9.7.1/glm/gtc/quaternion.hpp
+ /home/nicolas/Bureau/Pengine/external/glm-0.9.7.1/glm/gtc/quaternion.inl
+ /home/nicolas/Bureau/Pengine/external/glm-0.9.7.1/glm/gtx/compatibility.inl
  /home/nicolas/Bureau/Pengine/common/shader.hpp
  /home/nicolas/Bureau/Pengine/common/objloader.hpp
  /home/nicolas/Bureau/Pengine/common/vboindexer.hpp
  /home/nicolas/Bureau/Pengine/common/controls.hpp
  /home/nicolas/Bureau/Pengine/pengine/include/CameraObject.h
  /home/nicolas/Bureau/Pengine/external/glm-0.9.7.1/glm/gtc/type_ptr.hpp
- /home/nicolas/Bureau/Pengine/external/glm-0.9.7.1/glm/gtc/quaternion.hpp
- /home/nicolas/Bureau/Pengine/external/glm-0.9.7.1/glm/gtc/quaternion.inl
  /usr/include/c++/11/cstring
  /usr/include/string.h
  /usr/include/strings.h

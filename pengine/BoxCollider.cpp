@@ -154,7 +154,7 @@ bool BoxCollider::collides(Plane* plane, glm::vec3 &normal, float  & depth)
             {
             	t[i] = glm::vec3(plane->transform.getModelMatrix() * glm::vec4(t[i], 1.0f));
             }
-            if(this->collides(t)) {
+            if(this->collides(t, depth)) {
             	normal = glm::normalize(glm::cross(t[1] - t[0], t[2] - t[0]));
             	return true;
             	
@@ -181,7 +181,7 @@ bool BoxCollider::collides(Plane* plane, glm::vec3 &normal, float  & depth)
                     plane->indexed_vertices[plane->triangles[iterator->triangles[i]][1]],
                     plane->indexed_vertices[plane->triangles[iterator->triangles[i]][2]]
                 	};
-					if(this->collides(t)) return true;
+					if(this->collides(t, depth)) return true;
 				}
 			}
 			if(iterator->children != 0)
@@ -200,7 +200,7 @@ bool BoxCollider::collides(Plane* plane, glm::vec3 &normal, float  & depth)
 	return false;
 }
 
-bool BoxCollider::collides(std::vector<glm::vec3> &triangle)
+bool BoxCollider::collides(std::vector<glm::vec3> &triangle, float & depth)
 {
 	//triangle edges
 	glm::vec3 f0 = triangle[1] - triangle[0];
@@ -219,12 +219,16 @@ bool BoxCollider::collides(std::vector<glm::vec3> &triangle)
 		glm::cross(u1, f0), glm::cross(u1, f1), glm::cross(u1, f2),
 		glm::cross(u2, f0), glm::cross(u2, f1), glm::cross(u2, f2)
 	};
+	float axisDepth;
+	depth = FLT_MAX;
 	for (int i = 0; i < 13; ++i)
 	{
-		if(!overlapOnAxis(this, triangle, test[i]))
+		axisDepth = FLT_MAX;
+		if(!overlapOnAxis(this, triangle, test[i], axisDepth))
 		{
 			return false;
 		}
+		depth = fminf(depth, axisDepth);
 	}
 	return true;
 
@@ -243,7 +247,7 @@ bool BoxCollider::collides(MeshObject* mesh, glm::vec3&normal, float & depth)
         {
         	t[i] = glm::vec3(mesh->transform.getModelMatrix() * glm::vec4(t[i], 1.0f));
         }
-        if(this->collides(t)) {
+        if(this->collides(t, depth)) {
         	normal = glm::normalize(glm::cross(t[1] - t[0], t[2] - t[0]));
         	return true;
         	

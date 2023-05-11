@@ -29,11 +29,13 @@ public:
 	glm::vec3 getAccel();
 	glm::vec3 computeRebound(glm::vec3 normal);
 
+	float mass;
+	
+
 private:
 	glm::vec3 velocity;
 	glm::vec3 accel;
 	std::vector<glm::vec3> forces;
 
-	float mass;
 };
 #endif

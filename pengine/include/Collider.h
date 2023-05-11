@@ -19,7 +19,7 @@ class Collider
 public:
 	virtual bool collides(BoxCollider* other, glm::vec3 &intersection, glm::vec3 &normal, float & depth) = 0;
 	virtual bool collides(Plane* plane, glm::vec3 &normal, float  & depth) = 0;
-	virtual bool collides(std::vector<glm::vec3> &triangle) = 0;
+	virtual bool collides(std::vector<glm::vec3> &triangle, float & depth) = 0;
 	virtual bool collides(MeshObject* mesh, glm::vec3&normal, float & depth) = 0;
 
 };

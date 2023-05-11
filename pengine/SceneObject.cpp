@@ -135,7 +135,8 @@ void SceneObject::splitBVHNode(BVHNode* node, int depth)
                     this->indexed_vertices[this->triangles[node->triangles[j]][1]],
                     this->indexed_vertices[this->triangles[node->triangles[j]][2]]
                 };
-                if(node->children[i].bounds.collides(t))
+                float depth; //unused
+                if(node->children[i].bounds.collides(t, depth))
                 {
                     node->children[i].numTriangles++;
 
@@ -151,7 +152,8 @@ void SceneObject::splitBVHNode(BVHNode* node, int depth)
                     this->indexed_vertices[this->triangles[node->triangles[j]][1]],
                     this->indexed_vertices[this->triangles[node->triangles[j]][2]]
                 };
-                if(node->children[i].bounds.collides(t))
+                float depth;//unused
+                if(node->children[i].bounds.collides(t, depth))
                 {
                     node->children[i].triangles[index++] = node->triangles[j];
 

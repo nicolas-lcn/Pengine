@@ -15,6 +15,8 @@ GLFWwindow* window;
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
+#include <glm/gtc/constants.hpp>
+#include <glm/gtx/compatibility.hpp>
 
 using namespace glm;
 
@@ -37,7 +39,9 @@ using namespace glm;
 
 
 void key (GLFWwindow *window, int key, int scancode, int action, int mods );
-glm::vec3 adjustVelocity(glm::vec3 &normal , glm::vec3 &velocity);
+glm::vec3 computeNetForce(glm::vec3 &normal);
+glm::vec3 computeImpulse(glm::vec3 & normal, glm::vec3 & velocity);
+
 void render(Entity *node);
 void deleteBuffersNode(Entity *node);
 
@@ -166,12 +170,13 @@ int main( void )
     plane->setColor(glm::vec4(0.2, 0.8, 0.05, 0.0));
     plane->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));
 
-    // slope->generateBuffers();
-    // slope->create("./data_off/slope.obj");
-    // slope->transform.setLocalPosition(glm::vec3(0.0, 3.0, 0.0));
-    // //slope->transform.setLocalRotation(glm::vec3(45.0, 90.0, 90.0));
-    // //slope->transform.setLocalScale(glm::vec3(0.5, 0.5, 0.5));
-    // slope->setColor(glm::vec4(0.0, 1.0, 0.0, 1.0));
+    slope->generateBuffers();
+    slope->create("./data_off/slope.obj");
+    slope->transform.setLocalPosition(glm::vec3(0.0, 3.0, 0.0));
+    //slope->transform.setLocalRotation(glm::vec3(45.0, 90.0, 90.0));
+    //slope->transform.setLocalScale(glm::vec3(0.5, 0.5, 0.5));
+    slope->setColor(glm::vec4(0.0, 1.0, 0.0, 1.0));
+    slope->setIsTerrain(1);
     
     // ------------------------------------------------------------------------------------
 
@@ -185,16 +190,15 @@ int main( void )
     sphere->build_arrays_for_resolutions();
     sphere->setColor(glm::vec4(0.0,0.0,0.0,0.0));
     sphere->generateBuffers();
-    sphere->transform.setLocalPosition(glm::vec3(0.0, 2.865697, -1.0));
+    sphere->transform.setLocalPosition(glm::vec3(0.0, 4, 1.0));
     // if(heightmap_activated){
     //     float height = plane->getHeightFromCoords(sphere->transform.getLocalPosition());
     //     sphere->transform.setLocalPosition(glm::vec3(0.0, height,-0.1));
 
     // }
     sphere->setRigidBody(new RigidBody());
+    
 
-    // ------------------------------------------------------------------------------------
-    // ADD OBSTACLE
     // -----------------------------------------------------------------------------------
     obstacle->generateBuffers();
     obstacle->create("./data_off/cube.off");
@@ -206,18 +210,27 @@ int main( void )
     }
     obstacle->transform.setLocalScale(glm::vec3(0.1, 0.1, 0.1));
 
-    /*std::vector<glm::vec3> out_vertices;
-    std::vector<glm::vec2> out_uvs;
-    std::vector<glm::vec3> out_normals;
-    loadOBJ("penguin-simpl-triangle.obj", out_vertices, out_uvs, out_normals);*/
 
+
+    // Plane *plane2 = new Plane(plane_larg, plane_len, plane_dim, plane_dim);
+    // plane2->center = glm::vec3(0.0,0.0,-plane_len);
+    // plane2->generatePlane();
+    // plane2->setIsTerrain(1);
+    // plane2->generateBuffers();
+    // // use height map
+    // if(heightmap_activated){
+    //     height_map->readPGMTexture((char*)"textures/heightmap_jeu1024.pgm");
+    //     plane2->addHeightMap(height_map->data, height_map->height, height_map->width);
+    // }
     // ------------------------------------------------------------------------------------
     // SCENE GRAPH
     // ------------------------------------------------------------------------------------
+    
     plane->addChild(sphere);
     plane->addChild(obstacle);
     plane->addChild(slope);
     plane->forceUpdateSelfAndChild();
+    
 
     // ------------------------------------------------------------------------------------
 
@@ -284,54 +297,35 @@ int main( void )
             sphere->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
         }
 
-        // glm::vec3 planeNormal;
-        // float planeDepth;
-        // if(sphere->getGlobalCollider().collides(slope, planeNormal, planeDepth))
-        // {
-        //     printf("%f, %f, %f\n", planeNormal.x, planeNormal.y, planeNormal.z);
-        //     //printf("%f\n", planeDepth);
-        //     //glm::vec3 displacement = planeDepth * planeNormal;
-        //     //displacement *= planeDepth;
-        //     //printf("%f, %f, %f\n", displacement.x, displacement.y, displacement.z);
-        //     glm::vec3 velocity = sphere->getRigidBody()->getVelocity();
-        //     glm::vec3 adjusted = adjustVelocity(planeNormal, velocity);
-        //     sphere->getRigidBody()->setVelocity(adjusted);
+        glm::vec3 planeNormal;
+        float planeDepth;
+        if(sphere->getGlobalCollider().collides(slope, planeNormal, planeDepth))
+        {
 
-        //     glm::vec3 reboundVec = sphere->getRigidBody()->computeRebound(planeNormal);
-        //     reboundVec *= 0.8;
-        //     sphere->getRigidBody()->setVelocity(reboundVec);
-        //     //sphere->transform.setLocalPosition(sphere->transform.getLocalPosition() + planeNormal);
-        //     // float height = plane->getHeightFromCoords(sphere->transform.getLocalPosition());
-        //     // float sphereBottom = sphere->transform.getLocalPosition().y - sphere->m_radius;
-        //     // planeDepth = sphereBottom - height;
-        //     // if(glm::abs(planeDepth)>0.0f)
-        //     // {
-        //     //     glm::mat3 terrainRot = glm::mat3(plane->transform.getModelMatrix());
-        //     //     glm::vec3 localNormal = glm::transpose(terrainRot) * planeNormal;
-        //     //     glm::vec3 adjustedNormal = glm::vec3(0.0, localNormal.y, (localNormal.z < 0.0f)? -localNormal.z : localNormal.z);
-        //     //     glm::vec3 mtv = adjustedNormal * planeDepth;
-        //     //     mtv = glm::vec3(0.0, (mtv.y < 0.0f) ? -mtv.y : mtv.y, 0.0);
-        //     //     mtv*=0.9f;
-        //     //     sphere->transform.setLocalPosition(sphere->transform.getLocalPosition() + mtv);
-        //     //     glm::vec3 velocity = sphere->getRigidBody()->getVelocity();
-        //     //     glm::vec3 adjusted = adjustVelocity(adjustedNormal, velocity);
-        //     //     sphere->getRigidBody()->setVelocity(adjusted);
-
-        //     // }
-        //     sphere->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
-        //     sphere->getRigidBody()->applyForce(glm::vec3(0.0, 9.81, 0.0));
+            glm::vec3 velocity = sphere->getRigidBody()->getVelocity();
+            glm::vec3 impulseResponse = computeImpulse(planeNormal, velocity);
+            sphere->getRigidBody()->setVelocity(impulseResponse);
+            float costheta = glm::dot(planeNormal, glm::vec3(0.0, 1.0, 0.0));
+            glm::vec3 normalforce = 9.81f * costheta * glm::vec3(0.0, 1.0, 0.0);
+            sphere->getRigidBody()->applyForce(normalforce);
+            sphere->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
 
 
-        // }
-        // else
-        // {
-        //     sphere->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
+        }
+        else
+        {
+            sphere->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
+            sphere->getRigidBody()->applyForce(9.81f * glm::vec3(0.0f, -1.0f, 0.0f));
 
-        // }
+        }
+
+        // glm::vec3 forceZ = computeNetForce(planeNormal);
+        // forceZ *= deltaTime;
+        // glm::vec3 velocity = sphere->getRigidBody()->getVelocity();
+        // velocity.z += (forceZ.z < 0.0f) ? forceZ.z : 0.0f;
+        // sphere->getRigidBody()->setVelocity(velocity);
         
-        //sphere->getRigidBody()->applyForce(glm::vec3(0.0, -9.81, 0.0));
 
-        
         // Update Scene 
         sphere->update(deltaTime);
         getCamera()->updateTarget(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
@@ -541,14 +535,26 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
 
 }
 
-//Adjusts object velocity according to plane heightmap and slope
-glm::vec3 adjustVelocity(glm::vec3 &normal, glm::vec3 &velocity)
+//Calculate force to apply to make the object slide on the slope
+glm::vec3 computeNetForce(glm::vec3 &normal)
 {
-    //printf("%f, %f, %f\n", normal.x, normal.y, normal.z);
-    glm::quat slopeRotation = RotationBetweenVectors(glm::vec3(0.0, 1.0, 0.0), normal);
-    glm::vec3 adjusted = slopeRotation * velocity;
-    if(adjusted.y <0.0f) return adjusted;
-    else return velocity;
+    float theta = glm::acos(glm::dot(glm::vec3(0.0, 1.0, 0.0), normal));
+    return glm::vec3(0.0, 0.0, 9.81f * (sin(theta) - cos(theta)));
+}
+
+glm::vec3 computeImpulse(glm::vec3 & normal, glm::vec3 & velocity)
+{
+    float C_r_sphere = 0.2f;
+    float mu_k = 0.25f;
+    float mu_s = 0.6f;
+    glm::vec3 tangent = glm::cross(glm::cross(normal,velocity), normal);
+    tangent = glm::normalize(tangent);
+    glm::vec3 j_sphere = (-1*(1+C_r_sphere) * velocity * normal) / (1 + 1.0f/9400.0f);
+    //glm::vec3 j_terrain = (-(1+C_r_terrain) * velocity * normal) / (1 + 1.0f/9400.0f);
+    float theta = glm::acos(glm::dot(glm::vec3(0.0, 1.0, 0.0), normal));
+    float F_parallel = -9.81f * glm::sin(theta);
+    float frictionCoeff = (glm::length(mu_s * tangent) <= F_parallel)? mu_s : mu_k;
+    return velocity + j_sphere * (normal + frictionCoeff* tangent) ;
 }
 
 void render(Entity* node)

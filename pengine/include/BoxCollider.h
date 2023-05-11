@@ -33,7 +33,7 @@ public:
 
 	bool collides(BoxCollider* other, glm::vec3 &intersection, glm::vec3 &normal, float & depth) override;
 	bool collides(Plane* plane, glm::vec3 &normal, float & depth) override;
-	bool collides(std::vector<glm::vec3> &triangle) override;
+	bool collides(std::vector<glm::vec3> &triangle, float & depth) override;
 	bool collides(MeshObject* mesh, glm::vec3&normal, float & depth) override;
 
 

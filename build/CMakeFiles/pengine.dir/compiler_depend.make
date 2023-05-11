@@ -5225,14 +5225,16 @@ CMakeFiles/pengine.dir/pengine/main.cpp.o: ../pengine/main.cpp \
   ../external/glm-0.9.7.1/glm/gtc/constants.hpp \
   ../external/glm-0.9.7.1/glm/gtc/constants.inl \
   ../external/glm-0.9.7.1/glm/gtc/matrix_transform.inl \
+  ../external/glm-0.9.7.1/glm/gtx/compatibility.hpp \
+  ../external/glm-0.9.7.1/glm/gtc/quaternion.hpp \
+  ../external/glm-0.9.7.1/glm/gtc/quaternion.inl \
+  ../external/glm-0.9.7.1/glm/gtx/compatibility.inl \
   ../common/shader.hpp \
   ../common/objloader.hpp \
   ../common/vboindexer.hpp \
   ../common/controls.hpp \
   ../pengine/include/CameraObject.h \
   ../external/glm-0.9.7.1/glm/gtc/type_ptr.hpp \
-  ../external/glm-0.9.7.1/glm/gtc/quaternion.hpp \
-  ../external/glm-0.9.7.1/glm/gtc/quaternion.inl \
   /usr/include/c++/11/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \

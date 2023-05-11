@@ -42,11 +42,16 @@ Interval getInterval(std::vector<glm::vec3> &triangle, const glm::vec3 &axis)
 
 }
 
-bool overlapOnAxis(BoxCollider* collider, std::vector<glm::vec3> &triangle, glm::vec3 axis)
+bool overlapOnAxis(BoxCollider* collider, std::vector<glm::vec3> &triangle, glm::vec3 axis, float & depth)
 {
 	Interval a = getInterval(collider, axis);
 	Interval b = getInterval(triangle, axis);
-	return ((b.min<=a.max) && (a.min<=b.max));
+	if((b.min<=a.max) && (a.min<=b.max))
+	{
+		depth = fminf(b.max - a.min, a.max - b.min);
+		return true;
+	}
+	return false;
 }
 
 glm::vec3 mean(std::vector<glm::vec3> &vertices)
