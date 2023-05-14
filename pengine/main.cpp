@@ -66,7 +66,8 @@ int plane_dim = 40;
 Plane *plane = new Plane(plane_larg, plane_len, plane_dim, plane_dim);
 
 // sphere data
-Sphere* sphere = new Sphere();
+//Sphere* sphere = new Sphere();
+MeshObject* sphere = new MeshObject();
 double initial_speed = 2.2;
 bool isSliding = false;
 glm::vec3 slideForce;
@@ -181,9 +182,9 @@ int main( void )
     // ------------------------------------------------------------------------------------
 
     // -----------------------------------------------------------------------------------
-    // SPHERE OBJECT
+    // SPHERE OBJECT - PENGUIN
     // -----------------------------------------------------------------------------------
-    sphere->m_radius =  0.1f;
+    /*sphere->m_radius =  0.1f;
     //sphere->m_center = glm::vec3(glm::vec3(0.0, 0.0, -0.1));
     //sphere->m_center = center_sphere;
     sphere->build_arrays();
@@ -196,16 +197,29 @@ int main( void )
     //     sphere->transform.setLocalPosition(glm::vec3(0.0, height,-0.1));
 
     // }
+    sphere->setRigidBody(new RigidBody());*/
+    sphere->generateBuffers();
+    sphere->create("./data_off/penguin-2500-triangle.obj");
+    sphere->transform.setLocalPosition(glm::vec3(0.0, 2.865697, -1.0));
+    sphere->transform.setLocalScale(glm::vec3(0.03, 0.03, 0.03));
     sphere->setRigidBody(new RigidBody(0.8f));
-    
 
+
+    // ------------------------------------------------------------------------------------
+    // ADD OBSTACLE
     // -----------------------------------------------------------------------------------
     obstacle->generateBuffers();
     obstacle->create("./data_off/cube.off");
-    obstacle->transform.setLocalPosition(glm::vec3(0.0, 0.0,-1.0));
-    obstacle->transform.setLocalScale(glm::vec3(0.2, 0.2, 0.2));
+    obstacle->transform.setLocalPosition(glm::vec3(0.0, 0.6,-2.0));
+    if(heightmap_activated){
+        float height = plane->getHeightFromCoords(obstacle->transform.getLocalPosition());
+        obstacle->transform.setLocalPosition(glm::vec3(0.0, height + 0.05,-2.0));
+    }
+    obstacle->transform.setLocalScale(glm::vec3(0.1, 0.1, 0.1));
 
-
+    //penguin->generateBuffers();
+    //penguin->create("./data_off/penguin-simpl-triangle.obj");
+>>>>>>> 017647bad97f9fc9d4154ab55d4036e30cc3c125
 
     // Plane *plane2 = new Plane(plane_larg, plane_len, plane_dim, plane_dim);
     // plane2->center = glm::vec3(0.0,0.0,-plane_len);
@@ -394,24 +408,6 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             plane_dim = 200;
         }
 
-
-    }else if( key == GLFW_KEY_C and action == GLFW_PRESS ){
-        std::cout << "You have pressed the key c : switch to orbital camera" << std::endl;
-
-        /// turn around axis
-
-        // TODO doesn't work when center of plane is not 0,0,0
-        if(cameraRotates){
-            cameraRotates = false;
-            setCamPosition(glm::vec3( 0, 0.55, 5));
-            setVerticalAngle(0.0f);
-        }else{
-            cameraRotates = true;
-            setCamPosition(glm::vec3( 0, 5, 5));
-            setVerticalAngle(-3.14f/4.0f);
-        }
-
-
     }else if( key == GLFW_KEY_W and action == GLFW_PRESS ){ // Z on macbook keyboard
         std::cout << "You have pressed the key Z : rotation speeds up" << std::endl;
 
@@ -481,7 +477,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
         sphere->getRigidBody()->applyForce(flyForce);
     }
 
-    if( key == GLFW_KEY_RIGHT or key == GLFW_KEY_LEFT or key == GLFW_KEY_UP or key == GLFW_KEY_DOWN){
+    /*if( key == GLFW_KEY_RIGHT or key == GLFW_KEY_LEFT or key == GLFW_KEY_UP or key == GLFW_KEY_DOWN){
         // ----------------------------------------------------------------
         //follow height of terrain according to heightmap
         // sphere->transformations[0][1] -= sphere->m_center[1];
@@ -519,7 +515,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             sphere->switchResolution(reso);
         }
         // ----------------------------------------------------------------
-    }
+    }*/
 
     if( (key == GLFW_KEY_SLASH or key == GLFW_KEY_EQUAL) and action == GLFW_PRESS){
 
