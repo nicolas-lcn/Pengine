@@ -190,25 +190,20 @@ int main( void )
     sphere->build_arrays_for_resolutions();
     sphere->setColor(glm::vec4(0.0,0.0,0.0,0.0));
     sphere->generateBuffers();
-    sphere->transform.setLocalPosition(glm::vec3(0.0, 4, 1.0));
+    sphere->transform.setLocalPosition(glm::vec3(0.0, 30, 93.0));
     // if(heightmap_activated){
     //     float height = plane->getHeightFromCoords(sphere->transform.getLocalPosition());
     //     sphere->transform.setLocalPosition(glm::vec3(0.0, height,-0.1));
 
     // }
-    sphere->setRigidBody(new RigidBody());
+    sphere->setRigidBody(new RigidBody(0.8f));
     
 
     // -----------------------------------------------------------------------------------
     obstacle->generateBuffers();
     obstacle->create("./data_off/cube.off");
-    obstacle->transform.setLocalPosition(glm::vec3(0.0, 0.6,-2.0));
-    if(heightmap_activated){
-        float height = plane->getHeightFromCoords(obstacle->transform.getLocalPosition());
-        obstacle->transform.setLocalPosition(glm::vec3(0.0, height + 0.05,-2.0));
-
-    }
-    obstacle->transform.setLocalScale(glm::vec3(0.1, 0.1, 0.1));
+    obstacle->transform.setLocalPosition(glm::vec3(0.0, 0.0,-1.0));
+    obstacle->transform.setLocalScale(glm::vec3(0.2, 0.2, 0.2));
 
 
 
@@ -226,9 +221,12 @@ int main( void )
     // SCENE GRAPH
     // ------------------------------------------------------------------------------------
     
-    plane->addChild(sphere);
-    plane->addChild(obstacle);
-    plane->addChild(slope);
+    // plane->addChild(sphere);
+    // plane->addChild(obstacle);
+    // plane->addChild(slope);
+    slope->addChild(sphere);
+    slope->addChild(obstacle);
+    slope->forceUpdateSelfAndChild();
     plane->forceUpdateSelfAndChild();
     
 
@@ -245,7 +243,7 @@ int main( void )
     // ------------------------------------------------------------------------------------
 
     // --- Spring Camera 
-    initCameraObject(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 70.0f, 4.0f, 4.0f);
+    initCameraObject(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 70.0f, 10.0f, 10.0f);
 
     // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
@@ -256,6 +254,9 @@ int main( void )
     double lastTime = glfwGetTime();
     int nbFrames = 0;
     double counter_flying = 0.0;
+        
+    glm::vec3 impulseResponse;
+
 
     do{
         // Measure speed
@@ -289,9 +290,9 @@ int main( void )
             glm::vec3 out = depth * normal;
             sphere->transform.setLocalPosition(sphere->transform.getLocalPosition() + out);
             glm::vec3 reboundVec = sphere->getRigidBody()->computeRebound(normal);
-            reboundVec *= 0.4;
+            reboundVec *= 0.2;
             //glm::vec3 velocity = sphere->getRigidBody()->getVelocity() + reboundVec;
-            sphere->getRigidBody()->setVelocity(reboundVec); 
+            sphere->getRigidBody()->setVelocity(reboundVec);
         }
         else{
             sphere->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
@@ -303,37 +304,33 @@ int main( void )
         {
 
             glm::vec3 velocity = sphere->getRigidBody()->getVelocity();
-            glm::vec3 impulseResponse = computeImpulse(planeNormal, velocity);
-            sphere->getRigidBody()->setVelocity(impulseResponse);
+            impulseResponse = sphere->getRigidBody()->computeImpulseResponse(planeNormal, 0.0f, 12400.0f, glm::vec3(0.0f), 0.3f, 0.7f);
+            glm::vec3 adjustedVelocity = velocity + impulseResponse;
+            sphere->getRigidBody()->setVelocity(adjustedVelocity);
             float costheta = glm::dot(planeNormal, glm::vec3(0.0, 1.0, 0.0));
             glm::vec3 normalforce = 9.81f * costheta * glm::vec3(0.0, 1.0, 0.0);
             sphere->getRigidBody()->applyForce(normalforce);
-            sphere->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
+            //sphere->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
 
 
         }
         else
         {
-            sphere->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
+            //sphere->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
             sphere->getRigidBody()->applyForce(9.81f * glm::vec3(0.0f, -1.0f, 0.0f));
 
         }
-
-        // glm::vec3 forceZ = computeNetForce(planeNormal);
-        // forceZ *= deltaTime;
-        // glm::vec3 velocity = sphere->getRigidBody()->getVelocity();
-        // velocity.z += (forceZ.z < 0.0f) ? forceZ.z : 0.0f;
-        // sphere->getRigidBody()->setVelocity(velocity);
         
 
         // Update Scene 
         sphere->update(deltaTime);
         getCamera()->updateTarget(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
         updateCamera(deltaTime);
-        plane->updateSelfAndChild();
+        //plane->updateSelfAndChild();
+        slope->updateSelfAndChild();
 
         // Draw Scene Graph
-        render(plane);
+        render(slope);
         //render(slope);
         // Swap buffers
         glfwSwapBuffers(window);
@@ -462,7 +459,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
 
             //sphere->forward[0] -= offset;
             // sphere->up[0] -= offset;
-            slideForce = glm::vec3(-50.0, 0.0, 0.0);
+            slideForce = glm::vec3(-20.0, 0.0, 0.0);
             isSliding = true;
         }
 
@@ -473,7 +470,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             // sphere->transformations[0][0] += offset;
             // sphere->m_center[0] += offset;
             //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = glm::vec3(50.0, 0.0, 0.0);
+            slideForce = glm::vec3(20.0, 0.0, 0.0);
             isSliding = true;
         }
     }else if ( key == GLFW_KEY_SPACE and action == GLFW_PRESS ){
@@ -540,21 +537,6 @@ glm::vec3 computeNetForce(glm::vec3 &normal)
 {
     float theta = glm::acos(glm::dot(glm::vec3(0.0, 1.0, 0.0), normal));
     return glm::vec3(0.0, 0.0, 9.81f * (sin(theta) - cos(theta)));
-}
-
-glm::vec3 computeImpulse(glm::vec3 & normal, glm::vec3 & velocity)
-{
-    float C_r_sphere = 0.2f;
-    float mu_k = 0.25f;
-    float mu_s = 0.6f;
-    glm::vec3 tangent = glm::cross(glm::cross(normal,velocity), normal);
-    tangent = glm::normalize(tangent);
-    glm::vec3 j_sphere = (-1*(1+C_r_sphere) * velocity * normal) / (1 + 1.0f/9400.0f);
-    //glm::vec3 j_terrain = (-(1+C_r_terrain) * velocity * normal) / (1 + 1.0f/9400.0f);
-    float theta = glm::acos(glm::dot(glm::vec3(0.0, 1.0, 0.0), normal));
-    float F_parallel = -9.81f * glm::sin(theta);
-    float frictionCoeff = (glm::length(mu_s * tangent) <= F_parallel)? mu_s : mu_k;
-    return velocity + j_sphere * (normal + frictionCoeff* tangent) ;
 }
 
 void render(Entity* node)
