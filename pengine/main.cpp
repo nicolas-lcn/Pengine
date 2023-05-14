@@ -219,7 +219,7 @@ int main( void )
 
     //penguin->generateBuffers();
     //penguin->create("./data_off/penguin-simpl-triangle.obj");
->>>>>>> 017647bad97f9fc9d4154ab55d4036e30cc3c125
+
 
     // Plane *plane2 = new Plane(plane_larg, plane_len, plane_dim, plane_dim);
     // plane2->center = glm::vec3(0.0,0.0,-plane_len);
