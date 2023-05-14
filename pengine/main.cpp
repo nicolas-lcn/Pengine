@@ -172,7 +172,7 @@ int main( void )
     plane->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));
 
     slope->generateBuffers();
-    slope->create("./data_off/slope.obj");
+    slope->create("./data_off/half-pipe.obj");
     slope->transform.setLocalPosition(glm::vec3(0.0, 3.0, 0.0));
     //slope->transform.setLocalRotation(glm::vec3(45.0, 90.0, 90.0));
     //slope->transform.setLocalScale(glm::vec3(0.5, 0.5, 0.5));
@@ -200,7 +200,7 @@ int main( void )
     sphere->setRigidBody(new RigidBody());*/
     sphere->generateBuffers();
     sphere->create("./data_off/penguin-2500-triangle.obj");
-    sphere->transform.setLocalPosition(glm::vec3(0.0, 2.865697, -1.0));
+    sphere->transform.setLocalPosition(glm::vec3(0.0, 3.0, 1.0));
     sphere->transform.setLocalScale(glm::vec3(0.03, 0.03, 0.03));
     sphere->setRigidBody(new RigidBody(0.8f));
 
@@ -257,7 +257,7 @@ int main( void )
     // ------------------------------------------------------------------------------------
 
     // --- Spring Camera 
-    initCameraObject(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 70.0f, 10.0f, 10.0f);
+    initCameraObject(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 70.0f, 4.0f, 4.0f);
 
     // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
