@@ -11,6 +11,7 @@
 class MeshObject : public Entity {
 
 public:
+    glm::vec3 m_center;
 	MeshObject(){};
 	~MeshObject(){};
     void create(const std::string & filename);
