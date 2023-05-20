@@ -183,7 +183,7 @@ int main( void )
     // -----------------------------------------------------------------------------------
     // OBJECT PENGUIN
     // -----------------------------------------------------------------------------------
-    penguin->setRigidBody(new RigidBody());*/
+    //penguin->setRigidBody(new RigidBody());
     penguin->generateBuffers();
     penguin->create("./data_off/penguin-2500-triangle.obj");
     penguin->setRigidBody(new RigidBody(150.0f));
