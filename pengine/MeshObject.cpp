@@ -5,6 +5,7 @@
 #include "include/MeshObject.h"
 #include "common/objloader.hpp"
 #include "common/vboindexer.hpp"
+#include "common/tangentspace.hpp"
 
 #include <cstdio>
 void MeshObject::create(const std::string & filename)
@@ -21,7 +22,10 @@ void MeshObject::create(const std::string & filename)
 			tri[0] = indices[i]; tri[1] = indices[i+1]; tri[2] = indices[i+1];
 			triangles.push_back((tri));
 		}
+		// std::vector<glm::vec3> bitangents = std::vector<glm::vec3>();
+		// computeTangentBasis(indexed_vertices, coord_texture, normals, tangents, bitangents);
 	}
+
 	initBoxCollider();
 }
 

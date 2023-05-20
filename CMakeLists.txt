@@ -81,6 +81,8 @@ add_executable(pengine
 	common/geometry_utils.h
 	common/quaternion_utils.cpp
 	common/quaternion_utils.hpp
+	common/tangentspace.hpp
+	common/tangentspace.cpp
 	
         pengine/shaders/vertex_shader.glsl
         pengine/shaders/fragment_shader.glsl

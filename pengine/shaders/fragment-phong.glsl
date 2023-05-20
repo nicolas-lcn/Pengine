@@ -6,8 +6,7 @@ in vec2 o_uv0;
 in mat3 o_TBN;
 out vec4 FragColor;
 
-uniform sampler2D colorTexture;
-uniform sampler2D normalMap;
+uniform sampler2D texture_snow;
 
 // Material
 struct Material {
@@ -30,9 +29,7 @@ uniform Light light;
 
 void main() {
 
-	vec3 N = texture(normalMap, o_uv0).rgb;
-	N = N * 2.0 - 1.0;   
-	N = normalize(o_TBN * N); 
+	vec3 N = o_normalWorld; 
 	// Calcul de la couleur diffuse
 	vec3 Kd = material.diffuse;
 	vec3 Ld = light.diffuse;
@@ -53,5 +50,5 @@ void main() {
 	// Calcul de la couleur finale
 	vec3 color = ambient + Id + Is;
 
-    FragColor = vec4(texture(colorTexture, o_uv0).rgb * color, 1.0f);
+    FragColor = vec4(texture(texture_snow, o_uv0).rgb * color, 1.0f);
 }
