@@ -187,29 +187,15 @@ int main( void )
     penguin->generateBuffers();
     penguin->create("./data_off/penguin-2500-triangle.obj");
     penguin->setRigidBody(new RigidBody(150.0f));
-
+    // -----------------------------------------------------------------------------------
 
     // ------------------------------------------------------------------------------------
-    // ADD OBSTACLE
+    // ADD OBSTACLES
     // -----------------------------------------------------------------------------------
     obstacle->generateBuffers();
     obstacle->create("./data_off/cube.off");
-    
+    // -----------------------------------------------------------------------------------
 
-    //penguin->generateBuffers();
-    //penguin->create("./data_off/penguin-simpl-triangle.obj");
-
-
-    // Plane *plane2 = new Plane(plane_larg, plane_len, plane_dim, plane_dim);
-    // plane2->center = glm::vec3(0.0,0.0,-plane_len);
-    // plane2->generatePlane();
-    // plane2->setIsTerrain(1);
-    // plane2->generateBuffers();
-    // // use height map
-    // if(heightmap_activated){
-    //     height_map->readPGMTexture((char*)"textures/heightmap_jeu1024.pgm");
-    //     plane2->addHeightMap(height_map->data, height_map->height, height_map->width);
-    // }
     // ------------------------------------------------------------------------------------
     // SCENE GRAPH
     // ------------------------------------------------------------------------------------
@@ -229,7 +215,6 @@ int main( void )
     obstacle->transform.setLocalScale(glm::vec3(0.1, 0.1, 0.1));
     slope->forceUpdateSelfAndChild();
     plane->forceUpdateSelfAndChild();
-    
 
     // ------------------------------------------------------------------------------------
 
