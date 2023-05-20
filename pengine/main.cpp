@@ -172,10 +172,10 @@ int main( void )
     plane->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));
 
     slope->generateBuffers();
-    slope->create("./data_off/half-pipe.obj");
-    slope->transform.setLocalPosition(glm::vec3(0.0, 3.0, 0.0));
+    slope->create("./data_off/moutain.obj");
+    slope->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));
     //slope->transform.setLocalRotation(glm::vec3(45.0, 90.0, 90.0));
-    //slope->transform.setLocalScale(glm::vec3(0.5, 0.5, 0.5));
+    slope->transform.setLocalScale(glm::vec3(500, 500, 500));
     slope->setColor(glm::vec4(0.0, 1.0, 0.0, 1.0));
     slope->setIsTerrain(1);
     
@@ -200,9 +200,7 @@ int main( void )
     sphere->setRigidBody(new RigidBody());*/
     sphere->generateBuffers();
     sphere->create("./data_off/penguin-2500-triangle.obj");
-    sphere->transform.setLocalPosition(glm::vec3(0.0, 3.0, 1.0));
-    sphere->transform.setLocalScale(glm::vec3(0.03, 0.03, 0.03));
-    sphere->setRigidBody(new RigidBody(0.8f));
+    sphere->setRigidBody(new RigidBody(150.0f));
 
 
     // ------------------------------------------------------------------------------------
@@ -210,12 +208,7 @@ int main( void )
     // -----------------------------------------------------------------------------------
     obstacle->generateBuffers();
     obstacle->create("./data_off/cube.off");
-    obstacle->transform.setLocalPosition(glm::vec3(0.0, 0.6,-2.0));
-    if(heightmap_activated){
-        float height = plane->getHeightFromCoords(obstacle->transform.getLocalPosition());
-        obstacle->transform.setLocalPosition(glm::vec3(0.0, height + 0.05,-2.0));
-    }
-    obstacle->transform.setLocalScale(glm::vec3(0.1, 0.1, 0.1));
+    
 
     //penguin->generateBuffers();
     //penguin->create("./data_off/penguin-simpl-triangle.obj");
@@ -239,7 +232,15 @@ int main( void )
     // plane->addChild(obstacle);
     // plane->addChild(slope);
     slope->addChild(sphere);
-    slope->addChild(obstacle);
+    //slope->addChild(obstacle);
+    sphere->transform.setLocalPosition(glm::vec3(0.05, 1.0, 0.1));
+    sphere->transform.setLocalScale(glm::vec3(0.003, 0.003, 0.003));
+    obstacle->transform.setLocalPosition(glm::vec3(0.0, 0.6,-2.0));
+    if(heightmap_activated){
+        float height = plane->getHeightFromCoords(obstacle->transform.getLocalPosition());
+        obstacle->transform.setLocalPosition(glm::vec3(0.0, height + 0.05,-2.0));
+    }
+    obstacle->transform.setLocalScale(glm::vec3(0.1, 0.1, 0.1));
     slope->forceUpdateSelfAndChild();
     plane->forceUpdateSelfAndChild();
     
@@ -257,7 +258,7 @@ int main( void )
     // ------------------------------------------------------------------------------------
 
     // --- Spring Camera 
-    initCameraObject(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 70.0f, 4.0f, 4.0f);
+    initCameraObject(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 40.0f, 50.0f, 5.0f);
 
     // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
@@ -324,7 +325,8 @@ int main( void )
             float costheta = glm::dot(planeNormal, glm::vec3(0.0, 1.0, 0.0));
             glm::vec3 normalforce = 9.81f * costheta * glm::vec3(0.0, 1.0, 0.0);
             sphere->getRigidBody()->applyForce(normalforce);
-            //sphere->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
+            // sphere->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
+            // printf("Collides");
 
 
         }
@@ -338,7 +340,7 @@ int main( void )
 
         // Update Scene 
         sphere->update(deltaTime);
-        getCamera()->updateTarget(sphere->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+        getCamera()->updateTarget(sphere->getPosition(), sphere->getRigidBody()->getVelocity(), glm::vec3(0.0, 1.0, 0.0));
         updateCamera(deltaTime);
         //plane->updateSelfAndChild();
         slope->updateSelfAndChild();
@@ -430,7 +432,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             // sphere->transformations[0][2] -= offset;
             // sphere->m_center[2] -= offset;
             //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = glm::vec3(0.0, 0.0, -50.0);
+            slideForce = glm::vec3(0.0, 0.0, -0.005);
             isSliding = true;
         }
 
@@ -441,7 +443,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             // sphere->transformations[0][2] += offset;
             // sphere->m_center[2] += offset;
             //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = glm::vec3(0.0, 0.0, 50.0);
+            slideForce = glm::vec3(0.0, 0.0, 0.005);
             isSliding = true;
         }
 
@@ -455,7 +457,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
 
             //sphere->forward[0] -= offset;
             // sphere->up[0] -= offset;
-            slideForce = glm::vec3(-20.0, 0.0, 0.0);
+            slideForce = glm::vec3(-0.005, 0.0, 0.0);
             isSliding = true;
         }
 
@@ -466,7 +468,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             // sphere->transformations[0][0] += offset;
             // sphere->m_center[0] += offset;
             //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = glm::vec3(20.0, 0.0, 0.0);
+            slideForce = glm::vec3(0.005, 0.0, 0.0);
             isSliding = true;
         }
     }else if ( key == GLFW_KEY_SPACE and action == GLFW_PRESS ){
