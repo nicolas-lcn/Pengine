@@ -204,15 +204,11 @@ int main( void )
     // plane->addChild(obstacle);
     // plane->addChild(slope);
     slope->addChild(penguin);
-    //slope->addChild(obstacle);
-    penguin->transform.setLocalPosition(glm::vec3(0.05, 1.0, 0.1));
-    penguin->transform.setLocalScale(glm::vec3(0.003, 0.003, 0.003));
-    obstacle->transform.setLocalPosition(glm::vec3(0.0, 0.6,-2.0));
-    if(heightmap_activated){
-        float height = plane->getHeightFromCoords(obstacle->transform.getLocalPosition());
-        obstacle->transform.setLocalPosition(glm::vec3(0.0, height + 0.05,-2.0));
-    }
-    obstacle->transform.setLocalScale(glm::vec3(0.1, 0.1, 0.1));
+    slope->addChild(obstacle);
+    penguin->transform.setLocalPosition(glm::vec3(0.2, 1.4, 0.3));
+    //penguin->transform.setLocalScale(glm::vec3(0.3, 0.003, 0.003));
+    obstacle->transform.setLocalPosition(glm::vec3(-0.462, 0.9,0.16));
+    obstacle->transform.setLocalScale(glm::vec3(0.01, 0.01, 0.01));
     slope->forceUpdateSelfAndChild();
     plane->forceUpdateSelfAndChild();
 
@@ -230,7 +226,7 @@ int main( void )
 
     // --- Spring Camera 
 
-    initCameraObject(penguin->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 40.0f, 50.0f, 5.0f);
+    initCameraObject(penguin->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 40.0f, 30.0f, 30.0f);
 
     // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
@@ -268,9 +264,7 @@ int main( void )
         glm::vec3 intersection;
         glm::vec3 normal;
         float depth;
-        BoxCollider obstacleCollider = obstacle->getGlobalCollider();
-        BoxCollider *obstacle_ptr = &obstacleCollider;
-        if(penguin->getGlobalCollider().collides(obstacle_ptr,intersection, normal, depth))
+        if(penguin->getGlobalCollider().collides(obstacle, normal, depth))
         {
             penguin->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
             glm::vec3 out = depth * normal;
@@ -312,7 +306,7 @@ int main( void )
 
         // Update Scene 
         penguin->update(deltaTime);
-        getCamera()->updateTarget(penguin->getPosition(), penguin->getRigidBody()->getVelocity(), glm::vec3(0.0, 1.0, 0.0));
+        getCamera()->updateTarget(penguin->getPosition(), glm::vec3(-1.0,0.0, 0.0) , glm::vec3(0.0, 1.0, 0.0));
         updateCamera(deltaTime);
         //plane->updateSelfAndChild();
         slope->updateSelfAndChild();
