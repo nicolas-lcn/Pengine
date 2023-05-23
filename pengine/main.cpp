@@ -73,10 +73,11 @@ glm::vec3 slideForce;
 
 MeshObject* obstacle = new MeshObject();
 MeshObject* slope = new MeshObject();
-
+MeshObject* mountain = new MeshObject();
 // height map and textures
 Texture *height_map = new Texture();
 GLTexture *snow_texture = new GLTexture();
+GLTexture *mountain_texture = new GLTexture();
 
 GLuint programID;
 ShaderController* shaderController = new ShaderController();
@@ -171,12 +172,19 @@ int main( void )
     plane->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));
 
     slope->generateBuffers();
-    slope->create("./data_off/moutain.obj");
+    slope->create("./data_off/slope.obj");
     slope->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));
     //slope->transform.setLocalRotation(glm::vec3(45.0, 90.0, 90.0));
-    slope->transform.setLocalScale(glm::vec3(150, 150, 150));
+    slope->transform.setLocalScale(glm::vec3(3, 3, 3));
     slope->setColor(glm::vec4(0.0, 1.0, 0.0, 1.0));
     slope->setIsTerrain(1);
+
+    mountain->generateBuffers();
+    mountain->create("./data_off/m_noslope.obj");
+    mountain->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));
+    //mountain->transform.setLocalScale(glm::vec3(3, 3, 3));
+    mountain->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
+    mountain->setIsTerrain(2);
     
     // ------------------------------------------------------------------------------------
 
@@ -186,7 +194,7 @@ int main( void )
     //penguin->setRigidBody(new RigidBody());
     penguin->generateBuffers();
     penguin->create("./data_off/penguin-2500-triangle.obj");
-    penguin->setRigidBody(new RigidBody(150.0f));
+    penguin->setRigidBody(new RigidBody(50.0f));
     // -----------------------------------------------------------------------------------
 
     // ------------------------------------------------------------------------------------
@@ -205,8 +213,9 @@ int main( void )
     // plane->addChild(slope);
     slope->addChild(penguin);
     slope->addChild(obstacle);
-    penguin->transform.setLocalPosition(glm::vec3(0.2, 1.4, 0.3));
-    //penguin->transform.setLocalScale(glm::vec3(0.3, 0.003, 0.003));
+    //slope->addChild(mountain);
+    penguin->transform.setLocalPosition(glm::vec3(3.2, 2.4, -1.8));
+    penguin->transform.setLocalScale(glm::vec3(3.0, 3.0, 3.0));
     obstacle->transform.setLocalPosition(glm::vec3(-0.462, 0.9,0.16));
     obstacle->transform.setLocalScale(glm::vec3(0.01, 0.01, 0.01));
     slope->forceUpdateSelfAndChild();
@@ -222,11 +231,15 @@ int main( void )
     snow_texture->loadTexture((char*)"textures/snow.png");
     snow_texture->defineParameters();
 
+    mountain_texture->generateTexture();
+    mountain_texture->loadTexture((char*)"textures/snowrocks.png");
+    mountain_texture->defineParameters();
+
     // ------------------------------------------------------------------------------------
 
     // --- Spring Camera 
 
-    initCameraObject(penguin->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 40.0f, 30.0f, 30.0f);
+    initCameraObject(penguin->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 40.0f, 1.0f, 1.0f);
 
     // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
@@ -284,13 +297,14 @@ int main( void )
         {
 
             glm::vec3 velocity = penguin->getRigidBody()->getVelocity();
-            impulseResponse = penguin->getRigidBody()->computeImpulseResponse(planeNormal, 0.0f, 12400.0f, glm::vec3(0.0f), 0.3f, 0.7f);
+            impulseResponse = penguin->getRigidBody()->computeImpulseResponse(planeNormal, 0.0f, 12400.0f, glm::vec3(0.0f), 0.6f, 1.0f);
             glm::vec3 adjustedVelocity = velocity + impulseResponse;
             penguin->getRigidBody()->setVelocity(adjustedVelocity);
-            float costheta = glm::dot(planeNormal, glm::vec3(0.0, 1.0, 0.0));
-            glm::vec3 normalforce = 9.81f * costheta * glm::vec3(0.0, 1.0, 0.0);
+            float costheta = glm::dot(planeNormal, glm::vec3(0.0, -1.0, 0.0));
+            glm::vec3 normalforce = 9.81f * costheta * glm::vec3(0.0, -1.0, 0.0);
 
             penguin->getRigidBody()->applyForce(normalforce);
+
             // penguin->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
             // printf("Collides");
 
@@ -302,9 +316,31 @@ int main( void )
             penguin->getRigidBody()->applyForce(9.81f * glm::vec3(0.0f, -1.0f, 0.0f));
 
         }
+
+        glm::vec3 mountainNormal;float mountainDepth;
+        if(penguin->getGlobalCollider().collides(mountain, planeNormal, planeDepth))
+        {
+
+            // glm::vec3 velocity = penguin->getRigidBody()->getVelocity();
+            // impulseResponse = penguin->getRigidBody()->computeImpulseResponse(mountainNormal, 0.0f, 12400.0f, glm::vec3(0.0f), 0.6f, 0.8f);
+            // glm::vec3 adjustedVelocity = velocity + impulseResponse;
+            // penguin->getRigidBody()->setVelocity(adjustedVelocity);
+            glm::vec3 reboundVec = penguin->getRigidBody()->computeRebound(mountainNormal);
+            reboundVec *= -0.8;
+            //glm::vec3 velocity = penguin->getRigidBody()->getVelocity() + reboundVec;
+            penguin->getRigidBody()->setVelocity(reboundVec);
+
+            // penguin->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
+            // printf("Collides");
+
+
+        }
+        //penguin->getRigidBody()->applyForce(glm::vec3(-15.0, 0.0, 0.0));
+
         
 
         // Update Scene 
+        //printf("%f, %f, %f\n", penguin->getPosition().x, penguin->getPosition().y, penguin->getPosition().z);
         penguin->update(deltaTime);
         getCamera()->updateTarget(penguin->getPosition(), glm::vec3(-1.0,0.0, 0.0) , glm::vec3(0.0, 1.0, 0.0));
         updateCamera(deltaTime);
@@ -313,7 +349,7 @@ int main( void )
 
         // Draw Scene Graph
         render(slope);
-        //render(slope);
+        render(mountain);
         // Swap buffers
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -398,7 +434,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             // sphere->transformations[0][2] -= offset;
             // sphere->m_center[2] -= offset;
             //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = glm::vec3(-5.0, 0.0, 0.0);
+            slideForce = glm::vec3(-15.0, 0.0, 0.0);
             isSliding = true;
         }
 
@@ -409,7 +445,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             // sphere->transformations[0][2] += offset;
             // sphere->m_center[2] += offset;
             //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = glm::vec3(5.0, 0.0, 0.0);
+            slideForce = glm::vec3(15.0, 0.0, 0.0);
             isSliding = true;
         }
 
@@ -423,7 +459,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
 
             //sphere->forward[0] -= offset;
             // sphere->up[0] -= offset;
-            slideForce = glm::vec3(0.0, 0.0, 5.0);
+            slideForce = glm::vec3(0.0, 0.0, 15.0);
             isSliding = true;
         }
 
@@ -434,7 +470,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             // sphere->transformations[0][0] += offset;
             // sphere->m_center[0] += offset;
             //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = glm::vec3(0.0, 0.0, -5.0);
+            slideForce = glm::vec3(0.0, 0.0, -15.0);
             isSliding = true;
         }
     }else if ( key == GLFW_KEY_SPACE and action == GLFW_PRESS ){
@@ -467,7 +503,7 @@ void render(Entity* node)
 {
 
     shaderController->sendMatrices(programID, node->transform.getModelMatrix(), getProjectionMatrix(), getViewMatrix());
-    shaderController->sendTextures(programID, snow_texture);
+    shaderController->sendTextures(programID, snow_texture, mountain_texture);
 
     node->loadBuffers();
     node->draw(programID);

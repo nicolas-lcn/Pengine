@@ -6,6 +6,7 @@
 
 // texture
 uniform sampler2D texture_snow;
+uniform sampler2D texture_mountain;
 in vec2 coord_txt;
 
 // heightmap
@@ -26,5 +27,9 @@ void main(){
 
                 gl_FragColor = texture(texture_snow, coord_txt);
                 //gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+        }
+        else if(isTerrain == 2){ //mountain
+                gl_FragColor = texture(texture_mountain, coord_txt);
+
         }
 }

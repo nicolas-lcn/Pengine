@@ -18,6 +18,6 @@ class ShaderController
 {
 public:
 	void sendMatrices(GLuint programID, glm::mat4 model, glm::mat4 projection, glm::mat4 view);
-	void sendTextures(GLuint programID, GLTexture *snow_texture);
+	void sendTextures(GLuint programID, GLTexture *snow_texture, GLTexture *mountain);
 };
 #endif //SHADERCONTROLLER_H

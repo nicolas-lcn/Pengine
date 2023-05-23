@@ -29,6 +29,7 @@ public:
 	glm::vec3 getAccel();
 	glm::vec3 computeRebound(glm::vec3 normal);
 	glm::vec3 computeImpulseResponse(glm::vec3 &normal, float C_r_other, float mass_o, glm::vec3 v_o, float mu_k, float mu_s);
+	glm::vec3 computeImpulseResponse(glm::vec3 &normal, float mass_o, glm::vec3 v_o);
 
 	float mass;
 
