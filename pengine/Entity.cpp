@@ -73,13 +73,13 @@ glm::mat4 Transform::getModelMatrix() const
 
 glm::vec3 Transform::getRight() const
 {
-    return glm::vec3(m_modelMatrix[0]);
+    return glm::normalize(glm::vec3(m_modelMatrix[0]));
 }
 
 
 glm::vec3 Transform::getUp() const
 {
-    return glm::vec3(m_modelMatrix[1]);
+    return glm::normalize(glm::vec3(m_modelMatrix[1]));
 }
 
 glm::vec3 Transform::getBackward() const
@@ -89,7 +89,7 @@ glm::vec3 Transform::getBackward() const
 
 glm::vec3 Transform::getForward() const
 {
-    return glm::vec3(-m_modelMatrix[2]);
+    return glm::normalize(glm::vec3(m_modelMatrix[2]));
 }
 
 glm::vec3 Transform::getGlobalScale() const

@@ -17,6 +17,7 @@ GLFWwindow* window;
 #include <iostream>
 #include <glm/gtc/constants.hpp>
 #include <glm/gtx/compatibility.hpp>
+#include <glm/gtx/vector_angle.hpp>
 
 using namespace glm;
 
@@ -216,6 +217,7 @@ int main( void )
     //slope->addChild(mountain);
     penguin->transform.setLocalPosition(glm::vec3(3.2, 2.4, -1.8));
     penguin->transform.setLocalScale(glm::vec3(3.0, 3.0, 3.0));
+    penguin->transform.setLocalRotation(glm::vec3(0.0, 0.0, 0.0));
     obstacle->transform.setLocalPosition(glm::vec3(-0.462, 0.9,0.16));
     obstacle->transform.setLocalScale(glm::vec3(0.01, 0.01, 0.01));
     slope->forceUpdateSelfAndChild();
@@ -239,7 +241,7 @@ int main( void )
 
     // --- Spring Camera 
 
-    initCameraObject(penguin->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 40.0f, 1.0f, 1.0f);
+    initCameraObject(penguin->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 70.0f, 1.0f, 1.0f);
 
     // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
@@ -272,6 +274,7 @@ int main( void )
         {
             penguin->getRigidBody()->applyForce(slideForce);
             isSliding = false;
+            
         }
         
         glm::vec3 intersection;
@@ -302,7 +305,9 @@ int main( void )
             penguin->getRigidBody()->setVelocity(adjustedVelocity);
             float costheta = glm::dot(planeNormal, glm::vec3(0.0, -1.0, 0.0));
             glm::vec3 normalforce = 9.81f * costheta * glm::vec3(0.0, -1.0, 0.0);
+            glm::vec3 tangent = glm::cross(glm::cross(planeNormal,(velocity)), planeNormal);
 
+            
             penguin->getRigidBody()->applyForce(normalforce);
 
             // penguin->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
@@ -336,13 +341,17 @@ int main( void )
 
         }
         //penguin->getRigidBody()->applyForce(glm::vec3(-15.0, 0.0, 0.0));
+        float rot = glm::orientedAngle(glm::normalize(penguin->getRigidBody()->getVelocity()), -penguin->transform.getForward(), penguin->transform.getUp());
+        penguin->transform.setLocalRotation(penguin->transform.getLocalRotation() + glm::vec3(0.0, glm::degrees(rot) * deltaTime, 0.0));
+        
 
         
 
         // Update Scene 
         //printf("%f, %f, %f\n", penguin->getPosition().x, penguin->getPosition().y, penguin->getPosition().z);
         penguin->update(deltaTime);
-        getCamera()->updateTarget(penguin->getPosition(), glm::vec3(-1.0,0.0, 0.0) , glm::vec3(0.0, 1.0, 0.0));
+        getCamera()->updateTarget(penguin->getPosition(), penguin->transform.getForward() , penguin->transform.getUp());
+        //getCamera()->updateTarget(penguin->getPosition(), glm::vec3(-1.0,0.0, 0.0) , glm::vec3(0.0, 1.0, 0.0));
         updateCamera(deltaTime);
         //plane->updateSelfAndChild();
         slope->updateSelfAndChild();
@@ -434,7 +443,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             // sphere->transformations[0][2] -= offset;
             // sphere->m_center[2] -= offset;
             //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = glm::vec3(-15.0, 0.0, 0.0);
+            slideForce = 15.0f * penguin->transform.getForward();
             isSliding = true;
         }
 
@@ -445,7 +454,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             // sphere->transformations[0][2] += offset;
             // sphere->m_center[2] += offset;
             //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = glm::vec3(15.0, 0.0, 0.0);
+            slideForce = -15.0f * penguin->transform.getForward();
             isSliding = true;
         }
 
@@ -459,7 +468,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
 
             //sphere->forward[0] -= offset;
             // sphere->up[0] -= offset;
-            slideForce = glm::vec3(0.0, 0.0, 15.0);
+            slideForce = 15.0f * penguin->transform.getRight();
             isSliding = true;
         }
 
@@ -470,7 +479,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             // sphere->transformations[0][0] += offset;
             // sphere->m_center[0] += offset;
             //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = glm::vec3(0.0, 0.0, -15.0);
+            slideForce = -15.0f * penguin->transform.getRight();
             isSliding = true;
         }
     }else if ( key == GLFW_KEY_SPACE and action == GLFW_PRESS ){
