@@ -5,6 +5,8 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 using namespace glm;
 
 #include "shader.hpp"
@@ -21,7 +23,7 @@ unsigned int Text2DUniformID;
 void initText2D(const char * texturePath){
 
 	// Initialize texture
-	Text2DTextureID = loadDDS(texturePath);
+	Text2DTextureID = loadBMP_custom(texturePath);
 
 	// Initialize VBO
 	glGenBuffers(1, &Text2DVertexBufferID);
@@ -35,7 +37,7 @@ void initText2D(const char * texturePath){
 
 }
 
-void printText2D(const char * text, int x, int y, int size){
+void printText2D(const char * text, float x, float y, float size){
 
 	unsigned int length = strlen(text);
 
@@ -80,6 +82,25 @@ void printText2D(const char * text, int x, int y, int size){
 
 	// Bind shader
 	glUseProgram(Text2DShaderID);
+
+	unsigned int modelUniform = glGetUniformLocation(Text2DShaderID, "model");
+	unsigned int projectionUniform = glGetUniformLocation(Text2DShaderID, "projection");
+	unsigned int viewUniform = glGetUniformLocation(Text2DShaderID, "view");
+
+	glm::vec3 campos = glm::vec3(0.0, 0.0, 5.0);
+	// Projection matrix : 45� Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
+	glm::mat4 projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
+	// Camera matrix
+	glm::mat4 view       = glm::lookAt(
+								campos,           // Camera is here
+								campos+glm::vec3(0.0, 0.0, -1), // and looks here : at the same campos, plus "direction"
+								glm::vec3(0.0, 1.0, 0.0)                // Head is up (set to 0,-1,0 to look upside-down)
+						   );
+	glm::mat4 model = glm::mat4(1.0f);
+
+	glUniformMatrix4fv(modelUniform, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(projection));
+	glUniformMatrix4fv(viewUniform, 1, GL_FALSE, glm::value_ptr(view));
 
 	// Bind texture
 	glActiveTexture(GL_TEXTURE0);

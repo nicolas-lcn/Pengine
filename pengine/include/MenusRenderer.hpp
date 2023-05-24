@@ -32,10 +32,14 @@ protected:
 	std::vector<glm::vec2> m_uvs;
 	float fov = 45.0f;
 
+	float race_time;
+	int obstacles_encountered;
+
 public:
 	void initMenu(int type); // 0 -> Start Menu / 1 -> Pause Menu / 2 -> End Menu
 	void render();
 	void cleanMenu();
+	void setStats(float & race_time, int & obstacles_encountered);
 
 private:
 	void initStart();
