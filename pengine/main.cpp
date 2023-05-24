@@ -72,6 +72,11 @@ MeshObject* barrier_left = new MeshObject();
 
 MeshObject* obstacle = new MeshObject();
 MeshObject* obstacle1 = new MeshObject();
+MeshObject* obstacle2 = new MeshObject();
+MeshObject* obstacle3 = new MeshObject();
+MeshObject* obstacle4 = new MeshObject();
+MeshObject* obstacle5 = new MeshObject();
+MeshObject* obstacle6 = new MeshObject();
 
 glm::vec3 initial_penguin_position = glm::vec3(3.2, 2.4, -1.8);
 
@@ -204,6 +209,31 @@ int main( void )
     obstacle1->create("./data_off/sphere.off");
     obstacle1->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
     //obstacle1->setIsTerrain(1);
+
+    obstacle2->generateBuffers();
+    obstacle2->create("./data_off/sphere.off");
+    obstacle2->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
+    //obstacle2->setIsTerrain(1);
+
+    obstacle3->generateBuffers();
+    obstacle3->create("./data_off/sphere.off");
+    obstacle3->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
+    //obstacle3->setIsTerrain(1);
+
+    obstacle4->generateBuffers();
+    obstacle4->create("./data_off/sphere.off");
+    obstacle4->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
+    //obstacle4->setIsTerrain(1);
+
+    obstacle5->generateBuffers();
+    obstacle5->create("./data_off/sphere.off");
+    obstacle5->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
+    //obstacle5->setIsTerrain(1);
+
+    obstacle6->generateBuffers();
+    obstacle6->create("./data_off/sphere.off");
+    obstacle6->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
+    //obstacle6->setIsTerrain(1);
     // -----------------------------------------------------------------------------------
 
 
@@ -237,6 +267,11 @@ int main( void )
     slope->addChild(penguin);
     slope->addChild(obstacle);
     slope->addChild(obstacle1);
+    slope->addChild(obstacle2);
+    slope->addChild(obstacle3);
+    slope->addChild(obstacle4);
+    slope->addChild(obstacle5);
+    slope->addChild(obstacle6);
     slope->addChild(finishLine);
     finishLine->addChild(barrier_right);
     finishLine->addChild(barrier_left);
@@ -254,6 +289,21 @@ int main( void )
 
     obstacle1->transform.setLocalPosition(glm::vec3(2.35, 1.72,-2.3));
     obstacle1->transform.setLocalScale(glm::vec3(0.04, 0.04, 0.04));
+
+    obstacle2->transform.setLocalPosition(glm::vec3(-1.5, -0.66,0.533));
+    obstacle2->transform.setLocalScale(glm::vec3(0.07, 0.07, 0.07));
+
+    obstacle3->transform.setLocalPosition(glm::vec3(0.45, 0.365,-1.356));
+    obstacle3->transform.setLocalScale(glm::vec3(0.034, 0.034, 0.034));
+
+    obstacle4->transform.setLocalPosition(glm::vec3(-1.573, -1.28,2.903));
+    obstacle4->transform.setLocalScale(glm::vec3(0.08, 0.08, 0.08));
+
+    obstacle5->transform.setLocalPosition(glm::vec3(2.3, 1.62,-1.88));
+    obstacle5->transform.setLocalScale(glm::vec3(0.06, 0.06, 0.06));
+
+    obstacle6->transform.setLocalPosition(glm::vec3(1.606, 1.2,-2.043));
+    obstacle6->transform.setLocalScale(glm::vec3(0.06, 0.06, 0.06));
 
     slope->forceUpdateSelfAndChild();
     // ------------------------------------------------------------------------------------
@@ -425,8 +475,6 @@ int main( void )
         updateCamera(deltaTime);
         slope->updateSelfAndChild();
 
-        //std::cout << "penguin pos: " << penguin->getPosition()[0] << "," << penguin->getPosition()[1] << "," << penguin->getPosition()[2] << std::endl;
-
         // race_time update
         race_time+=deltaTime;
         // Draw Scene Graph
@@ -495,6 +543,9 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
     else if ( key == GLFW_KEY_ESCAPE and action == GLFW_PRESS and !(inPause || inMenu || inEndGame)){
         menusRenderer->initMenu(1);
         inPause = true;
+    }
+    else if ( key == GLFW_KEY_W and action == GLFW_PRESS ){ // Z
+        std::cout << "penguin pos: " << penguin->getPosition()[0] << "," << penguin->getPosition()[1] << "," << penguin->getPosition()[2] << std::endl;
     }
 
 
