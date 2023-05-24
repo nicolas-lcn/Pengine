@@ -30,7 +30,6 @@ using namespace glm;
 // in order to use stb_image.h and import a png texture image
 #define STB_IMAGE_IMPLEMENTATION
 #include "include/stb_image.h"
-#include "include/Plane.h"
 #include "include/GLTexture.h"
 #include "include/Texture.h"
 #include "include/SceneObject.h"
@@ -60,12 +59,6 @@ float lastFrame = 0.0f;
 
 
 bool heightmap_activated = true;
-
-// plane data
-float plane_len =  10.0;
-float plane_larg = 3.0;
-int plane_dim = 40;
-Plane *plane = new Plane(plane_larg, plane_len, plane_dim, plane_dim);
 
 // penguin object
 MeshObject* penguin = new MeshObject();
@@ -174,22 +167,6 @@ int main( void )
     // ------------------------------------------------------------------------------------
     // GENERATE TERRAIN
     // ------------------------------------------------------------------------------------
-    // generate plane -> fill arrays of indices, triangles and indexed_vertices
-    plane->generatePlane();
-    plane->setIsTerrain(1);
-    plane->generateBuffers();
-
-    // use height map
-    if(heightmap_activated){
-        height_map->readPGMTexture((char*)"textures/heightmap_simple1024.pgm");
-        plane->addHeightMap(height_map->data, height_map->height, height_map->width);
-    }
-
-    plane->addRelief();
-
-    plane->setColor(glm::vec4(0.2, 0.8, 0.05, 0.0));
-    plane->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));
-
     slope->generateBuffers();
     slope->create("./data_off/slope.obj");
     slope->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));
@@ -205,7 +182,6 @@ int main( void )
     //mountain->transform.setLocalScale(glm::vec3(3, 3, 3));
     mountain->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
     mountain->setIsTerrain(2);
-    
     // ------------------------------------------------------------------------------------
 
     // -----------------------------------------------------------------------------------
@@ -235,6 +211,8 @@ int main( void )
     barrier_right->generateBuffers();
     barrier_right->create("./data_off/barrier_right.obj");
     // ------------------------------------------------------------------------------------
+
+    // ------------------------------------------------------------------------------------
     // ADD BACKGROUND
     // -----------------------------------------------------------------------------------
     background->generateBuffers();
@@ -250,7 +228,6 @@ int main( void )
     // ------------------------------------------------------------------------------------
     // SCENE GRAPH
     // ------------------------------------------------------------------------------------
-    
     slope->addChild(penguin);
     slope->addChild(obstacle);
     slope->addChild(finishLine);
@@ -265,12 +242,9 @@ int main( void )
     // Place Finish Line ----------------------------------------------------------------
     finishLine->transform.setLocalPosition(glm::vec3(-2.3, -1.7, 4.9));
 
-
     obstacle->transform.setLocalPosition(glm::vec3(0.0, 0.0,0.0));
     obstacle->transform.setLocalScale(glm::vec3(0.1, 0.1, 0.1));
     slope->forceUpdateSelfAndChild();
-    plane->forceUpdateSelfAndChild();
-
     // ------------------------------------------------------------------------------------
 
 
@@ -288,10 +262,9 @@ int main( void )
     landscape_texture->generateTexture();
     landscape_texture->loadTexture((char*)"textures/paysage.jpg");
     landscape_texture->defineParameters();
-
     // ------------------------------------------------------------------------------------
 
-    // --- Spring Camera 
+    // --- Spring Camera
 
     initCameraObject(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 70.0f, 1.2f, 1.0f);
 
@@ -305,7 +278,7 @@ int main( void )
     race_time = lastTime;
     int nbFrames = 0;
     double counter_flying = 0.0;
-        
+
     glm::vec3 impulseResponse;
 
 
@@ -338,7 +311,7 @@ int main( void )
             glm::vec3 novelocity(0.0f);
             penguin->getRigidBody()->setVelocity(novelocity);
         }
-        
+
         glm::vec3 intersection;
         glm::vec3 normal;
         float depth;
@@ -363,7 +336,7 @@ int main( void )
             impulseResponse = penguin->getRigidBody()->computeImpulseResponse(barrier_normal, 0.6f, 12400.0f, glm::vec3(0.0f));
             glm::vec3 adjustedVelocity = velocity + 0.9f * impulseResponse;
             penguin->getRigidBody()->setVelocity(adjustedVelocity);
-            
+
         }
         if(penguin->getGlobalCollider().collides(barrier_left, barrier_normal, depth))
         {
@@ -371,7 +344,7 @@ int main( void )
             impulseResponse = penguin->getRigidBody()->computeImpulseResponse(barrier_normal, 0.6f, 12400.0f, glm::vec3(0.0f));
             glm::vec3 adjustedVelocity = velocity + 0.9f * impulseResponse;
             penguin->getRigidBody()->setVelocity(adjustedVelocity);
-            
+
         }
 
         glm::vec3 planeNormal;
@@ -434,13 +407,12 @@ int main( void )
         float rot = glm::orientedAngle(glm::normalize(penguin->getRigidBody()->getVelocity()), -penguin->transform.getForward(), penguin->transform.getUp());
         penguin->transform.setLocalRotation(penguin->transform.getLocalRotation() + glm::vec3(0.0, glm::degrees(rot) * deltaTime, 0.0));
 
-        // Update Scene 
+        // Update Scene
         //printf("%f, %f, %f\n", penguin->getPosition().x, penguin->getPosition().y, penguin->getPosition().z);
         penguin->update(deltaTime);
         getCamera()->updateTarget(penguin->getPosition(), penguin->transform.getForward() , penguin->transform.getUp());
         //getCamera()->updateTarget(penguin->getPosition(), glm::vec3(-1.0,0.0, 0.0) , glm::vec3(0.0, 1.0, 0.0));
         updateCamera(deltaTime);
-        //plane->updateSelfAndChild();
         slope->updateSelfAndChild();
 
         // race_time update
@@ -458,11 +430,6 @@ int main( void )
            glfwWindowShouldClose(window) == 0 );
 
     // Cleanup VBO and shader
-    // Entity* entity = plane;
-    // while(entity != nullptr)
-    // {
-    //     entity->deleteBuffers();
-    // }
     deleteBuffersNode(slope);
     deleteBuffersNode(mountain);
     glDeleteProgram(programID);
@@ -489,90 +456,30 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
 
     double offset = 0.01;
 
-    if( key == GLFW_KEY_EQUAL and action == GLFW_PRESS ){ // minus on macbook keyboard
-        std::cout << "You have pressed the key - : resolution decreases" << std::endl;
-
-        /// DECREASE RESOLUTION
-
-        if(plane_dim > 13){
-            plane_dim -= 5;
-        }else{
-            plane_dim = 8;
-        }
-
-    }
-    else if( key == GLFW_KEY_SLASH and action == GLFW_PRESS ){ // plus on macbook keyboard
-        std::cout << "You have pressed the key + : resolution increases" << std::endl;
-
-        /// INCREASE RESOLUTION
-
-        if(plane_dim < 196){
-            plane_dim += 5;
-        }else{
-            plane_dim = 200;
-        }
-
-    }else if( key == GLFW_KEY_W and action == GLFW_PRESS ){ // Z on macbook keyboard
-        std::cout << "You have pressed the key Z : rotation speeds up" << std::endl;
-
-        /// accelerates camera
-        speedUp = true;
-
-    }else if ( key == GLFW_KEY_Z and action == GLFW_PRESS ) { // W on macbook keyboard
-        std::cout << "You have pressed the key W : rotation slows down" << std::endl;
-
-        /// slows down camera
-        slowDown = true;
-
-    }
-
     // DISPLACE SPHERE USING arrow keys
-    else if ( key == GLFW_KEY_UP ){
-
-        // if object doesn't go farther than terrain area
-        if(penguin->m_center[2] - offset > plane->top_right[2] and penguin->m_center[2] - offset < plane->bottom_right[2]) {
-            // sphere->transformations[0][2] -= offset;
-            // sphere->m_center[2] -= offset;
-            //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = 15.0f * penguin->transform.getForward();
-            isSliding = true;
-        }
+    if ( key == GLFW_KEY_UP ){
+        //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+        slideForce = 15.0f * penguin->transform.getForward();
+        isSliding = true;
 
     }else if ( key == GLFW_KEY_DOWN ){
-
-        // if object doesn't go farther than terrain area
-        if(penguin->m_center[2] + offset > plane->top_right[2] and penguin->m_center[2] + offset < plane->bottom_right[2]){
-            // sphere->transformations[0][2] += offset;
-            // sphere->m_center[2] += offset;
-            //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = -15.0f * penguin->transform.getForward();
-            isSliding = true;
-        }
+        //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+        slideForce = -15.0f * penguin->transform.getForward();
+        isSliding = true;
 
     }else if ( key == GLFW_KEY_LEFT ){
+        //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
 
-        // if object doesn't go farther than terrain area
-        if(penguin->m_center[0] - offset > plane->top_right[2] and penguin->m_center[0] - offset < plane->bottom_right[2]){
-            // sphere->transformations[0][0] -= offset;
-            // sphere->m_center[0] -= offset;
-            //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-
-            //sphere->forward[0] -= offset;
-            // sphere->up[0] -= offset;
-            slideForce = 15.0f * penguin->transform.getRight();
-            isSliding = true;
-        }
+        //sphere->forward[0] -= offset;
+        // sphere->up[0] -= offset;
+        slideForce = 15.0f * penguin->transform.getRight();
+        isSliding = true;
 
     }else if ( key == GLFW_KEY_RIGHT ){
+        //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+        slideForce = -15.0f * penguin->transform.getRight();
+        isSliding = true;
 
-        // if object doesn't go farther than terrain area
-        if(penguin->m_center[0] + offset > plane->top_right[2] and penguin->m_center[0] + offset < plane->bottom_right[2]) {
-            // sphere->transformations[0][0] += offset;
-            // sphere->m_center[0] += offset;
-            //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-            slideForce = -15.0f * penguin->transform.getRight();
-            isSliding = true;
-        }
     }else if ( key == GLFW_KEY_SPACE and action == GLFW_PRESS and inPause){
         inPause = false;
         menusRenderer->cleanMenu();
@@ -585,14 +492,6 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
         inPause = true;
     }
 
-    if( (key == GLFW_KEY_SLASH or key == GLFW_KEY_EQUAL) and action == GLFW_PRESS){
-
-        // EDIT PLANE
-        plane->setDimension(plane_dim, plane_dim);
-        plane->clearVectors();
-        plane->generatePlane();
-        plane->addHeightMap(height_map->data, height_map->height, height_map->width);
-    }
 
     if(key == GLFW_KEY_ENTER and action == GLFW_PRESS and inMenu)
     {
