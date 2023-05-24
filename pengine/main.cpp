@@ -82,6 +82,7 @@ MeshObject* background = new MeshObject();
 Texture *height_map = new Texture();
 GLTexture *snow_texture = new GLTexture();
 GLTexture *mountain_texture = new GLTexture();
+GLTexture *landscape_texture = new GLTexture();
 
 GLuint programID;
 ShaderController* shaderController = new ShaderController();
@@ -218,6 +219,7 @@ int main( void )
     // -----------------------------------------------------------------------------------
     background->generateBuffers();
     background->create("./data_off/plane.obj");
+    background->setIsBackground(1);
     background->setColor(glm::vec4(0.4, 0.8, 0.95, 0.0));
     background->transform.setLocalPosition(glm::vec3(-6.0, 8.0, -62.0));
     background->transform.setLocalScale(glm::vec3(200.0, 200.0, 0.0));
@@ -255,6 +257,10 @@ int main( void )
     mountain_texture->generateTexture();
     mountain_texture->loadTexture((char*)"textures/snowrocks.png");
     mountain_texture->defineParameters();
+
+    landscape_texture->generateTexture();
+    landscape_texture->loadTexture((char*)"textures/paysage.jpg");
+    landscape_texture->defineParameters();
 
     // ------------------------------------------------------------------------------------
 
@@ -533,7 +539,7 @@ void render(Entity* node)
 {
 
     shaderController->sendMatrices(programID, node->transform.getModelMatrix(), getProjectionMatrix(), getViewMatrix());
-    shaderController->sendTextures(programID, snow_texture, mountain_texture);
+    shaderController->sendTextures(programID, snow_texture, mountain_texture, landscape_texture);
 
     node->loadBuffers();
     node->draw(programID);
