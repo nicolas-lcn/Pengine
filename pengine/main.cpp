@@ -411,6 +411,8 @@ int main( void )
         updateCamera(deltaTime);
         slope->updateSelfAndChild();
 
+        //std::cout << "penguin pos: " << penguin->getPosition()[0] << "," << penguin->getPosition()[1] << "," << penguin->getPosition()[2] << std::endl;
+
         // race_time update
         race_time+=deltaTime;
         // Draw Scene Graph
@@ -450,29 +452,22 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
 
-    double offset = 0.01;
+    // DISPLACE PENGUIN USING LEFT/RIGHT ARROWS
+    // ACCELERATE/DECELERATE PENGUIN USING UP/DOWN ARROWS
 
-    // DISPLACE SPHERE USING arrow keys
     if ( key == GLFW_KEY_UP ){
-        //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
         slideForce = 15.0f * penguin->transform.getForward();
         isSliding = true;
 
     }else if ( key == GLFW_KEY_DOWN ){
-        //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
         slideForce = -15.0f * penguin->transform.getForward();
         isSliding = true;
 
     }else if ( key == GLFW_KEY_LEFT ){
-        //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-
-        //sphere->forward[0] -= offset;
-        // sphere->up[0] -= offset;
         slideForce = 15.0f * penguin->transform.getRight();
         isSliding = true;
 
     }else if ( key == GLFW_KEY_RIGHT ){
-        //getCamera()->updateTarget(sphere->m_center, glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
         slideForce = -15.0f * penguin->transform.getRight();
         isSliding = true;
 
