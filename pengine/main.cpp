@@ -63,13 +63,15 @@ double initial_speed = 2.2;
 bool isSliding = false;
 glm::vec3 slideForce;
 
-MeshObject* obstacle = new MeshObject();
 MeshObject* slope = new MeshObject();
 MeshObject* mountain = new MeshObject();
 MeshObject* finishLine = new MeshObject();
 MeshObject* background = new MeshObject();
 MeshObject* barrier_right = new MeshObject();
 MeshObject* barrier_left = new MeshObject();
+
+MeshObject* obstacle = new MeshObject();
+MeshObject* obstacle1 = new MeshObject();
 
 glm::vec3 initial_penguin_position = glm::vec3(3.2, 2.4, -1.8);
 
@@ -195,6 +197,13 @@ int main( void )
     // -----------------------------------------------------------------------------------
     obstacle->generateBuffers();
     obstacle->create("./data_off/sphere.off");
+    obstacle->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
+    //obstacle->setIsTerrain(1);
+
+    obstacle1->generateBuffers();
+    obstacle1->create("./data_off/sphere.off");
+    obstacle1->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
+    //obstacle1->setIsTerrain(1);
     // -----------------------------------------------------------------------------------
 
 
@@ -227,6 +236,7 @@ int main( void )
     // ------------------------------------------------------------------------------------
     slope->addChild(penguin);
     slope->addChild(obstacle);
+    slope->addChild(obstacle1);
     slope->addChild(finishLine);
     finishLine->addChild(barrier_right);
     finishLine->addChild(barrier_left);
@@ -239,8 +249,12 @@ int main( void )
     // Place Finish Line ----------------------------------------------------------------
     finishLine->transform.setLocalPosition(glm::vec3(-2.3, -1.7, 4.9));
 
-    obstacle->transform.setLocalPosition(glm::vec3(0.0, 0.0,0.0));
-    obstacle->transform.setLocalScale(glm::vec3(0.1, 0.1, 0.1));
+    obstacle->transform.setLocalPosition(glm::vec3(0.0, -0.2,0.0));
+    obstacle->transform.setLocalScale(glm::vec3(0.06, 0.06, 0.06));
+
+    obstacle1->transform.setLocalPosition(glm::vec3(2.35, 1.72,-2.3));
+    obstacle1->transform.setLocalScale(glm::vec3(0.04, 0.04, 0.04));
+
     slope->forceUpdateSelfAndChild();
     // ------------------------------------------------------------------------------------
 
