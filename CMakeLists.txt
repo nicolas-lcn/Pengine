@@ -67,6 +67,7 @@ add_executable(pengine
         pengine/CameraObject.cpp
         pengine/ShaderController.cpp
         pengine/Entity.cpp
+        pengine/MenusRenderer.cpp
 	common/shader.cpp
 	common/shader.hpp
 	common/controls.cpp
@@ -86,6 +87,8 @@ add_executable(pengine
 	
         pengine/shaders/vertex_shader.glsl
         pengine/shaders/fragment_shader.glsl
+        pengine/shaders/MenuVertexShader.glsl
+        pengine/shaders/MenuFragmentShader.glsl
 )
 target_link_libraries(pengine
 	${ALL_LIBS}

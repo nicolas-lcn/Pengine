@@ -37,6 +37,7 @@ using namespace glm;
 #include "include/MeshObject.h"
 #include "include/Sphere.h"
 #include "include/ShaderController.h"
+#include "include/MenusRenderer.hpp"
 
 
 void key (GLFWwindow *window, int key, int scancode, int action, int mods );
@@ -82,6 +83,9 @@ GLTexture *mountain_texture = new GLTexture();
 
 GLuint programID;
 ShaderController* shaderController = new ShaderController();
+
+MenusRenderer* menusRenderer = new MenusRenderer();
+bool inMenu = true;
 /*******************************************************************************/
 
 
@@ -149,6 +153,8 @@ int main( void )
     GLuint VertexArrayID;
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
+
+    menusRenderer->initMenu(0);
 
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders( "./shaders/vertex_shader.glsl", "./shaders/fragment_shader.glsl" );
@@ -241,7 +247,7 @@ int main( void )
 
     // --- Spring Camera 
 
-    initCameraObject(penguin->getPosition(), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 70.0f, 1.0f, 1.0f);
+    initCameraObject(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 70.0f, 1.0f, 1.0f);
 
     // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
@@ -266,6 +272,14 @@ int main( void )
         // Clear the screen
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // display Menu
+        if(inMenu)
+        {
+            menusRenderer->render();
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+            continue;
+        }
         // Use our shader
         glUseProgram(programID);
         computeMatricesFromInputs();
@@ -497,6 +511,12 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
         plane->clearVectors();
         plane->generatePlane();
         plane->addHeightMap(height_map->data, height_map->height, height_map->width);
+    }
+
+    if(key == GLFW_KEY_ENTER and action == GLFW_PRESS)
+    {
+        menusRenderer->cleanMenu();
+        inMenu = false;
     }
 
 }
