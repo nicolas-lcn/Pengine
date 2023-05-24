@@ -77,6 +77,7 @@ MeshObject* obstacle3 = new MeshObject();
 MeshObject* obstacle4 = new MeshObject();
 MeshObject* obstacle5 = new MeshObject();
 MeshObject* obstacle6 = new MeshObject();
+std::vector<MeshObject*> obstacles = {obstacle, obstacle1, obstacle2, obstacle3, obstacle4, obstacle5, obstacle6};
 
 glm::vec3 initial_penguin_position = glm::vec3(3.2, 2.4, -1.8);
 
@@ -373,21 +374,49 @@ int main( void )
             penguin->getRigidBody()->setVelocity(novelocity);
         }
 
+        //printf("%f, %f, %f\n", finishLine->getPosition().x, finishLine->getPosition().y, finishLine->getPosition().z);
+
         glm::vec3 intersection;
         glm::vec3 normal;
         float depth;
-        if(penguin->getGlobalCollider().collides(obstacle, normal, depth))
+        // if(penguin->getGlobalCollider().collides(obstacle, normal, depth))
+        // {
+        //     penguin->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
+        //     glm::vec3 out = depth * normal;
+        //     penguin->transform.setLocalPosition(penguin->transform.getLocalPosition() + out);
+        //     glm::vec3 reboundVec = penguin->getRigidBody()->computeRebound(normal);
+        //     reboundVec *= 0.08;
+        //     //glm::vec3 velocity = penguin->getRigidBody()->getVelocity() + reboundVec;
+        //     penguin->getRigidBody()->setVelocity(reboundVec);
+        // }
+        // else{
+        //     penguin->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
+        // }
+        std::vector<int> collided = std::vector<int>();
+        for (int i = 0; i<obstacles.size(); i++)
         {
-            penguin->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
-            glm::vec3 out = depth * normal;
-            penguin->transform.setLocalPosition(penguin->transform.getLocalPosition() + out);
-            glm::vec3 reboundVec = penguin->getRigidBody()->computeRebound(normal);
-            reboundVec *= 0.08;
-            //glm::vec3 velocity = penguin->getRigidBody()->getVelocity() + reboundVec;
-            penguin->getRigidBody()->setVelocity(reboundVec);
+            MeshObject* o = obstacles[i];
+            BoxCollider o_box = o->getGlobalCollider();
+            //unused
+            glm::vec3 normal, intersection;
+            float depth;
+            //
+            if(penguin->getGlobalCollider().collides(&o_box, intersection, normal, depth))
+            {
+                if(penguin->getGlobalCollider().collides(o, normal, depth))
+                {
+                    glm::vec3 velocity = penguin->getRigidBody()->getVelocity();
+                    velocity *= 0.2f;
+                    penguin->getRigidBody()->setVelocity(velocity);
+                    collided.push_back(i);
+                }
+            }
         }
-        else{
-            penguin->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
+        for(int index : collided)
+        {
+            deleteBuffersNode(obstacles[index]);
+            slope->removeChild(index+1);
+            obstacles.erase(obstacles.begin()+index);
         }
 
         glm::vec3 barrier_normal;

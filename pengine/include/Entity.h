@@ -79,6 +79,7 @@ public:
 
     
     void addChild(Entity* child);
+    void removeChild(int i);
 
     //Update transform if it was changed
     void updateSelfAndChild();

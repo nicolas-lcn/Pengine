@@ -180,3 +180,8 @@ void Entity::update(float deltaTime)
 	rb->computeForces(deltaTime);
     transform.setLocalPosition(transform.getLocalPosition() + deltaTime * this->rb->getVelocity());
 }
+void Entity::removeChild(int i)
+{
+    this->children.erase(children.begin()+i);
+}
+
