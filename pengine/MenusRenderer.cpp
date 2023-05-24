@@ -4,8 +4,12 @@
 #include "../common/texture.hpp"
 #include "../common/objloader.hpp"
 #include "../common/shader.hpp"
+#include "../common/text2D.hpp"
 
+#include <string.h>
+#include <float.h>
 
+bool hasText = false;
 void MenusRenderer::initMenu(int type)
 {
 
@@ -94,20 +98,42 @@ void MenusRenderer::render()
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+
+	if(hasText)
+	{
+		float minutes = race_time/60.0f;
+		float seconds = race_time - minutes*60.0f;
+		std::string timestring =  "00:" + std::to_string((int)minutes) + ":" + std::to_string(int(seconds));
+		std::string obstaclesstring = std::to_string(obstacles_encountered);
+		// printText2D(timestring.c_str(), 0.0, 0.0, 0.2);
+		// printText2D(obstaclesstring.c_str(), 0.0, 1.0, 0.2);
+
+	}
 }
 
 void MenusRenderer::initStart()
 {
 	campos = glm::vec3(0.0, 0.0, 5.0);
 	texture = loadBMP_custom("./textures/pengine-menu.bmp");
+	hasText = false;
 }
 void MenusRenderer::initPause()
 {
 	campos = glm::vec3(0.0, 0.0, 5.0);
 	texture = loadBMP_custom("./textures/PENGINE-pause.bmp");
+	hasText = false;
 }
 void MenusRenderer::initEnd()
 {
 	campos = glm::vec3(0.0, 0.0, 5.0);
 	texture = loadBMP_custom("./textures/PENGINE-END.bmp");
+	initText2D("./textures/colortext.bmp");
+	hasText = true;
+
+}
+
+void MenusRenderer::setStats(float & race_time, int & obstacles_encountered)
+{
+	this->race_time = race_time;
+	this->obstacles_encountered = obstacles_encountered;
 }

@@ -87,8 +87,9 @@ bool inMenu = true;
 bool inPause = false;
 bool inEndGame = false;
 bool isClosing = false;
+int obstacle_encountered = 0;
+float race_time = 0.0f;
 /*******************************************************************************/
-
 
 int main( void )
 {
@@ -268,8 +269,10 @@ int main( void )
     glUseProgram(programID);
 
 
+
     // For speed computation
-    double lastTime = glfwGetTime();
+    float lastTime = glfwGetTime();
+    race_time = lastTime;
     int nbFrames = 0;
     double counter_flying = 0.0;
 
@@ -298,12 +301,6 @@ int main( void )
         // Use our shader
         glUseProgram(programID);
         computeMatricesFromInputs();
-
-        if(isSliding)
-        {
-            penguin->getRigidBody()->applyForce(slideForce);
-            isSliding = false;
-        }
 
         if(!slope->getGlobalCollider().isInside(penguin->getPosition()))
         {
@@ -360,6 +357,12 @@ int main( void )
 
             penguin->getRigidBody()->applyForce(normalforce);
 
+            if(isSliding)
+            {
+                penguin->getRigidBody()->applyForce(slideForce);
+                isSliding = false;
+            }
+
             // penguin->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
             // printf("Collides");
 
@@ -375,6 +378,11 @@ int main( void )
             impulseResponse = penguin->getRigidBody()->computeImpulseResponse(mountainNormal, 0.6f, 12400.0f, glm::vec3(0.0f));
             glm::vec3 adjustedVelocity = velocity + impulseResponse;
             penguin->getRigidBody()->setVelocity(adjustedVelocity);
+            if(isSliding)
+            {
+                penguin->getRigidBody()->applyForce(slideForce);
+                isSliding = false;
+            }
 
         }
         BoxCollider finishCollider = finishLine->getGlobalCollider();
@@ -384,6 +392,7 @@ int main( void )
             deleteBuffersNode(slope);
             deleteBuffersNode(mountain);
             menusRenderer->initMenu(2);
+            menusRenderer->setStats(race_time, obstacle_encountered);
             inEndGame = true;
             glfwSwapBuffers(window);
             glfwPollEvents();
@@ -402,6 +411,8 @@ int main( void )
         updateCamera(deltaTime);
         slope->updateSelfAndChild();
 
+        // race_time update
+        race_time+=deltaTime;
         // Draw Scene Graph
         render(slope);
         render(mountain);
