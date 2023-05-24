@@ -40,7 +40,7 @@ void MenusRenderer::initMenu(int type)
 	MenuModel = glm::mat4(1.0f);
 
 	std::vector<glm::vec3> normals;
-	loadOBJ("data_off/plane.obj", m_vertices, m_uvs, normals);
+	loadOBJ("data_off/plane-menu.obj", m_vertices, m_uvs, normals);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(glm::vec3), &m_vertices[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
