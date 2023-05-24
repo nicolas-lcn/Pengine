@@ -219,6 +219,10 @@ int main( void )
     background->generateBuffers();
     background->create("./data_off/plane.obj");
     background->setColor(glm::vec4(0.4, 0.8, 0.95, 0.0));
+    background->transform.setLocalPosition(glm::vec3(-6.0, 8.0, -62.0));
+    background->transform.setLocalScale(glm::vec3(200.0, 200.0, 0.0));
+    background->transform.setLocalRotation(glm::vec3(-20.0, 270.0, 0.0));
+    background->updateSelfAndChild();
     // -----------------------------------------------------------------------------------
 
     // ------------------------------------------------------------------------------------
@@ -230,16 +234,11 @@ int main( void )
     // plane->addChild(slope);
     slope->addChild(penguin);
     slope->addChild(obstacle);
-    slope->addChild(background);
-    //slope->addChild(mountain);
     penguin->transform.setLocalPosition(glm::vec3(3.2, 2.4, -1.8));
     penguin->transform.setLocalScale(glm::vec3(3.0, 3.0, 3.0));
     penguin->transform.setLocalRotation(glm::vec3(0.0, 0.0, 0.0));
     obstacle->transform.setLocalPosition(glm::vec3(-0.462, 0.9,0.16));
     obstacle->transform.setLocalScale(glm::vec3(0.01, 0.01, 0.01));
-    background->transform.setLocalPosition(glm::vec3(-6.0, 8.0, -62.0));
-    background->transform.setLocalScale(glm::vec3(200.0, 200.0, 0.0));
-    background->transform.setLocalRotation(glm::vec3(-20.0, 270.0, 0.0));
     slope->forceUpdateSelfAndChild();
     plane->forceUpdateSelfAndChild();
 
@@ -362,11 +361,6 @@ int main( void )
         float rot = glm::orientedAngle(glm::normalize(penguin->getRigidBody()->getVelocity()), -penguin->transform.getForward(), penguin->transform.getUp());
         penguin->transform.setLocalRotation(penguin->transform.getLocalRotation() + glm::vec3(0.0, glm::degrees(rot) * deltaTime, 0.0));
 
-        // draw background
-        //background->updateSelfAndChild();
-        //background->loadBuffers();
-        //background->draw(programID);
-
         // Update Scene 
         //printf("%f, %f, %f\n", penguin->getPosition().x, penguin->getPosition().y, penguin->getPosition().z);
         penguin->update(deltaTime);
@@ -379,6 +373,7 @@ int main( void )
         // Draw Scene Graph
         render(slope);
         render(mountain);
+        render(background);
         // Swap buffers
         glfwSwapBuffers(window);
         glfwPollEvents();
