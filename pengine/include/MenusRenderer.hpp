@@ -24,8 +24,8 @@ protected:
 	GLuint viewUniform;
 
 	glm::mat4 MenuModel, MenuView, MenuProjection;
-	glm::vec3 campos = glm::vec3(0.0, 1.0, 1.0);
-	glm::vec3 direction = glm::vec3(0.0, -1.0, -1.0);
+	glm::vec3 campos = glm::vec3(0.0, 0.0, 5.0);
+	glm::vec3 direction = glm::vec3(0.0, 0.0, -1.0);
 	glm::vec3 up = glm::vec3(0.0, 1.0, 0.0);
 
 	std::vector<glm::vec3> m_vertices;

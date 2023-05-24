@@ -29,6 +29,8 @@ public:
 
     void sendTextureToShader(GLuint programID, const GLchar *texture_shader_name, int indexActiveTexture);
 
+    void deleteTexture();
+
 };
 
 
