@@ -10,6 +10,10 @@ void SceneObject::setIsTerrain(int isTerrain){
     this->isTerrain = isTerrain;
 }
 
+void SceneObject::setIsBackground(int isBackground){
+    this->isBackground = isBackground;
+}
+
 void SceneObject::setColor(glm::vec4 color){
     this->color = color;
 }
@@ -19,6 +23,7 @@ void SceneObject::draw(GLuint programID) const {
     if( triangles.size() == 0 ) return;
 
     glUniform1i(glGetUniformLocation(programID, "isTerrain"), isTerrain);
+    glUniform1i(glGetUniformLocation(programID, "isBackground"), isBackground);
     glUniform4f(glGetUniformLocation(programID, "mesh_color"), color[0], color[1], color[2], color[3]);
 
     // 1rst attribute buffer : vertices

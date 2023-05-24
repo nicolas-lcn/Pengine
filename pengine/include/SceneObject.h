@@ -45,13 +45,16 @@ public:
 
     GLuint vertexbuffer, elementbuffer, buffer_coord_txt;
 
-    int isTerrain = 0; // 0 is not a terrain, 1 is a terrain
+    int isTerrain = 0; // 0 is not a terrain, 1 is a slope, 2 is a moutain
+    int isBackground = 0; // 0 is not a background, 1 is a background
 
     glm::vec4 color = glm::vec4(0.0,0.0,0.0,0.0); // default value
 
     SceneObject();
 
     void setIsTerrain(int isTerrain);
+
+    void setIsBackground(int isBackground);
 
     void setColor(glm::vec4 color);
 
