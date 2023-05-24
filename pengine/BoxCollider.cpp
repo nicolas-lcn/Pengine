@@ -257,3 +257,11 @@ bool BoxCollider::collides(MeshObject* mesh, glm::vec3&normal, float & depth)
 	}
 	return false;
 }
+
+bool BoxCollider::isInside(glm::vec3 point)
+{
+	return  (getA().x <= point.x && point.x <= getB().x) &&
+			(getA().y <= point.y && point.y <= getB().y) &&
+			(getA().z <= point.z && point.x <= getB().z);
+}
+
