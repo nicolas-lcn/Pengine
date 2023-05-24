@@ -218,6 +218,7 @@ int main( void )
     // -----------------------------------------------------------------------------------
     background->generateBuffers();
     background->create("./data_off/plane.obj");
+    background->setColor(glm::vec4(0.4, 0.8, 0.95, 0.0));
     // -----------------------------------------------------------------------------------
 
     // ------------------------------------------------------------------------------------
@@ -236,8 +237,9 @@ int main( void )
     penguin->transform.setLocalRotation(glm::vec3(0.0, 0.0, 0.0));
     obstacle->transform.setLocalPosition(glm::vec3(-0.462, 0.9,0.16));
     obstacle->transform.setLocalScale(glm::vec3(0.01, 0.01, 0.01));
-    background->transform.setLocalPosition(glm::vec3(0.05, 1.0, -2.0));
-    background->transform.setLocalScale(glm::vec3(200.0, 200.0, 200.0));
+    background->transform.setLocalPosition(glm::vec3(-6.0, 8.0, -62.0));
+    background->transform.setLocalScale(glm::vec3(200.0, 200.0, 0.0));
+    background->transform.setLocalRotation(glm::vec3(-20.0, 270.0, 0.0));
     slope->forceUpdateSelfAndChild();
     plane->forceUpdateSelfAndChild();
 
@@ -300,7 +302,6 @@ int main( void )
         {
             penguin->getRigidBody()->applyForce(slideForce);
             isSliding = false;
-            
         }
         
         glm::vec3 intersection;
@@ -312,7 +313,7 @@ int main( void )
             glm::vec3 out = depth * normal;
             penguin->transform.setLocalPosition(penguin->transform.getLocalPosition() + out);
             glm::vec3 reboundVec = penguin->getRigidBody()->computeRebound(normal);
-            reboundVec *= 0.2;
+            reboundVec *= 0.08;
             //glm::vec3 velocity = penguin->getRigidBody()->getVelocity() + reboundVec;
             penguin->getRigidBody()->setVelocity(reboundVec);
         }
@@ -324,7 +325,6 @@ int main( void )
         float planeDepth;
         if(penguin->getGlobalCollider().collides(slope, planeNormal, planeDepth))
         {
-
             glm::vec3 velocity = penguin->getRigidBody()->getVelocity();
             impulseResponse = penguin->getRigidBody()->computeImpulseResponse(planeNormal, 0.0f, 12400.0f, glm::vec3(0.0f), 0.6f, 1.0f);
             glm::vec3 adjustedVelocity = velocity + impulseResponse;
@@ -333,7 +333,6 @@ int main( void )
             glm::vec3 normalforce = 9.81f * costheta * glm::vec3(0.0, -1.0, 0.0);
             glm::vec3 tangent = glm::cross(glm::cross(planeNormal,(velocity)), planeNormal);
 
-            
             penguin->getRigidBody()->applyForce(normalforce);
 
             // penguin->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
@@ -364,6 +363,7 @@ int main( void )
         penguin->transform.setLocalRotation(penguin->transform.getLocalRotation() + glm::vec3(0.0, glm::degrees(rot) * deltaTime, 0.0));
 
         // draw background
+        //background->updateSelfAndChild();
         //background->loadBuffers();
         //background->draw(programID);
 
