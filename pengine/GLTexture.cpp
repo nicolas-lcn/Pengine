@@ -45,3 +45,8 @@ void GLTexture::sendTextureToShader(GLuint programID, const GLchar *texture_shad
     glUniform1i(location, indexActiveTexture);
     glEnableVertexAttribArray(2);
 }
+
+void GLTexture::deleteTexture()
+{
+    glDeleteTextures(1, &texture);
+}

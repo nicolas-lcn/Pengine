@@ -1,7 +1,7 @@
 #include "include/MenusRenderer.hpp"
 
 
-#include "include/GLTexture.h"
+#include "../common/texture.hpp"
 #include "../common/objloader.hpp"
 #include "../common/shader.hpp"
 
@@ -9,7 +9,7 @@
 void MenusRenderer::initMenu(int type)
 {
 	// Initialize texture
-	//texture = loadDDS("");
+	texture = loadBMP_custom("./textures/pengine-menu.bmp");
 
 	// Initialize VBO
 	glGenBuffers(1, &vertexBuffer);
@@ -61,10 +61,10 @@ void MenusRenderer::render()
 	glUseProgram(shaderID);
 
 	// Bind texture
-	// glActiveTexture(GL_TEXTURE0);
-	// glBindTexture(GL_TEXTURE_2D, texture);
-	// // Set our "texture" sampler to use Texture Unit 0
-	// glUniform1i(textureUniform, 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	// Set our "texture" sampler to use Texture Unit 0
+	glUniform1i(textureUniform, 0);
 	glUniformMatrix4fv(modelUniform, 1, GL_FALSE, glm::value_ptr(MenuModel));
 	glUniformMatrix4fv(projectionUniform, 1, GL_FALSE, glm::value_ptr(MenuProjection));
 	glUniformMatrix4fv(viewUniform, 1, GL_FALSE, glm::value_ptr(MenuView));
