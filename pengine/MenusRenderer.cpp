@@ -8,9 +8,14 @@
 
 void MenusRenderer::initMenu(int type)
 {
-	// Initialize texture
-	texture = loadBMP_custom("./textures/pengine-menu.bmp");
 
+	// Initialize Menu parameters (textures, campos)
+	switch (type)
+	{
+		case 0 : initStart(); break;
+		case 1 : initPause(); break;
+		case 2 : initEnd(); break;
+	}
 	// Initialize VBO
 	glGenBuffers(1, &vertexBuffer);
 	glGenBuffers(1, &uvBuffer);
@@ -34,12 +39,12 @@ void MenusRenderer::initMenu(int type)
 						   );
 	MenuModel = glm::mat4(1.0f);
 
-	switch (type)
-	{
-		case 0 : initStart(); break;
-		case 1 : initPause(); break;
-		case 2 : initEnd(); break;
-	}
+	std::vector<glm::vec3> normals;
+	loadOBJ("data_off/plane.obj", m_vertices, m_uvs, normals);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(glm::vec3), &m_vertices[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
+	glBufferData(GL_ARRAY_BUFFER, m_uvs.size() * sizeof(glm::vec2), &m_uvs[0], GL_STATIC_DRAW);
 }
 
 void MenusRenderer::cleanMenu()
@@ -93,18 +98,16 @@ void MenusRenderer::render()
 
 void MenusRenderer::initStart()
 {
-	std::vector<glm::vec3> normals;
-	loadOBJ("data_off/plane.obj", m_vertices, m_uvs, normals);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(glm::vec3), &m_vertices[0], GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-	glBufferData(GL_ARRAY_BUFFER, m_uvs.size() * sizeof(glm::vec2), &m_uvs[0], GL_STATIC_DRAW);
+	campos = glm::vec3(0.0, 0.0, 5.0);
+	texture = loadBMP_custom("./textures/pengine-menu.bmp");
 }
 void MenusRenderer::initPause()
 {
-
+	campos = glm::vec3(0.0, 0.0, 5.0);
+	texture = loadBMP_custom("./textures/PENGINE-pause.bmp");
 }
 void MenusRenderer::initEnd()
 {
-
+	campos = glm::vec3(0.0, 0.0, 5.0);
+	texture = loadBMP_custom("./textures/PENGINE-END.bmp");
 }

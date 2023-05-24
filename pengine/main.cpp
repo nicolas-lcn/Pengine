@@ -76,6 +76,7 @@ glm::vec3 slideForce;
 MeshObject* obstacle = new MeshObject();
 MeshObject* slope = new MeshObject();
 MeshObject* mountain = new MeshObject();
+MeshObject* finishLine = new MeshObject();
 // height map and textures
 Texture *height_map = new Texture();
 GLTexture *snow_texture = new GLTexture();
@@ -86,6 +87,9 @@ ShaderController* shaderController = new ShaderController();
 
 MenusRenderer* menusRenderer = new MenusRenderer();
 bool inMenu = true;
+bool inPause = false;
+bool inEndGame = false;
+bool isClosing = false;
 /*******************************************************************************/
 
 
@@ -187,6 +191,7 @@ int main( void )
     slope->setIsTerrain(1);
 
     mountain->generateBuffers();
+
     mountain->create("./data_off/m_noslope.obj");
     mountain->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));
     //mountain->transform.setLocalScale(glm::vec3(3, 3, 3));
@@ -211,19 +216,29 @@ int main( void )
     obstacle->create("./data_off/cube.off");
     // -----------------------------------------------------------------------------------
 
+
+    // ------------------------------------------------------------------------------------
+    // ADD FINISH LINE
+    // -----------------------------------------------------------------------------------
+    finishLine->generateBuffers();
+    finishLine->create("./data_off/finishline.obj");
     // ------------------------------------------------------------------------------------
     // SCENE GRAPH
     // ------------------------------------------------------------------------------------
     
-    // plane->addChild(penguin);
-    // plane->addChild(obstacle);
-    // plane->addChild(slope);
     slope->addChild(penguin);
     slope->addChild(obstacle);
-    //slope->addChild(mountain);
+    slope->addChild(finishLine);
+
+    // Place Penguin --------------------------------------------------------------------
     penguin->transform.setLocalPosition(glm::vec3(3.2, 2.4, -1.8));
     penguin->transform.setLocalScale(glm::vec3(3.0, 3.0, 3.0));
     penguin->transform.setLocalRotation(glm::vec3(0.0, 0.0, 0.0));
+
+    // Place Finish Line ----------------------------------------------------------------
+    finishLine->transform.setLocalPosition(glm::vec3(-2.3, -1.7, 4.9));
+
+
     obstacle->transform.setLocalPosition(glm::vec3(-0.462, 0.9,0.16));
     obstacle->transform.setLocalScale(glm::vec3(0.01, 0.01, 0.01));
     slope->forceUpdateSelfAndChild();
@@ -247,7 +262,7 @@ int main( void )
 
     // --- Spring Camera 
 
-    initCameraObject(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 70.0f, 1.0f, 1.0f);
+    initCameraObject(glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0), 70.0f, 1.2f, 1.0f);
 
     // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
@@ -273,7 +288,7 @@ int main( void )
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // display Menu
-        if(inMenu)
+        if(inMenu || inPause || inEndGame)
         {
             menusRenderer->render();
             glfwSwapBuffers(window);
@@ -354,6 +369,19 @@ int main( void )
 
 
         }
+        BoxCollider finishCollider = finishLine->getGlobalCollider();
+        if(penguin->getGlobalCollider().collides(&finishCollider, intersection, normal, depth))
+        {
+            // Finish game
+            deleteBuffersNode(slope);
+            deleteBuffersNode(mountain);
+            menusRenderer->initMenu(2);
+            inEndGame = true;
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+            continue;
+
+        }
         //penguin->getRigidBody()->applyForce(glm::vec3(-15.0, 0.0, 0.0));
         float rot = glm::orientedAngle(glm::normalize(penguin->getRigidBody()->getVelocity()), -penguin->transform.getForward(), penguin->transform.getUp());
         penguin->transform.setLocalRotation(penguin->transform.getLocalRotation() + glm::vec3(0.0, glm::degrees(rot) * deltaTime, 0.0));
@@ -378,7 +406,7 @@ int main( void )
         glfwPollEvents();
 
     } // Check if the ESC key was pressed or the window was closed
-    while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
+    while( !isClosing &&
            glfwWindowShouldClose(window) == 0 );
 
     // Cleanup VBO and shader
@@ -387,7 +415,8 @@ int main( void )
     // {
     //     entity->deleteBuffers();
     // }
-    deleteBuffersNode(plane);
+    deleteBuffersNode(slope);
+    deleteBuffersNode(mountain);
     glDeleteProgram(programID);
     glDeleteVertexArrays(1, &VertexArrayID);
 
@@ -496,12 +525,16 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
             slideForce = -15.0f * penguin->transform.getRight();
             isSliding = true;
         }
-    }else if ( key == GLFW_KEY_SPACE and action == GLFW_PRESS ){
-        //sphere->isFlying = true;
-        std::cout << "fly starts" << std::endl;
-        // penguin->velocity = glm::vec3(1.0,1.0,0.0) * glm::vec3(initial_speed,initial_speed,initial_speed);
-        glm::vec3 flyForce(0.0, 5.0, 0.0);
-        penguin->getRigidBody()->applyForce(flyForce);
+    }else if ( key == GLFW_KEY_SPACE and action == GLFW_PRESS and inPause){
+        inPause = false;
+        menusRenderer->cleanMenu();
+    }
+    else if ( key == GLFW_KEY_ESCAPE and action == GLFW_PRESS and (inPause || inMenu || inEndGame)){
+        isClosing = true;
+    }
+    else if ( key == GLFW_KEY_ESCAPE and action == GLFW_PRESS and !(inPause || inMenu || inEndGame)){
+        menusRenderer->initMenu(1);
+        inPause = true;
     }
 
     if( (key == GLFW_KEY_SLASH or key == GLFW_KEY_EQUAL) and action == GLFW_PRESS){
