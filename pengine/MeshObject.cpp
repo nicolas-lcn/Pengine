@@ -27,6 +27,7 @@ void MeshObject::create(const std::string & filename)
 	}
 
 	initBoxCollider();
+	accelerate();
 }
 
 

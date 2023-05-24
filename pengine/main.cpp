@@ -78,6 +78,10 @@ MeshObject* slope = new MeshObject();
 MeshObject* mountain = new MeshObject();
 MeshObject* finishLine = new MeshObject();
 MeshObject* background = new MeshObject();
+MeshObject* barrier_right = new MeshObject();
+MeshObject* barrier_left = new MeshObject();
+
+glm::vec3 initial_penguin_position = glm::vec3(3.2, 2.4, -1.8);
 
 // height map and textures
 Texture *height_map = new Texture();
@@ -216,7 +220,7 @@ int main( void )
     // ADD OBSTACLES
     // -----------------------------------------------------------------------------------
     obstacle->generateBuffers();
-    obstacle->create("./data_off/cube.off");
+    obstacle->create("./data_off/sphere.off");
     // -----------------------------------------------------------------------------------
 
 
@@ -225,6 +229,10 @@ int main( void )
     // -----------------------------------------------------------------------------------
     finishLine->generateBuffers();
     finishLine->create("./data_off/finishline.obj");
+    barrier_left->generateBuffers();
+    barrier_left->create("./data_off/barrier_left.obj");
+    barrier_right->generateBuffers();
+    barrier_right->create("./data_off/barrier_right.obj");
     // ------------------------------------------------------------------------------------
     // ADD BACKGROUND
     // -----------------------------------------------------------------------------------
@@ -245,9 +253,11 @@ int main( void )
     slope->addChild(penguin);
     slope->addChild(obstacle);
     slope->addChild(finishLine);
+    finishLine->addChild(barrier_right);
+    finishLine->addChild(barrier_left);
 
     // Place Penguin --------------------------------------------------------------------
-    penguin->transform.setLocalPosition(glm::vec3(3.2, 2.4, -1.8));
+    penguin->transform.setLocalPosition(initial_penguin_position);
     penguin->transform.setLocalScale(glm::vec3(3.0, 3.0, 3.0));
     penguin->transform.setLocalRotation(glm::vec3(0.0, 0.0, 0.0));
 
@@ -255,8 +265,8 @@ int main( void )
     finishLine->transform.setLocalPosition(glm::vec3(-2.3, -1.7, 4.9));
 
 
-    obstacle->transform.setLocalPosition(glm::vec3(-0.462, 0.9,0.16));
-    obstacle->transform.setLocalScale(glm::vec3(0.01, 0.01, 0.01));
+    obstacle->transform.setLocalPosition(glm::vec3(0.0, 0.0,0.0));
+    obstacle->transform.setLocalScale(glm::vec3(0.1, 0.1, 0.1));
     slope->forceUpdateSelfAndChild();
     plane->forceUpdateSelfAndChild();
 
@@ -324,6 +334,13 @@ int main( void )
             penguin->getRigidBody()->applyForce(slideForce);
             isSliding = false;
         }
+
+        if(!slope->getGlobalCollider().isInside(penguin->getPosition()))
+        {
+            penguin->transform.setLocalPosition(initial_penguin_position);
+            glm::vec3 novelocity(0.0f);
+            penguin->getRigidBody()->setVelocity(novelocity);
+        }
         
         glm::vec3 intersection;
         glm::vec3 normal;
@@ -340,6 +357,24 @@ int main( void )
         }
         else{
             penguin->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
+        }
+
+        glm::vec3 barrier_normal;
+        if(penguin->getGlobalCollider().collides(barrier_right, barrier_normal, depth))
+        {
+            glm::vec3 velocity = penguin->getRigidBody()->getVelocity();
+            impulseResponse = penguin->getRigidBody()->computeImpulseResponse(barrier_normal, 0.6f, 12400.0f, glm::vec3(0.0f));
+            glm::vec3 adjustedVelocity = velocity + 0.9f * impulseResponse;
+            penguin->getRigidBody()->setVelocity(adjustedVelocity);
+            
+        }
+        if(penguin->getGlobalCollider().collides(barrier_left, barrier_normal, depth))
+        {
+            glm::vec3 velocity = penguin->getRigidBody()->getVelocity();
+            impulseResponse = penguin->getRigidBody()->computeImpulseResponse(barrier_normal, 0.6f, 12400.0f, glm::vec3(0.0f));
+            glm::vec3 adjustedVelocity = velocity + 0.9f * impulseResponse;
+            penguin->getRigidBody()->setVelocity(adjustedVelocity);
+            
         }
 
         glm::vec3 planeNormal;
@@ -365,19 +400,13 @@ int main( void )
         }
 
         glm::vec3 mountainNormal;float mountainDepth;
-        if(penguin->getGlobalCollider().collides(mountain, planeNormal, planeDepth))
+        if(penguin->getGlobalCollider().collides(mountain, mountainNormal, mountainDepth))
         {
-            // glm::vec3 velocity = penguin->getRigidBody()->getVelocity();
-            // impulseResponse = penguin->getRigidBody()->computeImpulseResponse(mountainNormal, 0.0f, 12400.0f, glm::vec3(0.0f), 0.6f, 0.8f);
-            // glm::vec3 adjustedVelocity = velocity + impulseResponse;
-            // penguin->getRigidBody()->setVelocity(adjustedVelocity);
-            glm::vec3 reboundVec = penguin->getRigidBody()->computeRebound(mountainNormal);
-            reboundVec *= -0.8;
-            //glm::vec3 velocity = penguin->getRigidBody()->getVelocity() + reboundVec;
-            penguin->getRigidBody()->setVelocity(reboundVec);
+            glm::vec3 velocity = penguin->getRigidBody()->getVelocity();
+            impulseResponse = penguin->getRigidBody()->computeImpulseResponse(mountainNormal, 0.6f, 12400.0f, glm::vec3(0.0f));
+            glm::vec3 adjustedVelocity = velocity + impulseResponse;
+            penguin->getRigidBody()->setVelocity(adjustedVelocity);
 
-            // penguin->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
-            // printf("Collides");
         }
         BoxCollider finishCollider = finishLine->getGlobalCollider();
         if(penguin->getGlobalCollider().collides(&finishCollider, intersection, normal, depth))
@@ -554,7 +583,7 @@ void key (GLFWwindow *window, int key, int scancode, int action, int mods ) {
         plane->addHeightMap(height_map->data, height_map->height, height_map->width);
     }
 
-    if(key == GLFW_KEY_ENTER and action == GLFW_PRESS)
+    if(key == GLFW_KEY_ENTER and action == GLFW_PRESS and inMenu)
     {
         menusRenderer->cleanMenu();
         inMenu = false;

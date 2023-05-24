@@ -36,6 +36,8 @@ public:
 	bool collides(std::vector<glm::vec3> &triangle, float & depth) override;
 	bool collides(MeshObject* mesh, glm::vec3&normal, float & depth) override;
 
+	bool isInside(glm::vec3 point);
+
 
 	void reset(std::vector<glm::vec3> vertices);
 
