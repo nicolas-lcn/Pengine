@@ -76,6 +76,8 @@ glm::vec3 slideForce;
 MeshObject* obstacle = new MeshObject();
 MeshObject* slope = new MeshObject();
 MeshObject* mountain = new MeshObject();
+MeshObject* background = new MeshObject();
+
 // height map and textures
 Texture *height_map = new Texture();
 GLTexture *snow_texture = new GLTexture();
@@ -212,6 +214,13 @@ int main( void )
     // -----------------------------------------------------------------------------------
 
     // ------------------------------------------------------------------------------------
+    // ADD BACKGROUND
+    // -----------------------------------------------------------------------------------
+    background->generateBuffers();
+    background->create("./data_off/plane.obj");
+    // -----------------------------------------------------------------------------------
+
+    // ------------------------------------------------------------------------------------
     // SCENE GRAPH
     // ------------------------------------------------------------------------------------
     
@@ -220,12 +229,15 @@ int main( void )
     // plane->addChild(slope);
     slope->addChild(penguin);
     slope->addChild(obstacle);
+    slope->addChild(background);
     //slope->addChild(mountain);
     penguin->transform.setLocalPosition(glm::vec3(3.2, 2.4, -1.8));
     penguin->transform.setLocalScale(glm::vec3(3.0, 3.0, 3.0));
     penguin->transform.setLocalRotation(glm::vec3(0.0, 0.0, 0.0));
     obstacle->transform.setLocalPosition(glm::vec3(-0.462, 0.9,0.16));
     obstacle->transform.setLocalScale(glm::vec3(0.01, 0.01, 0.01));
+    background->transform.setLocalPosition(glm::vec3(0.05, 1.0, -2.0));
+    background->transform.setLocalScale(glm::vec3(200.0, 200.0, 200.0));
     slope->forceUpdateSelfAndChild();
     plane->forceUpdateSelfAndChild();
 
@@ -327,19 +339,14 @@ int main( void )
             // penguin->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
             // printf("Collides");
 
-
-        }
-        else
-        {
+        }else{
             //penguin->setColor(glm::vec4(0.0, 0.0, 0.0, 1.0));
             penguin->getRigidBody()->applyForce(9.81f * glm::vec3(0.0f, -1.0f, 0.0f));
-
         }
 
         glm::vec3 mountainNormal;float mountainDepth;
         if(penguin->getGlobalCollider().collides(mountain, planeNormal, planeDepth))
         {
-
             // glm::vec3 velocity = penguin->getRigidBody()->getVelocity();
             // impulseResponse = penguin->getRigidBody()->computeImpulseResponse(mountainNormal, 0.0f, 12400.0f, glm::vec3(0.0f), 0.6f, 0.8f);
             // glm::vec3 adjustedVelocity = velocity + impulseResponse;
@@ -351,15 +358,14 @@ int main( void )
 
             // penguin->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
             // printf("Collides");
-
-
         }
         //penguin->getRigidBody()->applyForce(glm::vec3(-15.0, 0.0, 0.0));
         float rot = glm::orientedAngle(glm::normalize(penguin->getRigidBody()->getVelocity()), -penguin->transform.getForward(), penguin->transform.getUp());
         penguin->transform.setLocalRotation(penguin->transform.getLocalRotation() + glm::vec3(0.0, glm::degrees(rot) * deltaTime, 0.0));
-        
 
-        
+        // draw background
+        //background->loadBuffers();
+        //background->draw(programID);
 
         // Update Scene 
         //printf("%f, %f, %f\n", penguin->getPosition().x, penguin->getPosition().y, penguin->getPosition().z);
