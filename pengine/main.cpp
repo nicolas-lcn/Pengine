@@ -57,9 +57,6 @@ bool slowDown = false;
 float deltaTime = 0.0f; // time between current frame and last frame
 float lastFrame = 0.0f;
 
-
-bool heightmap_activated = true;
-
 // penguin object
 MeshObject* penguin = new MeshObject();
 double initial_speed = 2.2;
@@ -143,8 +140,8 @@ int main( void )
     glfwPollEvents();
     glfwSetCursorPos(window, 1024/2, 768/2);
 
-    // Dark blue background
-    glClearColor(0.8f, 0.8f, 0.8f, 0.0f);
+    // Light blue background
+    glClearColor(0.4f, 0.8f, 0.95f, 0.0f);
 
     // Enable depth test
     glEnable(GL_DEPTH_TEST);
@@ -212,16 +209,16 @@ int main( void )
     // ------------------------------------------------------------------------------------
 
     // ------------------------------------------------------------------------------------
-    // ADD BACKGROUND
+    // ADD BACKGROUND (eventually unused)
     // -----------------------------------------------------------------------------------
     background->generateBuffers();
     background->create("./data_off/plane.obj");
     background->setIsBackground(1);
     background->setColor(glm::vec4(0.4, 0.8, 0.95, 0.0));
-    background->transform.setLocalPosition(glm::vec3(-6.0, 8.0, -62.0));
+    background->transform.setLocalPosition(glm::vec3(-6.0, 8.0, -65.0));
     background->transform.setLocalScale(glm::vec3(200.0, 200.0, 0.0));
     background->transform.setLocalRotation(glm::vec3(-20.0, 270.0, 0.0));
-    background->updateSelfAndChild();
+    //background->updateSelfAndChild();
     // -----------------------------------------------------------------------------------
 
     // ------------------------------------------------------------------------------------
@@ -347,7 +344,6 @@ int main( void )
             impulseResponse = penguin->getRigidBody()->computeImpulseResponse(barrier_normal, 0.6f, 12400.0f, glm::vec3(0.0f));
             glm::vec3 adjustedVelocity = velocity + 0.9f * impulseResponse;
             penguin->getRigidBody()->setVelocity(adjustedVelocity);
-
         }
 
         glm::vec3 planeNormal;
@@ -409,7 +405,7 @@ int main( void )
         // Draw Scene Graph
         render(slope);
         render(mountain);
-        render(background);
+        //render(background);
         // Swap buffers
         glfwSwapBuffers(window);
         glfwPollEvents();
