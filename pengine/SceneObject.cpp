@@ -38,6 +38,18 @@ void SceneObject::draw(GLuint programID) const {
             (void*)0            // array buffer offset
     );
 
+    glEnableVertexAttribArray(1);
+    glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
+    glVertexAttribPointer(
+        1,                  // attribut d'attribut de vertex
+        3,                  // taille (normales à 3 composantes)
+        GL_FLOAT,           // type
+        GL_TRUE,           // normalisé?
+        0,                  // stride
+        (void*)0            // décalage du tampon de tableau
+    );
+
+
     // Index buffer
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
 
@@ -54,6 +66,7 @@ void SceneObject::draw(GLuint programID) const {
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_SHORT, (void*)0);
 
     glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
 }
 
@@ -61,12 +74,16 @@ void SceneObject::generateBuffers(){
     glGenBuffers(1, &vertexbuffer);
     glGenBuffers(1, &elementbuffer);
     glGenBuffers(1, &buffer_coord_txt);
+    glGenBuffers(1, &normalsBuffer);
 }
 
 void SceneObject::loadBuffers(){
     // Load data (vertices, meshes, etc.) into VBO's
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, indexed_vertices.size() * sizeof(glm::vec3), &indexed_vertices[0], GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer);
+    glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
 
     // Generate a buffer for the indices
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementbuffer);
@@ -82,6 +99,7 @@ void SceneObject::deleteBuffers(){
     glDeleteBuffers(1, &vertexbuffer);
     glDeleteBuffers(1, &elementbuffer);
     glDeleteBuffers(1, &buffer_coord_txt);
+    glDeleteBuffers(1, &normalsBuffer);
 }
 
 void SceneObject::clearVectors(){

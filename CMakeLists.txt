@@ -89,8 +89,12 @@ add_executable(pengine
 	
         pengine/shaders/vertex_shader.glsl
         pengine/shaders/fragment_shader.glsl
+        pengine/shaders/vertex-phong.glsl
+        pengine/shaders/fragment-phong.glsl
         pengine/shaders/MenuVertexShader.glsl
         pengine/shaders/MenuFragmentShader.glsl
+        pengine/shaders/TextVertexShader.glsl
+       	pengine/shaders/TextFragmentShader.glsl
 )
 target_link_libraries(pengine
 	${ALL_LIBS}

@@ -43,7 +43,7 @@ public:
     std::vector<glm::vec2> coord_texture; // texture
     std::vector<glm::vec3> normals;
 
-    GLuint vertexbuffer, elementbuffer, buffer_coord_txt;
+    GLuint vertexbuffer, elementbuffer, buffer_coord_txt, normalsBuffer;
 
     int isTerrain = 0; // 0 is not a terrain, 1 is a slope, 2 is a moutain
     int isBackground = 0; // 0 is not a background, 1 is a background

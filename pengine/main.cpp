@@ -97,6 +97,8 @@ bool inEndGame = false;
 bool isClosing = false;
 int obstacle_encountered = 0;
 float race_time = 0.0f;
+
+
 /*******************************************************************************/
 
 int main( void )
@@ -167,13 +169,13 @@ int main( void )
     menusRenderer->initMenu(0);
 
     // Create and compile our GLSL program from the shaders
-    programID = LoadShaders( "./shaders/vertex_shader.glsl", "./shaders/fragment_shader.glsl" );
+    programID = LoadShaders( "./pengine/shaders/vertex_shader.glsl", "./pengine/shaders/fragment_shader.glsl" );
 
     // ------------------------------------------------------------------------------------
     // GENERATE TERRAIN
     // ------------------------------------------------------------------------------------
     slope->generateBuffers();
-    slope->create("./data_off/slope.obj");
+    slope->create("./pengine/data_off/slope.obj");
     slope->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));
     //slope->transform.setLocalRotation(glm::vec3(45.0, 90.0, 90.0));
     slope->transform.setLocalScale(glm::vec3(3, 3, 3));
@@ -182,7 +184,7 @@ int main( void )
 
     mountain->generateBuffers();
 
-    mountain->create("./data_off/m_noslope.obj");
+    mountain->create("./pengine/data_off/m_noslope.obj");
     mountain->transform.setLocalPosition(glm::vec3(0.0, 0.0, 0.0));
     //mountain->transform.setLocalScale(glm::vec3(3, 3, 3));
     mountain->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
@@ -194,7 +196,7 @@ int main( void )
     // -----------------------------------------------------------------------------------
     //penguin->setRigidBody(new RigidBody());
     penguin->generateBuffers();
-    penguin->create("./data_off/penguin-2500-triangle.obj");
+    penguin->create("./pengine/data_off/penguin-2500-triangle.obj");
     penguin->setRigidBody(new RigidBody(50.0f));
     // -----------------------------------------------------------------------------------
 
@@ -202,37 +204,37 @@ int main( void )
     // ADD OBSTACLES
     // -----------------------------------------------------------------------------------
     obstacle->generateBuffers();
-    obstacle->create("./data_off/sphere.off");
+    obstacle->create("./pengine/data_off/sphere.off");
     obstacle->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
     //obstacle->setIsTerrain(1);
 
     obstacle1->generateBuffers();
-    obstacle1->create("./data_off/sphere.off");
+    obstacle1->create("./pengine/data_off/sphere.off");
     obstacle1->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
     //obstacle1->setIsTerrain(1);
 
     obstacle2->generateBuffers();
-    obstacle2->create("./data_off/sphere.off");
+    obstacle2->create("./pengine/data_off/sphere.off");
     obstacle2->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
     //obstacle2->setIsTerrain(1);
 
     obstacle3->generateBuffers();
-    obstacle3->create("./data_off/sphere.off");
+    obstacle3->create("./pengine/data_off/sphere.off");
     obstacle3->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
     //obstacle3->setIsTerrain(1);
 
     obstacle4->generateBuffers();
-    obstacle4->create("./data_off/sphere.off");
+    obstacle4->create("./pengine/data_off/sphere.off");
     obstacle4->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
     //obstacle4->setIsTerrain(1);
 
     obstacle5->generateBuffers();
-    obstacle5->create("./data_off/sphere.off");
+    obstacle5->create("./pengine/data_off/sphere.off");
     obstacle5->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
     //obstacle5->setIsTerrain(1);
 
     obstacle6->generateBuffers();
-    obstacle6->create("./data_off/sphere.off");
+    obstacle6->create("./pengine/data_off/sphere.off");
     obstacle6->setColor(glm::vec4(1.0, 1.0, 1.0, 0.0));
     //obstacle6->setIsTerrain(1);
     // -----------------------------------------------------------------------------------
@@ -242,18 +244,18 @@ int main( void )
     // ADD FINISH LINE
     // -----------------------------------------------------------------------------------
     finishLine->generateBuffers();
-    finishLine->create("./data_off/finishline.obj");
+    finishLine->create("./pengine/data_off/finishline.obj");
     barrier_left->generateBuffers();
-    barrier_left->create("./data_off/barrier_left.obj");
+    barrier_left->create("./pengine/data_off/barrier_left.obj");
     barrier_right->generateBuffers();
-    barrier_right->create("./data_off/barrier_right.obj");
+    barrier_right->create("./pengine/data_off/barrier_right.obj");
     // ------------------------------------------------------------------------------------
 
     // ------------------------------------------------------------------------------------
     // ADD BACKGROUND (eventually unused)
     // -----------------------------------------------------------------------------------
     background->generateBuffers();
-    background->create("./data_off/plane.obj");
+    background->create("./pengine/data_off/plane.obj");
     background->setIsBackground(1);
     background->setColor(glm::vec4(0.4, 0.8, 0.95, 0.0));
     background->transform.setLocalPosition(glm::vec3(-6.0, 8.0, -65.0));
@@ -314,15 +316,15 @@ int main( void )
     // add textures
     // ------------------------------------------------------------------------------------
     snow_texture->generateTexture();
-    snow_texture->loadTexture((char*)"textures/snow.png");
+    snow_texture->loadTexture((char*)"./pengine/textures/snow.png");
     snow_texture->defineParameters();
 
     mountain_texture->generateTexture();
-    mountain_texture->loadTexture((char*)"textures/snowrocks.png");
+    mountain_texture->loadTexture((char*)"./pengine/textures/snowrocks.png");
     mountain_texture->defineParameters();
 
     landscape_texture->generateTexture();
-    landscape_texture->loadTexture((char*)"textures/paysage.jpg");
+    landscape_texture->loadTexture((char*)"./pengine/textures/paysage.jpg");
     landscape_texture->defineParameters();
     // ------------------------------------------------------------------------------------
 

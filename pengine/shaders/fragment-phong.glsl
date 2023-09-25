@@ -3,10 +3,15 @@
 in vec3 o_positionWorld;
 in vec3 o_normalWorld;
 in vec2 o_uv0;
-in mat3 o_TBN;
-out vec4 FragColor;
 
 uniform sampler2D texture_snow;
+uniform sampler2D texture_mountain;
+uniform sampler2D texture_landscape;
+
+
+uniform int isTerrain;
+uniform int isBackground;
+uniform vec4 mesh_color;
 
 // Material
 struct Material {
@@ -50,5 +55,20 @@ void main() {
 	// Calcul de la couleur finale
 	vec3 color = ambient + Id + Is;
 
-    FragColor = vec4(texture(texture_snow, o_uv0).rgb * color, 1.0f);
+	vec4 appliedTex;
+	if(isTerrain == 0 && isBackground == 0){ // is not a terrain
+        appliedTex = mesh_color;
+
+    }else if(isTerrain == 1 && isBackground == 0){
+
+        appliedTex = texture(texture_snow, o_uv0);
+    }
+    else if(isTerrain == 2 && isBackground == 0){ //mountain
+        appliedTex = texture(texture_mountain, o_uv0);
+
+    }else if(isBackground == 1){
+        appliedTex = texture(texture_landscape, o_uv0);
+    }
+
+    gl_FragColor =  vec4(appliedTex.rgb * color, 1.0);
 }

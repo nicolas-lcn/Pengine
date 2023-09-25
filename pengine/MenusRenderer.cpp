@@ -25,7 +25,7 @@ void MenusRenderer::initMenu(int type)
 	glGenBuffers(1, &uvBuffer);
 
 	// Initialize Shader
-	shaderID = LoadShaders( "../pengine/shaders/MenuVertexShader.glsl", "../pengine/shaders/MenuFragmentShader.glsl" );
+	shaderID = LoadShaders( "./pengine/shaders/MenuVertexShader.glsl", "./pengine/shaders/MenuFragmentShader.glsl" );
 
 	// Initialize uniforms' IDs
 	textureUniform = glGetUniformLocation( shaderID, "texture" );
@@ -44,7 +44,7 @@ void MenusRenderer::initMenu(int type)
 	MenuModel = glm::mat4(1.0f);
 
 	std::vector<glm::vec3> normals;
-	loadOBJ("data_off/plane-menu.obj", m_vertices, m_uvs, normals);
+	loadOBJ("./pengine/data_off/plane-menu.obj", m_vertices, m_uvs, normals);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(glm::vec3), &m_vertices[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
@@ -105,8 +105,8 @@ void MenusRenderer::render()
 		float seconds = race_time - minutes*60.0f;
 		std::string timestring =  "00:" + std::to_string((int)minutes) + ":" + std::to_string(int(seconds));
 		std::string obstaclesstring = std::to_string(obstacles_encountered);
-		// printText2D(timestring.c_str(), 0.0, 0.0, 0.2);
-		// printText2D(obstaclesstring.c_str(), 0.0, 1.0, 0.2);
+		printText2D(timestring.c_str(), 0.0, 0.0, 0.2);
+		printText2D(obstaclesstring.c_str(), 0.0, 1.0, 0.2);
 
 	}
 }
@@ -114,20 +114,20 @@ void MenusRenderer::render()
 void MenusRenderer::initStart()
 {
 	campos = glm::vec3(0.0, 0.0, 5.0);
-	texture = loadBMP_custom("./textures/pengine-menu.bmp");
+	texture = loadBMP_custom("./pengine/textures/pengine-menu.bmp");
 	hasText = false;
 }
 void MenusRenderer::initPause()
 {
 	campos = glm::vec3(0.0, 0.0, 5.0);
-	texture = loadBMP_custom("./textures/PENGINE-pause.bmp");
+	texture = loadBMP_custom("./pengine/textures/PENGINE-pause.bmp");
 	hasText = false;
 }
 void MenusRenderer::initEnd()
 {
 	campos = glm::vec3(0.0, 0.0, 5.0);
-	texture = loadBMP_custom("./textures/PENGINE-END.bmp");
-	initText2D("./textures/colortext.bmp");
+	texture = loadBMP_custom("./pengine/textures/PENGINE-END.bmp");
+	//initText2D("./pengine/textures/colortext.bmp");
 	hasText = true;
 
 }
