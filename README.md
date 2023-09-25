@@ -2,8 +2,7 @@
 ## Moteur physique 3D
 
 L'objectif de ce projet étudiant (réalisé en binôme) est d'implémenter un moteur physique en 3D, dédié à un jeu.
-Nous vons invitons à lire notre rapport de projet :
-![alt text](https://github.com/nicolas-lcn/Pengine/blob/main/screens/Pengine_report.pdf)
+Nous vons invitons à lire notre ![rapport de projet](https://github.com/nicolas-lcn/Pengine/blob/main/screens/Pengine_report.pdf).
 
 ## Jeu de course (Tux Racer Like)
 
